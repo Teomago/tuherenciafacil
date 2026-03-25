@@ -8,7 +8,7 @@ import { getTranslations } from 'next-intl/server'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import { getCachedGlobal } from '@/modules/common/data'
-import type { SiteSetting } from '@/payload-types'
+import type { SiteSetting } from '@/payload/payload-types'
 import '@/styles/index.css'
 
 export default async function AuthLayout(props: { children: React.ReactNode, params: Promise<{ locale: string }> }) {

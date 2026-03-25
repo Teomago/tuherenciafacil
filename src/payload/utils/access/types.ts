@@ -1,5 +1,5 @@
 import type { AccessResult, AccessArgs, Where, PayloadRequest } from 'payload'
-import { Config } from '@/payload-types'
+import { Config } from '@/payload/payload-types'
 
 export type AuthCollectionKeys = {
   [K in keyof Config['collections']]: Config['auth'] extends Record<string, any>

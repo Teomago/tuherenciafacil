@@ -1,4 +1,4 @@
-import { Config } from '@/payload-types'
+import { Config } from '@/payload/payload-types'
 import { LinkableCollectionSlug as LinkableCollectionSlugType } from './constants/linkableCollections'
 
 /**

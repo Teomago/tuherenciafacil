@@ -3,7 +3,7 @@ import {
   getDefaultCollectionPathname,
   type DynamicCollectionSlug,
 } from '@/payload/constants/dynamicCollections'
-import type { Page } from '@/payload-types'
+import type { Page } from '@/payload/payload-types'
 
 interface SyncOptions {
   collection: DynamicCollectionSlug

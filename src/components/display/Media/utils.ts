@@ -1,4 +1,4 @@
-import type { Media as MediaType } from '@/payload-types'
+import type { Media as MediaType } from '@/payload/payload-types'
 
 /**
  * Get the URL for a media resource.

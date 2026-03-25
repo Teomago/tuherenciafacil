@@ -3,7 +3,7 @@ import NextImage from 'next/image'
 import { cn } from '@/lib/utils/cn'
 import type { ImageProps } from './types'
 import { getMediaUrl, getMediaAlt, getMediaDimensions } from './utils'
-import type { Media as MediaType } from '@/payload-types'
+import type { Media as MediaType } from '@/payload/payload-types'
 
 /**
  * Image component wrapping Next.js Image with Payload media support.

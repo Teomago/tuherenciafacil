@@ -1,7 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { getCachedGlobal } from '@/modules/common/data'
-import type { FooterSettings } from '@/payload-types'
+import type { FooterSettings } from '@/payload/payload-types'
 import { getLinkProps, type LinkFieldData } from '@/lib/utils/getLinkProps'
 
 /* ── Social platform icon SVGs ─────────────────────────────────────── */

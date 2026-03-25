@@ -2,7 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import { cn } from '@/lib/utils/cn'
 import { Media } from '@/components/display/Media'
-import type { Article } from '@/payload-types'
+import type { Article } from '@/payload/payload-types'
 import { isExpanded } from '@/lib/utils/isExpanded'
 
 interface ArticleCardProps {

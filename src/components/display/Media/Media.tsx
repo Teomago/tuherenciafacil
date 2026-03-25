@@ -4,7 +4,7 @@ import { isVideo, isImage } from '@/lib/utils/media'
 import type { MediaBaseProps, ImageProps, VideoProps } from './types'
 import { Image } from './Image'
 import { Video } from './Video'
-import type { Media as MediaType } from '@/payload-types'
+import type { Media as MediaType } from '@/payload/payload-types'
 
 export type MediaProps = MediaBaseProps &
   Partial<Omit<ImageProps, keyof MediaBaseProps>> &

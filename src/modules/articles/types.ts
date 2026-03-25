@@ -1,4 +1,4 @@
-import type { Article } from '@/payload-types'
+import type { Article } from '@/payload/payload-types'
 
 /**
  * Article data type for the frontend.

@@ -1,7 +1,7 @@
 'use client'
 
 import { useQuery, type UseQueryOptions } from '@tanstack/react-query'
-import type { Config } from '@/payload-types'
+import type { Config } from '@/payload/payload-types'
 import type { PaginatedDocs } from 'payload'
 import * as qs from 'qs-esm'
 

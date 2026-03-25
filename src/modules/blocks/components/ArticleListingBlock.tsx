@@ -3,7 +3,7 @@ import { getArticles } from '@/modules/articles/data'
 import { ArticleCard } from '@/modules/articles/ArticleCard'
 import { ListingGrid, Pagination } from '@/modules/listing'
 import { extractIds } from '@/lib/utils/extractIds'
-import type { ArticleListingBlockType } from '@/payload-types'
+import type { ArticleListingBlockType } from '@/payload/payload-types'
 
 /**
  * ArticleListing block component.

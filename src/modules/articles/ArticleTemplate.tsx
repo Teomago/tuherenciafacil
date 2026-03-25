@@ -2,7 +2,7 @@ import React from 'react'
 import { RichText } from '@/modules/richText'
 import { Media } from '@/components/display/Media'
 import { isExpanded } from '@/lib/utils/isExpanded'
-import type { Article, User } from '@/payload-types'
+import type { Article, User } from '@/payload/payload-types'
 
 interface ArticleTemplateProps {
   article: Article

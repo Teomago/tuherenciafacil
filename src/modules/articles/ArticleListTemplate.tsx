@@ -3,7 +3,7 @@ import { getArticles } from './data'
 import { ArticleCard } from './ArticleCard'
 import { ListingGrid, Pagination } from '@/modules/listing'
 import { BlocksRenderer } from '@/modules/blocks/BlocksRenderer'
-import type { Page } from '@/payload-types'
+import type { Page } from '@/payload/payload-types'
 import type { Where } from 'payload'
 
 interface ArticleListTemplateProps {

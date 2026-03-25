@@ -1,7 +1,7 @@
 import type { CollectionBeforeChangeHook } from 'payload'
 import { rgbaToThumbHash } from 'thumbhash'
 import sharp from 'sharp'
-import type { Media } from '@/payload-types'
+import type { Media } from '@/payload/payload-types'
 
 /**
  * Generate thumbhash preserving original aspect ratio

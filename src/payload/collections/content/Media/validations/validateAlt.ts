@@ -1,5 +1,5 @@
 import type { TextFieldSingleValidation } from 'payload'
-import type { Media } from '@/payload-types'
+import type { Media } from '@/payload/payload-types'
 
 export const validateAlt: TextFieldSingleValidation = (value, { data }) => {
   const siblingData: Partial<Omit<Media, 'alt'>> = data

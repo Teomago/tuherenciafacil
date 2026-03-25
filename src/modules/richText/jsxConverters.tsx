@@ -7,7 +7,7 @@ import type {
   SerializedBlockNode,
   SerializedInlineBlockNode,
 } from '@payloadcms/richtext-lexical'
-import type { IconBlockType, CallToActionBlockType } from '@/payload-types'
+import type { IconBlockType, CallToActionBlockType } from '@/payload/payload-types'
 import { getLinkProps } from '@/lib/utils/getLinkProps'
 import { cn } from '@/lib/utils/cn'
 

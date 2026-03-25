@@ -1,5 +1,5 @@
 import { getCachedGlobal } from '@/modules/common/data'
-import type { Media, SiteSetting } from '@/payload-types'
+import type { Media, SiteSetting } from '@/payload/payload-types'
 import { LoginForm } from './LoginForm'
 
 export default async function LoginPage() {

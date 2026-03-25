@@ -2,7 +2,7 @@ import React from 'react'
 import { cn } from '@/lib/utils/cn'
 import type { VideoProps } from './types'
 import { getMediaUrl, getMediaAlt } from './utils'
-import type { Media as MediaType } from '@/payload-types'
+import type { Media as MediaType } from '@/payload/payload-types'
 
 /**
  * Video component for Payload media resources.

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next'
 import { getCachedGlobal } from '@/modules/common/data'
-import type { SEOSettings, Page, Article, Media } from '@/payload-types'
+import type { SEOSettings, Page, Article, Media } from '@/payload/payload-types'
 import { isExpanded } from '@/lib/utils/isExpanded'
 import { getMediaUrl } from '@/components/display/Media/utils'
 

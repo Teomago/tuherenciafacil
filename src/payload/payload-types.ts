@@ -86,6 +86,7 @@ export type SupportedTimezones =
 
 export interface Config {
   auth: {
+    members: MemberAuthOperations;
     users: UserAuthOperations;
   };
   blocks: {
@@ -125,6 +126,7 @@ export interface Config {
     articles: Article;
     media: Media;
     pages: Page;
+    members: Member;
     users: User;
     'invitation-codes': InvitationCode;
     tags: Tag;
@@ -143,6 +145,7 @@ export interface Config {
     articles: ArticlesSelect<false> | ArticlesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     pages: PagesSelect<false> | PagesSelect<true>;
+    members: MembersSelect<false> | MembersSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'invitation-codes': InvitationCodesSelect<false> | InvitationCodesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
@@ -176,10 +179,28 @@ export interface Config {
   widgets: {
     collections: CollectionsWidget;
   };
-  user: User;
+  user: Member | User;
   jobs: {
     tasks: unknown;
     workflows: unknown;
+  };
+}
+export interface MemberAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
   };
 }
 export interface UserAuthOperations {
@@ -1624,6 +1645,44 @@ export interface CallToActionBlockType {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members".
+ */
+export interface Member {
+  id: string;
+  firstName: string;
+  secondName?: string | null;
+  lastName: string;
+  secondLastName?: string | null;
+  /**
+   * Account tier. Only admins can modify this field.
+   */
+  tier?: ('free' | 'premium') | null;
+  currency: 'USD' | 'EUR' | 'GBP' | 'COP';
+  /**
+   * The user's preferred language for emails and system notifications.
+   */
+  preferredLocale: 'en' | 'es';
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  sessions?:
+    | {
+        id: string;
+        createdAt?: string | null;
+        expiresAt: string;
+      }[]
+    | null;
+  password?: string | null;
+  collection: 'members';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "invitation-codes".
  */
 export interface InvitationCode {
@@ -1670,6 +1729,10 @@ export interface PayloadLockedDocument {
         value: string | Page;
       } | null)
     | ({
+        relationTo: 'members';
+        value: string | Member;
+      } | null)
+    | ({
         relationTo: 'users';
         value: string | User;
       } | null)
@@ -1686,10 +1749,15 @@ export interface PayloadLockedDocument {
         value: string | FolderInterface;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'members';
+        value: string | Member;
+      }
+    | {
+        relationTo: 'users';
+        value: string | User;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -1699,10 +1767,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: string;
-  user: {
-    relationTo: 'users';
-    value: string | User;
-  };
+  user:
+    | {
+        relationTo: 'members';
+        value: string | Member;
+      }
+    | {
+        relationTo: 'users';
+        value: string | User;
+      };
   key?: string | null;
   value?:
     | {
@@ -1882,6 +1955,35 @@ export interface PagesSelect<T extends boolean = true> {
   createdAt?: T;
   deletedAt?: T;
   _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "members_select".
+ */
+export interface MembersSelect<T extends boolean = true> {
+  firstName?: T;
+  secondName?: T;
+  lastName?: T;
+  secondLastName?: T;
+  tier?: T;
+  currency?: T;
+  preferredLocale?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+  sessions?:
+    | T
+    | {
+        id?: T;
+        createdAt?: T;
+        expiresAt?: T;
+      };
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -12,7 +12,7 @@ export default async function HerenciaPage({ params }: { params: Promise<{ local
     redirect(`/${locale}/login`)
   }
 
-  const name = user.name || user.email
+  const name = ('firstName' in user ? user.firstName : user.name) || user.email
 
   return (
     <main className="flex min-h-screen items-center justify-center">

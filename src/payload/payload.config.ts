@@ -92,7 +92,6 @@ export default buildConfig({
         },
         region: process.env.S3_REGION || 'us-east-1',
         endpoint: process.env.S3_ENDPOINT || '',
-        forcePathStyle: true,
       },
     }),
   ],

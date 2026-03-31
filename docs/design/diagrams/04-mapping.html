@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tuHerenciaFácil — 19 pantallas → 12 page.tsx</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:system-ui,-apple-system,sans-serif; background:#f8f7f4; color:#1a1a18; padding:20px; max-width:760px; margin:0 auto; }
+.header { margin-bottom:24px; }
+.logo { font-size:15px; font-weight:500; color:#002845; margin-bottom:16px; }
+.logo span { color:#FF8C3C; }
+h1 { font-size:20px; font-weight:500; color:#002845; margin-bottom:4px; }
+.subtitle { font-size:13px; color:#5F5E5A; margin-bottom:20px; }
+.nav { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:24px; }
+.nav a { padding:7px 14px; font-size:12px; border:0.5px solid #d3d1c7; background:#fff; color:#5F5E5A; border-radius:6px; text-decoration:none; transition:all .15s; }
+.nav a:hover { background:#EBF5FA; color:#3A8DA8; border-color:#3A8DA8; }
+.nav a.active { background:#002845; color:#fff; border-color:#002845; }
+.diagram { background:#fff; border-radius:12px; border:0.5px solid #e2e0d8; padding:24px; overflow-x:auto; }
+.diagram svg { display:block; margin:0 auto; max-width:100%; height:auto; }
+.footer { margin-top:24px; font-size:11px; color:#B4B2A9; text-align:center; }
+.footer a { color:#3A8DA8; text-decoration:none; }
+</style>
+</head>
+<body>
+<div class="header">
+  <div class="logo">tu<span>Herencia</span>Fácil</div>
+  <h1>19 pantallas → 12 page.tsx</h1>
+  <p class="subtitle">Renderizado condicional por member.role — qué ve cada rol en cada archivo Next.js</p>
+</div>
+
+<div class="nav">
+  <a href="01-prepago.html" class="" class="">Pre-pago (3)</a>
+  <a href="02-cliente.html" class="" >Cliente (7+chat)</a>
+  <a href="03-abogado.html" class="" >Abogado (9+chat)</a>
+  <a href="04-mapping.html" class="active" >19 → 12 page.tsx</a>
+  <a href="../app-flowchart.html">Flujo completo</a>
+  <a href="../collections-by-phase.html">Colecciones × fase</a>
+  <a href="../../index.html">Inicio</a>
+</div>
+
+<div class="diagram">
+<svg width="680" height="700" viewBox="0 0 680 700" xmlns="http://www.w3.org/2000/svg" style="font-family: system-ui, -apple-system, sans-serif;">
+
+<text x="340" y="28" text-anchor="middle" font-size="16" font-weight="500" fill="#1a1a18">19 pantallas → 12 page.tsx</text>
+<text x="340" y="46" text-anchor="middle" font-size="12" fill="#5F5E5A">Renderizado condicional por member.role</text>
+
+<rect x="40" y="64" width="290" height="28" rx="4" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text x="185" y="82" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#444441">Archivo (page.tsx)</text>
+<rect x="350" y="64" width="140" height="28" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="420" y="82" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#3C3489">Cliente ve</text>
+<rect x="510" y="64" width="130" height="28" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="575" y="82" text-anchor="middle" dominant-baseline="central" font-size="13" font-weight="500" fill="#085041">Abogado ve</text>
+
+<rect x="40" y="104" width="290" height="36" rx="4" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="185" y="126" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0C447C">(app)/page.tsx</text>
+<rect x="350" y="104" width="140" height="36" rx="4" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="420" y="126" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0C447C">Bienvenida</text>
+<rect x="510" y="104" width="130" height="36" rx="4" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="575" y="126" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0C447C">Bienvenida</text>
+
+<rect x="40" y="150" width="290" height="36" rx="4" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="185" y="172" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0C447C">(app)/nueva-consulta/page.tsx</text>
+<rect x="350" y="150" width="140" height="36" rx="4" fill="#E6F1FB" stroke="#185FA5" stroke-width="0.5"/>
+<text x="420" y="172" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#0C447C">Formulario</text>
+<rect x="510" y="150" width="130" height="36" rx="4" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text x="575" y="172" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#5F5E5A">—</text>
+
+<rect x="40" y="196" width="290" height="36" rx="4" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="185" y="218" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#712B13">(app)/pago/page.tsx</text>
+<rect x="350" y="196" width="140" height="36" rx="4" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="420" y="218" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#712B13">Pasarela</text>
+<rect x="510" y="196" width="130" height="36" rx="4" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text x="575" y="218" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#5F5E5A">—</text>
+
+<rect x="40" y="246" width="290" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="185" y="268" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">(app)/dashboard/page.tsx</text>
+<rect x="350" y="246" width="140" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="420" y="268" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">Mi resumen</text>
+<rect x="510" y="246" width="130" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="575" y="268" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Métricas</text>
+
+<rect x="40" y="292" width="290" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="185" y="314" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">(app)/casos/page.tsx</text>
+<rect x="350" y="292" width="140" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="420" y="314" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">Mis casos</text>
+<rect x="510" y="292" width="130" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="575" y="314" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Central + pool</text>
+
+<rect x="40" y="338" width="290" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="185" y="360" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">(app)/caso/[id]/page.tsx</text>
+<rect x="350" y="338" width="140" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="420" y="360" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">Mi proceso</text>
+<rect x="510" y="338" width="130" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="575" y="360" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Gestión</text>
+
+<rect x="40" y="384" width="290" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="185" y="406" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">(app)/caso/[id]/herederos/page.tsx</text>
+<rect x="350" y="384" width="140" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="420" y="406" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">Ver + agregar</text>
+<rect x="510" y="384" width="130" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="575" y="406" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Editar todo</text>
+
+<rect x="40" y="430" width="290" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="185" y="452" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">(app)/caso/[id]/bienes/page.tsx</text>
+<rect x="350" y="430" width="140" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="420" y="452" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">Ver lista</text>
+<rect x="510" y="430" width="130" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="575" y="452" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Investigar, %</text>
+
+<rect x="40" y="476" width="290" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="185" y="498" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">(app)/caso/[id]/documentos/page.tsx</text>
+<rect x="350" y="476" width="140" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="420" y="498" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">Subir</text>
+<rect x="510" y="476" width="130" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="575" y="498" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Aprobar/rechazar</text>
+
+<rect x="40" y="522" width="290" height="36" rx="4" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="185" y="544" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#712B13">(app)/caso/[id]/notaria/page.tsx</text>
+<rect x="350" y="522" width="140" height="36" rx="4" fill="#F1EFE8" stroke="#5F5E5A" stroke-width="0.5"/>
+<text x="420" y="544" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#5F5E5A">403 — bloqueado</text>
+<rect x="510" y="522" width="130" height="36" rx="4" fill="#FAECE7" stroke="#993C1D" stroke-width="0.5"/>
+<text x="575" y="544" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#712B13">Control total</text>
+
+<rect x="40" y="568" width="290" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="185" y="590" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">(app)/caso/[id]/pagos/page.tsx</text>
+<rect x="350" y="568" width="140" height="36" rx="4" fill="#EEEDFE" stroke="#534AB7" stroke-width="0.5"/>
+<text x="420" y="590" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#3C3489">Ver historial</text>
+<rect x="510" y="568" width="130" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="575" y="590" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Registrar</text>
+
+<rect x="40" y="614" width="290" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="185" y="636" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">(app)/chat/page.tsx</text>
+<rect x="350" y="614" width="140" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="420" y="636" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">IA + escalar</text>
+<rect x="510" y="614" width="130" height="36" rx="4" fill="#E1F5EE" stroke="#0F6E56" stroke-width="0.5"/>
+<text x="575" y="636" text-anchor="middle" dominant-baseline="central" font-size="12" fill="#085041">Bandeja</text>
+
+<text x="340" y="680" text-anchor="middle" font-size="12" fill="#5F5E5A">12 archivos page.tsx · renderizado condicional por member.role</text>
+</svg>
+</div>
+
+<div class="footer">
+  tuHerenciaFácil — Documentación interna · <a href="../../index.html">Volver al inicio</a>
+</div>
+</body>
+</html>

@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tuHerenciaFácil — Diagrama de flujo completo</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family: system-ui, -apple-system, sans-serif; background:#f8f7f4; color:#1a1a18; padding:20px; max-width:960px; margin:0 auto; }
+h1 { font-size:20px; font-weight:500; margin-bottom:4px; }
+.subtitle { font-size:13px; color:#5F5E5A; margin-bottom:20px; }
+.legend { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:20px; padding:12px; background:#fff; border-radius:8px; border:0.5px solid #e2e0d8; }
+.legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:#5F5E5A; }
+.legend-dot { width:10px; height:10px; border-radius:3px; }
+.nav { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:20px; position:sticky; top:0; background:#f8f7f4; padding:8px 0; z-index:10; }
+.nav-btn { padding:7px 14px; font-size:12px; border:0.5px solid #d3d1c7; background:#fff; color:#5F5E5A; border-radius:6px; cursor:pointer; font-family:inherit; transition:all .15s; }
+.nav-btn:hover { background:#EBF5FA; color:#3A8DA8; border-color:#3A8DA8; }
+.nav-btn.active { background:#3A8DA8; color:#fff; border-color:#3A8DA8; }
+.phase { display:none; }
+.phase.active { display:block; }
+.phase-title { font-size:18px; font-weight:500; color:#002845; margin-bottom:6px; }
+.phase-why { font-size:13px; color:#5F5E5A; margin-bottom:20px; line-height:1.6; padding:12px; background:#EDF5FB; border-radius:8px; border-left:3px solid #3A8DA8; }
+.swim { display:grid; grid-template-columns:1fr 90px 1fr; gap:0; margin-bottom:16px; }
+@media (max-width:640px) { .swim { grid-template-columns:1fr; } .lane-center { display:none; } }
+.lane-header { font-size:11px; font-weight:500; text-transform:uppercase; letter-spacing:.5px; padding:8px 10px; text-align:center; }
+.lane-client .lane-header { background:#EEEDFE; color:#3C3489; border-radius:6px 0 0 0; }
+.lane-center .lane-header { background:#f1efe8; color:#5F5E5A; }
+.lane-lawyer .lane-header { background:#E1F5EE; color:#085041; border-radius:0 6px 0 0; }
+.lane-body { padding:10px; min-height:60px; background:#fff; border:0.5px solid #e2e0d8; }
+.lane-client .lane-body { border-radius:0 0 0 6px; border-right:none; }
+.lane-center .lane-body { display:flex; align-items:center; justify-content:center; text-align:center; font-size:11px; color:#888780; padding:10px 6px; line-height:1.4; }
+.lane-lawyer .lane-body { border-radius:0 0 6px 0; border-left:none; }
+.action { background:#fafaf8; border:0.5px solid #e2e0d8; border-radius:6px; padding:10px; margin-bottom:8px; }
+.action:last-child { margin-bottom:0; }
+.action-title { font-size:13px; font-weight:500; color:#002845; margin-bottom:4px; }
+.action-how { font-size:11px; color:#5F5E5A; line-height:1.55; }
+.action-how code { font-family:'SF Mono',Menlo,monospace; font-size:10px; background:#f1efe8; padding:1px 5px; border-radius:3px; color:#444441; }
+.tags { margin-top:6px; display:flex; flex-wrap:wrap; gap:4px; }
+.tag { display:inline-block; font-size:9px; padding:2px 6px; border-radius:3px; font-weight:600; letter-spacing:.3px; }
+.tag-create { background:#EAF3DE; color:#27500A; }
+.tag-update { background:#E6F1FB; color:#0C447C; }
+.tag-read { background:#f1efe8; color:#444441; }
+.tag-trigger { background:#FFF4EC; color:#CC6010; }
+.tag-payment { background:#FAECE7; color:#712B13; }
+.empty-lane { font-size:11px; color:#B4B2A9; text-align:center; padding:20px 8px; font-style:italic; }
+.section-break { border-top:1px dashed #e2e0d8; margin:16px 0; }
+.step-label { font-size:11px; font-weight:500; color:#3A8DA8; margin-bottom:8px; text-transform:uppercase; letter-spacing:.4px; }
+</style>
+</head>
+<body>
+<h1>tuHerenciaFácil — Diagrama de flujo completo</h1>
+<p class="subtitle">Qué hace cada pantalla, cómo lo hace, y dónde encaja en el proceso</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#EAF3DE"></div>CREATE — crea dato nuevo</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#E6F1FB"></div>UPDATE — modifica dato</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f1efe8"></div>READ — lee dato</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#FFF4EC"></div>TRIGGER — dispara acción</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#FAECE7"></div>PAYMENT — transacción</div>
+</div>
+
+<div class="nav" id="nav"></div>
+<div id="phases"></div>
+
+<script>
+const phases = [
+{
+  id:'pre', label:'Pre-pago', title:'Pre-pago — Del visitante al caso creado',
+  why:'Todo antes del muro de pago. El cliente se registra, llena el intake, y paga para crear el caso. El abogado no interviene todavía.',
+  steps:[
+    {
+      label:'Paso 1 — Descubrimiento',
+      client:{actions:[
+        {title:'Visita la landing', how:'Navega a tuherenciafacil.com. Ve el marketing site (gestionado con Payload CMS).', tags:[{t:'read',l:'Pages (Payload CMS)'}]},
+        {title:'Usa el chat IA público', how:'Widget flotante en la landing. Sin registro. Pregunta sobre sucesiones. Bot responde acotado al tema. Cada respuesta incluye CTA: "¿Quieres asesoría personalizada? Crea tu cuenta."', tags:[{t:'read',l:'API IA (sin auth, sin historial)'}]},
+      ]},
+      center:'Zona pública — sin autenticación',
+      lawyer:{empty:'No interviene en esta etapa'}
+    },
+    {
+      label:'Paso 2 — Registro',
+      client:{actions:[
+        {title:'Crea cuenta', how:'Form: email, password, nombre completo, cédula, teléfono, ciudad. Validación con Zod. <code>POST /api/members</code> crea el member en Payload. Email de verificación vía SMTP2GO.', tags:[{t:'create',l:'Member (role: cliente)'},{t:'trigger',l:'Email de verificación'}]},
+        {title:'Inicia sesión', how:'<code>POST /api/members/login</code> con email + password. Retorna cookie httpOnly. Redirige a <code>/app</code>.', tags:[{t:'read',l:'Member session (cookie)'}]},
+      ]},
+      center:'Auth → Payload Members collection',
+      lawyer:{empty:'No interviene en esta etapa'}
+    },
+    {
+      label:'Paso 3 — Consulta inicial',
+      client:{actions:[
+        {title:'Llena formulario de intake', how:'Pantalla <code>/app/nueva-consulta</code>. Inputs: nombre del causante, cédula, fecha de fallecimiento, ciudad, número estimado de herederos, descripción de bienes conocidos, parentesco del solicitante con el causante. Botón "Guardar borrador" guarda en DB sin avanzar. Botón "Enviar y pagar" redirige a <code>/app/pago</code>.', tags:[{t:'create',l:'Consultation (status: draft)'}]},
+      ]},
+      center:'Guarda en DB como borrador',
+      lawyer:{empty:'No interviene en esta etapa'}
+    },
+    {
+      label:'Paso 4 — Pago y creación del caso',
+      client:{actions:[
+        {title:'Paga el servicio', how:'Pantalla <code>/app/pago</code>. Ve resumen de la consulta + precio. Botones de pago: PSE, tarjeta crédito/débito, Nequi (integración Wompi). Al confirmar pago exitoso (Wompi webhook <code>POST /api/webhooks/wompi</code>): se crea el Case con ID único <code>SUC-YYYY-NNN</code>, se copian datos del intake, <code>status = active</code>, <code>faseActual = 0</code>, <code>abogadoAsignado = null</code>. Redirige a <code>/app/dashboard</code>.', tags:[{t:'payment',l:'Wompi → webhook confirma'},{t:'create',l:'Case (SUC-YYYY-NNN)'},{t:'update',l:'Consultation.status = paid'},{t:'trigger',l:'Email confirmación al cliente'},{t:'trigger',l:'Email a abogados: nuevo caso en pool'}]},
+      ]},
+      center:'MURO DE PAGO — Wompi webhook → Caso creado',
+      lawyer:{actions:[
+        {title:'Recibe notificación de nuevo caso', how:'Email: "Nuevo caso disponible en el pool — SUC-2024-XXX". En <code>/app/casos</code>, sección "Sin asignar", aparece el caso nuevo con datos del intake: causante, herederos estimados, bienes conocidos, fecha de pago.', tags:[{t:'read',l:'Cases where abogadoAsignado = null'},{t:'trigger',l:'Email: nuevo caso disponible'}]},
+      ]}
+    },
+  ]
+},
+{
+  id:'f0', label:'F0 · Asignación', title:'Fase 0 — Asignación del caso al abogado',
+  why:'El caso existe pero nadie lo atiende. Un abogado debe tomarlo del pool para que el proceso arranque. Mientras no haya abogado, el cliente solo puede esperar y chatear.',
+  steps:[
+    {
+      label:'Asignación',
+      client:{actions:[
+        {title:'Ve su dashboard con caso en espera', how:'Pantalla <code>/app/dashboard</code>. Tarjeta del caso: "Esperando asignación de abogado". Barra de progreso en 0%. No puede hacer acciones sobre el caso todavía. Puede usar el chat IA dentro de la app.', tags:[{t:'read',l:'Case.faseActual = 0, abogadoAsignado = null'}]},
+      ]},
+      center:'Caso en pool → abogado lo toma',
+      lawyer:{actions:[
+        {title:'Ve caso en pool sin asignar', how:'Pantalla <code>/app/casos</code>, sección superior "Sin asignar". Cada caso muestra: causante, herederos estimados, bienes, fecha de pago, complejidad estimada.', tags:[{t:'read',l:'Cases where abogadoAsignado = null'}]},
+        {title:'Toma el caso', how:'Botón "Tomar caso" → <code>PATCH /api/cases/:id</code> con body <code>{ abogadoAsignado: member.id }</code>. El caso desaparece del pool y aparece en "Mis casos". Se habilita el chat directo con el cliente.', tags:[{t:'update',l:'Case.abogadoAsignado = member.id'},{t:'trigger',l:'Email al cliente: abogado asignado, nombre y datos'},{t:'trigger',l:'Chat: canal "abogado" se activa para el cliente'}]},
+      ]}
+    },
+  ]
+},
+{
+  id:'f1', label:'F1 · Reunión', title:'Fase 1 — Reunión inicial, contrato y anticipo',
+  why:'Primera interacción real entre abogado y cliente (presencial). Se firma contrato + poder, se declaran bienes formalmente, y se cobra el anticipo. Todo pasa offline — la app solo documenta los resultados.',
+  steps:[
+    {
+      label:'Coordinación y reunión',
+      client:{actions:[
+        {title:'Recibe email de abogado asignado', how:'Email automático con nombre, teléfono y datos del abogado. En el dashboard, el caso ahora muestra "Abogado: Dra. Paola Rodríguez".', tags:[{t:'read',l:'Case.abogadoAsignado → Member'}]},
+        {title:'Coordina reunión por chat', how:'En <code>/app/chat</code>, canal "Abogado". Acuerda fecha, hora y lugar de la reunión presencial.', tags:[{t:'create',l:'ChatMessages[]'}]},
+        {title:'Asiste a reunión (offline)', how:'Presencial. Firma contrato de servicios. Firma poder de representación. Declara bienes. Paga anticipo (transferencia/efectivo/Nequi).', tags:[]},
+      ]},
+      center:'← Reunión presencial → Chat para coordinar',
+      lawyer:{actions:[
+        {title:'Coordina por chat', how:'Responde al cliente en <code>/app/chat</code>. Define fecha y lugar de la reunión.', tags:[{t:'create',l:'ChatMessages[]'}]},
+        {title:'Registra reunión en el sistema', how:'Pantalla <code>/app/caso/[id]</code>. Form: fecha de reunión (date), lugar (input), notas (textarea). Checkboxes: ☑ Contrato firmado, ☑ Poder firmado. Upload de PDFs escaneados de contrato y poder a R2 vía <code>POST /api/documents</code>.', tags:[{t:'update',l:'Case.reunion (fecha, lugar)'},{t:'create',l:'Documents[] (contrato.pdf, poder.pdf → R2)'}]},
+        {title:'Registra bienes declarados', how:'Pantalla <code>/app/caso/[id]/bienes</code>. Por cada bien: select tipo (inmueble/vehículo/financiero/otro), input descripción, input ubicación. Botón "+ Agregar bien" para repetir. <code>POST /api/assets</code> por cada bien.', tags:[{t:'create',l:'Assets[] (tipo, descripción, ubicación)'}]},
+        {title:'Registra herederos formales', how:'Pantalla <code>/app/caso/[id]/herederos</code>. El intake tenía un número estimado — ahora se registran con datos reales. Por cada heredero: nombre completo, cédula, parentesco (select), teléfono, email. Si hay representación: checkbox "Heredero por representación" + select heredero original. <code>POST /api/heirs</code>.', tags:[{t:'create',l:'Heirs[] (nombre, cédula, parentesco, representación)'}]},
+        {title:'Registra anticipo', how:'Pantalla <code>/app/caso/[id]/pagos</code>. Form: monto (number), método (select: transferencia/efectivo/Nequi), fecha (date). <code>POST /api/payments</code>.', tags:[{t:'create',l:'Payment (tipo: anticipo, monto, método)'}]},
+        {title:'Avanza a fase 2', how:'Botón "Avanzar a fase 2" con modal de confirmación. <code>PATCH /api/cases/:id</code> con <code>{ faseActual: 2 }</code>. Hook post-update: genera automáticamente el checklist de documentos basado en herederos y bienes registrados.', tags:[{t:'update',l:'Case.faseActual = 2'},{t:'create',l:'DocumentChecklist[] (auto-generado)'},{t:'trigger',l:'Email al cliente: lista de documentos requeridos'}]},
+      ]}
+    },
+  ]
+},
+{
+  id:'f2', label:'F2 · Documentos', title:'Fase 2 — Recolección de documentos',
+  why:'El cliente sube los documentos que el checklist requiere. El checklist se generó automáticamente: 2 docs del causante + 2 docs × N herederos + 1-2 docs × N bienes. El abogado espera y opcionalmente solicita investigación de bienes.',
+  steps:[
+    {
+      label:'Cliente sube, abogado espera',
+      client:{actions:[
+        {title:'Ve checklist auto-generado', how:'Pantalla <code>/app/caso/[id]/documentos</code>. <code>GET /api/document-checklist?case=:id</code> retorna la lista organizada en 3 secciones:<br>• <b>Del causante</b>: Registro civil de defunción, Copia de cédula del causante<br>• <b>Por heredero</b> (×N): Registro civil de nacimiento con notas marginales, Copia de cédula<br>• <b>Por bien</b> (×N): Certificado de tradición y libertad (max 30 días), Escritura pública de tradición<br>Cada item con status "Pendiente" y botón de upload.', tags:[{t:'read',l:'DocumentChecklist[] (auto-generado en F1)'}]},
+        {title:'Sube documentos uno por uno', how:'Click en zona de upload o drag & drop. Acepta PDF/JPG/PNG, max 10MB. <code>POST /api/documents</code> con <code>{ checklistItem: id, file: ... }</code>. File va a R2 vía <code>@payloadcms/storage-s3</code>. El checklist item cambia status de "Pendiente" a "En revisión". Badge verde aparece al lado del item.', tags:[{t:'create',l:'Document (file → R2, status: uploaded)'},{t:'update',l:'ChecklistItem.status = uploaded'},{t:'trigger',l:'Email al abogado: "N documentos nuevos en caso XXX"'}]},
+        {title:'Completa datos de herederos', how:'Si no lo hizo el abogado en F1, el cliente puede agregar herederos en <code>/app/caso/[id]/herederos</code>. Form igual que el del abogado pero sin campos de notas internas.', tags:[{t:'create',l:'Heirs[] (si faltan)'}]},
+      ]},
+      center:'Archivos van a R2 — checklist se actualiza en DB',
+      lawyer:{actions:[
+        {title:'Ve notificación de docs subidos', how:'En <code>/app/dashboard</code>: acción pendiente "Revisar 3 documentos nuevos — caso Vélez". En <code>/app/casos</code>: badge naranja "3 docs" al lado del caso. Email con detalle.', tags:[{t:'read',l:'Documents where status = uploaded'}]},
+        {title:'Solicita investigación de bienes (opcional)', how:'Pantalla <code>/app/caso/[id]/bienes</code>. Botón "Solicitar investigación de bienes". Form: costo (number, default $150.000), fecha de solicitud (date). Status: Solicitada → En proceso → Recibida. Cuando se recibe: upload del resultado (PDF a R2). <code>POST /api/asset-investigations</code>.', tags:[{t:'create',l:'AssetInvestigation (costo, fecha, status)'},{t:'create',l:'Document (resultado investigación → R2)'}]},
+        {title:'Consulta inmuebles en app del gobierno', how:'Offline. Usa la cédula del causante para consultar bienes en el aplicativo gubernamental. Registra hallazgos en <code>/app/caso/[id]/bienes</code> — puede agregar bienes que el cliente no declaró.', tags:[{t:'create',l:'Assets[] (bienes encontrados en investigación)'}]},
+      ]}
+    },
+  ]
+},
+{
+  id:'f3', label:'F3 · Validación', title:'Fase 3 — Validación de documentos y subsanación',
+  why:'El abogado revisa cada documento. Si hay errores (nombre mal escrito en registro civil, hipoteca activa en certificado de tradición, etc.) rechaza con nota visible para el cliente, quien debe corregir y resubir. Este ciclo se repite hasta que todo esté aprobado.',
+  steps:[
+    {
+      label:'Ciclo de revisión (se repite hasta completar)',
+      client:{actions:[
+        {title:'Ve estado actualizado de documentos', how:'Pantalla <code>/app/caso/[id]/documentos</code>. Cada documento ahora tiene badge de estado:<br>• <span style="color:#27500A;background:#EAF3DE;padding:1px 4px;border-radius:3px;font-size:10px">Aprobado ✓</span> — verde, no requiere acción<br>• <span style="color:#CC6010;background:#FFF4EC;padding:1px 4px;border-radius:3px;font-size:10px">Requiere corrección</span> — naranja, con nota del abogado<br>• <span style="color:#5F5E5A;background:#f1efe8;padding:1px 4px;border-radius:3px;font-size:10px">En revisión</span> — gris, esperando al abogado', tags:[{t:'read',l:'Documents[].status + reviewNote'}]},
+        {title:'Lee nota del abogado', how:'Click en documento rechazado → expande nota con instrucciones. Ej: "El registro civil de nacimiento de Juan tiene el segundo apellido del padre incorrecto. Solicitar corrección en la registraduría."', tags:[{t:'read',l:'Document.reviewNote'}]},
+        {title:'Corrige y resube', how:'El cliente gestiona la corrección offline (va a la registraduría, solicita nuevo documento). Luego sube la versión corregida: click en botón "Resubir" del documento → upload nuevo archivo. <code>PATCH /api/documents/:id</code> con nuevo file. Status vuelve a "En revisión". El archivo anterior se mantiene como historial.', tags:[{t:'update',l:'Document (nuevo file → R2, status: uploaded)'},{t:'trigger',l:'Email al abogado: "documento corregido en caso XXX"'}]},
+      ]},
+      center:'Ciclo: revisar → rechazar/aprobar → corregir → resubir',
+      lawyer:{actions:[
+        {title:'Abre documento para revisar', how:'Pantalla <code>/app/caso/[id]/documentos</code>. Click en "Ver" → abre PDF en nueva pestaña. URL firmada de R2 que expira en 1 hora. <code>GET /api/documents/:id/url</code> genera signed URL.', tags:[{t:'read',l:'Document file (signed URL → R2, TTL: 1h)'}]},
+        {title:'Aprueba documento', how:'Botón "Aprobar" (verde) → <code>PATCH /api/documents/:id</code> con <code>{ status: "approved" }</code>. Badge cambia a verde en ambas vistas (cliente y abogado).', tags:[{t:'update',l:'Document.status = approved'},{t:'trigger',l:'Email al cliente: "documento X aprobado"'}]},
+        {title:'Rechaza con nota', how:'Botón "Rechazar" (rojo) → abre modal con textarea para nota. <code>PATCH /api/documents/:id</code> con <code>{ status: "rejected", reviewNote: "..." }</code>. La nota es visible para el cliente.', tags:[{t:'update',l:'Document.status = rejected + reviewNote'},{t:'trigger',l:'Email al cliente: "documento X requiere corrección" + instrucciones'}]},
+        {title:'Solicita documento adicional', how:'Botón "Solicitar adicional" → form: nombre del documento, descripción, a quién pertenece (causante/heredero/bien). <code>POST /api/document-checklist</code> crea nuevo item en el checklist con status "Pendiente".', tags:[{t:'create',l:'ChecklistItem (nuevo requerimiento)'}]},
+        {title:'Registra hallazgos jurídicos', how:'Si encuentra hipotecas, embargos, etc. en los documentos revisados → los registra en <code>/app/caso/[id]/bienes</code> como hallazgos. Textarea: "Apartamento tiene hipoteca activa con Davivienda — requiere paz y salvo."', tags:[{t:'update',l:'Asset.hallazgosJuridicos'}]},
+        {title:'Todo aprobado → avanza a fase 4', how:'Cuando todos los items del checklist tienen status "approved": se habilita el botón "Avanzar a fase 4". Validación server-side: <code>PATCH /api/cases/:id</code> verifica que no hay docs pendientes antes de aceptar el cambio de fase.', tags:[{t:'update',l:'Case.faseActual = 4'},{t:'trigger',l:'Email al cliente: "todos los documentos en orden, avanzamos a notaría"'}]},
+      ]}
+    },
+  ]
+},
+{
+  id:'f4', label:'F4 · Notaría', title:'Fase 4 — Elaboración de escritos y radicación ante notaría',
+  why:'El abogado prepara los escritos legales (offline) y los radica en la notaría. El notario revisa y puede pedir correcciones o documentos adicionales. Si todo está bien, autoriza los edictos. El cliente solo ve que su caso avanzó — los detalles internos viven en /notaria.',
+  steps:[
+    {
+      label:'Radicación y respuesta del notario',
+      client:{actions:[
+        {title:'Ve actualización en timeline', how:'Pantalla <code>/app/caso/[id]</code>. Timeline actualizado: "Tus documentos están en la notaría — en revisión". No hay acción requerida del cliente. Puede ver datos de la notaría asignada (nombre, dirección).', tags:[{t:'read',l:'Case.faseActual = 4'}]},
+      ]},
+      center:'Trabajo del abogado en la notaría (offline + registro en app)',
+      lawyer:{actions:[
+        {title:'Elabora escritos (offline)', how:'Fuera de la app. Prepara los documentos legales formales para la notaría. Este trabajo no se registra en la app — solo el resultado.', tags:[]},
+        {title:'Registra radicación', how:'Pantalla <code>/app/caso/[id]/notaria</code>. Form:<br>• Notaría: input texto (ej: "Notaría 62 del Círculo de Bogotá")<br>• Notario: input texto (ej: "César Augusto Ariza Otálora")<br>• Fecha de radicación: date<br>• Número de radicado: input texto (ej: "RAD 202405621")<br>Upload de escritos radicados (PDF → R2). <code>POST /api/notary-process</code>.', tags:[{t:'create',l:'NotaryProcess (notaría, notario, radicación)'},{t:'create',l:'Documents[] (escritos → R2)'}]},
+        {title:'Registra respuesta del notario', how:'Select con opciones:<br>• Aprobado sin observaciones<br>• Requiere documentos adicionales (textarea para detalle)<br>• Requiere correcciones (textarea para detalle)<br>• Pendiente de revisión<br>Si aprobado: upload de autorización de edictos (PDF → R2). <code>PATCH /api/notary-process/:id</code>.', tags:[{t:'update',l:'NotaryProcess.response'},{t:'create',l:'Document (autorización edictos → R2)'}]},
+        {title:'Avanza a fase 5', how:'Solo habilitado cuando response = "aprobado" y autorización está subida. Botón "Avanzar a fase 5" → <code>PATCH /api/cases/:id</code>.', tags:[{t:'update',l:'Case.faseActual = 5'},{t:'trigger',l:'Email al cliente: "edictos autorizados, avanzamos"'}]},
+      ]}
+    },
+  ]
+},
+{
+  id:'f5', label:'F5 · Edictos', title:'Fase 5 — Publicación de edictos y plazo legal',
+  why:'Los edictos se publican en periódico y radio (offline). Hay un plazo legal de 10 días hábiles donde cualquier persona puede presentar derecho sobre la herencia. El sistema calcula automáticamente la fecha de vencimiento excluyendo fines de semana y festivos colombianos.',
+  steps:[
+    {
+      label:'Publicación y espera del plazo',
+      client:{actions:[
+        {title:'Ve countdown de edictos', how:'Pantalla <code>/app/caso/[id]</code>. Timeline: "Publicación oficial en curso". Muestra:<br>• Fecha de publicación: 27 oct 2024<br>• Días hábiles restantes: 4<br>• Fecha estimada de vencimiento: 11 nov 2024<br>El countdown se calcula server-side con función que excluye sábados, domingos y festivos colombianos.', tags:[{t:'read',l:'NotaryProcess.edicts (fechas calculadas)'}]},
+      ]},
+      center:'10 días hábiles — plazo legal obligatorio',
+      lawyer:{actions:[
+        {title:'Publica edictos (offline)', how:'Va a La República (periódico + radio) con la autorización. Paga la publicación. Los edictos salen al día siguiente.', tags:[]},
+        {title:'Registra publicación', how:'Pantalla <code>/app/caso/[id]/notaria</code>. Form:<br>• Medio de publicación: input (ej: "Periódico La República + Radio")<br>• Fecha de publicación: date<br>• Costo de publicación: number (COP)<br>El sistema calcula automáticamente <code>fechaVencimiento</code> = fecha + 10 días hábiles (excl. fines de semana + festivos CO). Upload: edicto firmado (PDF), comprobante de pago (PDF).', tags:[{t:'update',l:'NotaryProcess.edicts (fecha, medio, costo, vencimiento)'},{t:'create',l:'Documents[] (edicto, comprobante → R2)'}]},
+        {title:'Recoge comprobantes (offline)', how:'Cuando el plazo vence: va a recoger comprobantes físicos de publicación y los lleva a la notaría (~3 horas entre ambos lugares). Registra fecha de entrega en la app.', tags:[{t:'update',l:'NotaryProcess.edicts.delivered = true + fecha'}]},
+        {title:'Avanza a fase 6', how:'Solo habilitado cuando <code>delivered = true</code>. Botón "Avanzar a fase 6".', tags:[{t:'update',l:'Case.faseActual = 6'},{t:'trigger',l:'Email al cliente: "edictos completados, siguiente paso: validación"'}]},
+      ]}
+    },
+  ]
+},
+{
+  id:'f6', label:'F6 · DIAN/UGPP', title:'Fase 6 — Validación DIAN / UGPP por la notaría',
+  why:'La notaría consulta internamente con la DIAN y la UGPP para verificar que el causante no tiene deudas pendientes (declaraciones de renta, multas, aportes). Esto toma ~3 semanas. Ni el cliente ni el abogado pueden acelerar este paso.',
+  steps:[
+    {
+      label:'Espera de validación (~3 semanas)',
+      client:{actions:[
+        {title:'Ve estado de validación', how:'Pantalla <code>/app/caso/[id]</code>. Timeline: "Verificando con entidades del gobierno". Muestra:<br>• Fecha de inicio: 12 nov 2024<br>• Tiempo estimado: ~3 semanas<br>• Estado: En validación<br>Nota explicativa: "La notaría consulta con DIAN y UGPP que no haya deudas pendientes del causante."', tags:[{t:'read',l:'NotaryProcess.dianStatus + ugppStatus'}]},
+      ]},
+      center:'~3 semanas — proceso interno de la notaría',
+      lawyer:{actions:[
+        {title:'Registra inicio de validación', how:'Pantalla <code>/app/caso/[id]/notaria</code>. La fecha de entrega de comprobantes de edictos marca automáticamente el inicio de esta fase.', tags:[{t:'update',l:'NotaryProcess.dianStatus = pending'},{t:'update',l:'NotaryProcess.ugppStatus = pending'}]},
+        {title:'Registra hallazgos (si aplica)', how:'Si DIAN o UGPP reportan deudas, multas o pendientes:<br>• Select de estado: Hallazgos DIAN / Hallazgos UGPP<br>• Textarea: detalle del hallazgo (ej: "Declaración de renta 2022 sin presentar. Multa de $3.200.000")<br>El abogado gestiona la resolución offline y actualiza cuando se resuelve.', tags:[{t:'update',l:'NotaryProcess.dian/ugpp (hallazgos, resolución)'}]},
+        {title:'Avanza a fase 7', how:'Solo habilitado cuando ambos status = "approved". Botón "Avanzar a fase 7".', tags:[{t:'update',l:'Case.faseActual = 7'},{t:'trigger',l:'Email al cliente: "todo aprobado, próximo paso: firma de escritura"'}]},
+      ]}
+    },
+  ]
+},
+{
+  id:'f7', label:'F7 · Firma', title:'Fase 7 — Firma de escritura pública de sucesión',
+  why:'El momento clave del proceso. Todos los herederos firman la escritura en la notaría. El cliente paga los gastos notariales directamente en la notaría + el excedente de honorarios al abogado. El abogado coordina la fecha y registra todo.',
+  steps:[
+    {
+      label:'Coordinación, firma y pagos',
+      client:{actions:[
+        {title:'Ve fecha de firma y costos', how:'Pantalla <code>/app/caso/[id]</code>. Timeline: "Firma de escritura". Datos:<br>• Fecha: 10 dic 2024, 10:00 AM<br>• Lugar: Notaría 62 — Cra 24 #53-18<br>En <code>/app/caso/[id]/pagos</code>: desglose de costos notariales (derechos, impuesto registro, boleta fiscal) + saldo pendiente de honorarios.', tags:[{t:'read',l:'NotaryProcess.signing'},{t:'read',l:'Payments[] (costos + saldo)'}]},
+        {title:'Asiste a firmar (offline)', how:'Todos los herederos con cédula original en la notaría. Verifican que nombres, datos y distribución estén correctos. Firman. Pagan gastos notariales directamente en ventanilla de la notaría.', tags:[]},
+        {title:'Paga excedente de honorarios', how:'Si pasarela integrada: botón "Pagar saldo" en <code>/app/caso/[id]/pagos</code> → flujo Wompi. Si offline: transferencia/efectivo/Nequi directamente al abogado.', tags:[{t:'payment',l:'Excedente honorarios (Wompi o registro manual)'}]},
+      ]},
+      center:'← Firma presencial en notaría → Pagos notariales + honorarios',
+      lawyer:{actions:[
+        {title:'Registra fecha de firma', how:'Pantalla <code>/app/caso/[id]/notaria</code>. Form: fecha (date), hora (time), lugar (input, pre-llenado con datos de la notaría del caso).', tags:[{t:'update',l:'NotaryProcess.signing (fecha, hora, lugar)'}]},
+        {title:'Registra costos notariales', how:'En <code>/app/caso/[id]/notaria</code>. Inputs:<br>• Derechos notariales: number<br>• Impuesto de registro: number<br>• Boleta fiscal: number<br>Total se calcula automáticamente. <code>POST /api/payments</code> con tipo "notarial" por cada concepto. Estos valores se reflejan automáticamente en <code>/app/caso/[id]/pagos</code> del cliente.', tags:[{t:'create',l:'Payments[] (tipo: notarial, desglose)'},{t:'trigger',l:'Email al cliente: "costos notariales definidos + desglose"'}]},
+        {title:'Sube escritura firmada', how:'Upload de escritura pública de sucesión escaneada (PDF → R2). <code>POST /api/documents</code> con <code>{ visibility: "client" }</code> para que el cliente pueda verla y descargarla.', tags:[{t:'create',l:'Document (escritura pública → R2, visible: true)'}]},
+        {title:'Registra excedente recibido', how:'<code>POST /api/payments</code> con tipo "excedente", monto, fecha, método.', tags:[{t:'create',l:'Payment (tipo: excedente)'}]},
+        {title:'Avanza a fase 8', how:'Cuando escritura subida + pagos registrados → botón "Avanzar a fase 8".', tags:[{t:'update',l:'Case.faseActual = 8'},{t:'trigger',l:'Email al cliente: "escritura firmada, último paso: registro"'}]},
+      ]}
+    },
+  ]
+},
+{
+  id:'f8', label:'F8 · Registro', title:'Fase 8 — Registro en folio de matrícula inmobiliaria',
+  why:'La escritura sale de la notaría y va a la oficina de instrumentos públicos para registro. ~2 semanas para salir, ~1 mes para quedar registrada en el folio de matrícula. Cuando se confirma, el caso se cierra oficialmente.',
+  steps:[
+    {
+      label:'Registro y cierre del caso',
+      client:{actions:[
+        {title:'Ve estado de registro', how:'Pantalla <code>/app/caso/[id]</code>. Timeline: "Registrando a tu nombre". Muestra fecha estimada de registro.', tags:[{t:'read',l:'NotaryProcess.registration'}]},
+        {title:'Recibe notificación de cierre', how:'Email: "¡Felicidades! Su sucesión ha sido completada. Los bienes están registrados a nombre de los herederos." En el dashboard, el caso muestra ✓ Completado con fecha.', tags:[{t:'read',l:'Case.status = completed'}]},
+        {title:'Descarga documentos finales', how:'En <code>/app/caso/[id]/documentos</code>: escritura pública de sucesión y certificado de tradición actualizado disponibles para descarga (signed URLs de R2, regeneradas en cada click).', tags:[{t:'read',l:'Documents[] (finales, signed URLs)'}]},
+      ]},
+      center:'~1 mes — registro en instrumentos públicos → CASO CERRADO',
+      lawyer:{actions:[
+        {title:'Registra salida de escritura', how:'Pantalla <code>/app/caso/[id]/notaria</code>. Fecha de salida para registro (date). Status: "En registro".', tags:[{t:'update',l:'NotaryProcess.registration.status = in_progress'}]},
+        {title:'Registra fecha de registro', how:'Cuando la oficina confirma que quedó registrada: fecha de registro en folio de matrícula (date). Status: "Registrada".', tags:[{t:'update',l:'NotaryProcess.registration.status = completed + fecha'}]},
+        {title:'Sube certificado de tradición actualizado', how:'Upload del certificado de tradición que ya muestra los nuevos propietarios (PDF → R2). Marcado como visible para el cliente.', tags:[{t:'create',l:'Document (cert. tradición actualizado → R2, visible: true)'}]},
+        {title:'Cierra el caso', how:'Botón "Marcar como completado" → modal de confirmación → <code>PATCH /api/cases/:id</code> con <code>{ status: "completed" }</code>. El caso se mueve de "activos" a "completados" en el dashboard. Se generan métricas: duración total, número de documentos procesados, etc.', tags:[{t:'update',l:'Case.status = completed'},{t:'trigger',l:'Email al cliente: caso completado + resumen'},{t:'trigger',l:'Email al abogado: caso cerrado + métricas'}]},
+      ]}
+    },
+  ]
+}
+];
+
+function renderNav() {
+  document.getElementById('nav').innerHTML = phases.map((p,i) =>
+    `<button class="nav-btn ${i===0?'active':''}" onclick="showPhase('${p.id}')">${p.label}</button>`
+  ).join('');
+}
+
+function showPhase(id) {
+  document.querySelectorAll('.nav-btn').forEach((b,i) => {
+    b.classList.toggle('active', phases[i].id === id);
+  });
+  document.querySelectorAll('.phase').forEach(p => p.classList.remove('active'));
+  document.getElementById('phase-'+id).classList.add('active');
+  window.scrollTo({top:document.getElementById('phase-'+id).offsetTop - 80, behavior:'smooth'});
+}
+
+function tagHTML(tag) {
+  const cls = {create:'tag-create',update:'tag-update',read:'tag-read',trigger:'tag-trigger',payment:'tag-payment'};
+  const prefix = {create:'CREATE',update:'UPDATE',read:'READ',trigger:'TRIGGER',payment:'PAYMENT'};
+  return `<span class="tag ${cls[tag.t]}">${prefix[tag.t]}: ${tag.l}</span>`;
+}
+
+function renderPhases() {
+  const container = document.getElementById('phases');
+  container.innerHTML = phases.map(p => {
+    let html = `<div class="phase ${p.id===phases[0].id?'active':''}" id="phase-${p.id}">`;
+    html += `<div class="phase-title">${p.title}</div>`;
+    html += `<div class="phase-why">${p.why}</div>`;
+
+    p.steps.forEach((step, si) => {
+      if (si > 0) html += `<div class="section-break"></div>`;
+      if (step.label) html += `<div class="step-label">${step.label}</div>`;
+      html += `<div class="swim">`;
+
+      html += `<div class="lane lane-client">`;
+      html += `<div class="lane-header">Cliente</div>`;
+      html += `<div class="lane-body">`;
+      if (step.client.empty) {
+        html += `<div class="empty-lane">${step.client.empty}</div>`;
+      } else {
+        step.client.actions.forEach(a => {
+          html += `<div class="action"><div class="action-title">${a.title}</div>`;
+          html += `<div class="action-how">${a.how}</div>`;
+          if (a.tags && a.tags.length) html += `<div class="tags">${a.tags.map(tagHTML).join('')}</div>`;
+          html += `</div>`;
+        });
+      }
+      html += `</div></div>`;
+
+      html += `<div class="lane lane-center">`;
+      html += `<div class="lane-header">Datos</div>`;
+      html += `<div class="lane-body">${step.center}</div>`;
+      html += `</div>`;
+
+      html += `<div class="lane lane-lawyer">`;
+      html += `<div class="lane-header">Abogado</div>`;
+      html += `<div class="lane-body">`;
+      if (step.lawyer.empty) {
+        html += `<div class="empty-lane">${step.lawyer.empty}</div>`;
+      } else {
+        step.lawyer.actions.forEach(a => {
+          html += `<div class="action"><div class="action-title">${a.title}</div>`;
+          html += `<div class="action-how">${a.how}</div>`;
+          if (a.tags && a.tags.length) html += `<div class="tags">${a.tags.map(tagHTML).join('')}</div>`;
+          html += `</div>`;
+        });
+      }
+      html += `</div></div>`;
+
+      html += `</div>`;
+    });
+
+    html += `</div>`;
+    return html;
+  }).join('');
+}
+
+renderNav();
+renderPhases();
+</script>
+</body>
+</html>

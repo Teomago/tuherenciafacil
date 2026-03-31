@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tuHerenciaFácil — Colecciones por fase</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:system-ui,-apple-system,sans-serif; background:#f8f7f4; color:#1a1a18; padding:20px; max-width:960px; margin:0 auto; }
+h1 { font-size:20px; font-weight:500; color:#002845; margin-bottom:4px; }
+.subtitle { font-size:13px; color:#5F5E5A; margin-bottom:20px; }
+
+.legend { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:20px; padding:12px 16px; background:#fff; border-radius:8px; border:0.5px solid #e2e0d8; }
+.legend-item { display:flex; align-items:center; gap:5px; font-size:11px; color:#444441; }
+.legend-dot { width:12px; height:12px; border-radius:3px; border:0.5px solid rgba(0,0,0,0.1); }
+
+.nav { display:flex; gap:4px; flex-wrap:wrap; margin-bottom:20px; position:sticky; top:0; background:#f8f7f4; padding:8px 0; z-index:10; }
+.nav-btn { padding:7px 14px; font-size:12px; border:0.5px solid #d3d1c7; background:#fff; color:#5F5E5A; border-radius:6px; cursor:pointer; font-family:inherit; transition:all .15s; white-space:nowrap; }
+.nav-btn:hover { background:#EBF5FA; color:#3A8DA8; border-color:#3A8DA8; }
+.nav-btn.active { background:#002845; color:#fff; border-color:#002845; }
+
+.phase { display:none; }
+.phase.active { display:block; }
+.phase-header { margin-bottom:20px; }
+.phase-title { font-size:18px; font-weight:500; color:#002845; margin-bottom:6px; }
+.phase-desc { font-size:13px; color:#5F5E5A; line-height:1.6; padding:12px 16px; background:#EDF5FB; border-radius:8px; border-left:3px solid #3A8DA8; }
+
+.collections-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:12px; margin-bottom:24px; }
+
+.col-card { border-radius:10px; border:0.5px solid #e2e0d8; overflow:hidden; background:#fff; }
+.col-card.inactive { opacity:0.35; }
+.col-card.inactive .col-header { background:#f1efe8; }
+.col-header { padding:10px 14px; display:flex; align-items:center; justify-content:space-between; }
+.col-name { font-size:14px; font-weight:500; }
+.col-ops { display:flex; gap:4px; }
+.col-op { font-size:9px; font-weight:600; padding:2px 7px; border-radius:3px; letter-spacing:.3px; }
+.op-create { background:#EAF3DE; color:#27500A; }
+.op-read { background:#f1efe8; color:#444441; }
+.op-update { background:#E6F1FB; color:#0C447C; }
+.op-trigger { background:#FFF4EC; color:#CC6010; }
+
+.col-body { padding:10px 14px; border-top:0.5px solid #e2e0d8; }
+.col-detail { font-size:11px; color:#5F5E5A; line-height:1.6; margin-bottom:6px; }
+.col-detail:last-child { margin-bottom:0; }
+.col-detail strong { color:#002845; font-weight:500; }
+.col-who { display:inline-block; font-size:9px; padding:1px 6px; border-radius:3px; font-weight:500; margin-right:4px; }
+.who-client { background:#EEEDFE; color:#3C3489; }
+.who-lawyer { background:#E1F5EE; color:#085041; }
+.who-server { background:#F1EFE8; color:#444441; }
+.who-webhook { background:#FAECE7; color:#712B13; }
+
+.flow-arrow { text-align:center; padding:12px 0; font-size:13px; color:#B4B2A9; }
+.flow-arrow .arrow { font-size:18px; display:block; }
+
+.summary { background:#fff; border-radius:10px; border:0.5px solid #e2e0d8; padding:16px 20px; margin-top:24px; }
+.summary-title { font-size:14px; font-weight:500; color:#002845; margin-bottom:12px; }
+.summary-table { width:100%; border-collapse:collapse; font-size:12px; }
+.summary-table th { text-align:left; padding:8px 10px; background:#f8f7f4; color:#5F5E5A; font-weight:500; border-bottom:0.5px solid #e2e0d8; }
+.summary-table td { padding:8px 10px; border-bottom:0.5px solid #f1efe8; color:#444441; }
+.summary-table tr:last-child td { border-bottom:none; }
+.dot { display:inline-block; width:8px; height:8px; border-radius:2px; margin-right:2px; }
+
+.triggers-section { margin-top:16px; padding-top:16px; border-top:0.5px solid #e2e0d8; }
+.trigger-item { font-size:11px; color:#5F5E5A; padding:4px 0; display:flex; align-items:flex-start; gap:6px; line-height:1.5; }
+.trigger-icon { color:#FF8C3C; font-weight:600; flex-shrink:0; margin-top:1px; }
+</style>
+</head>
+<body>
+<h1>Colecciones de Payload × Fases del proceso</h1>
+<p class="subtitle">Qué colección se toca en cada fase, con qué operación, y por quién</p>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#EAF3DE"></div>CREATE</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#E6F1FB"></div>UPDATE</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#f1efe8"></div>READ</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#FFF4EC"></div>TRIGGER</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#EEEDFE"></div>Cliente</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#E1F5EE"></div>Abogado</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#F1EFE8"></div>Server</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#FAECE7"></div>Webhook</div>
+</div>
+
+<div class="nav" id="nav"></div>
+<div id="content"></div>
+
+<script>
+const data = [
+{
+  id:'pre', label:'Pre-pago', title:'Pre-pago — Registro, intake y pago',
+  desc:'El cliente se registra, llena la consulta, y paga. Al pagar se crea el caso. El abogado recibe notificación.',
+  collections:[
+    {name:'Members', active:true, ops:['create'],
+     header:'#EEEDFE', headerText:'#3C3489',
+     details:[
+       {who:'client', text:'Crea su cuenta con: email, password, nombre, cédula, teléfono, ciudad. Role se fuerza a "cliente".'},
+       {who:'server', text:'Hook afterCreate envía email de verificación vía SMTP2GO.'},
+     ],
+     triggers:['Email de verificación de cuenta']},
+    {name:'Consultations', active:true, ops:['create','update'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'client', text:'Llena formulario de intake: datos del causante, herederos estimados, bienes conocidos. Puede guardar como borrador (status: draft) o enviar (status: submitted).'},
+     ],
+     triggers:[]},
+    {name:'Cases', active:true, ops:['create'],
+     header:'#E1F5EE', headerText:'#085041',
+     details:[
+       {who:'webhook', text:'El webhook de Wompi confirma pago → crea Case con datos copiados de la Consultation. ID: SUC-YYYY-NNN. faseActual = 0. abogadoAsignado = null.'},
+     ],
+     triggers:['Email al cliente: confirmación de pago', 'Email a abogados: nuevo caso en pool']},
+    {name:'Payments', active:true, ops:['create'],
+     header:'#FAECE7', headerText:'#712B13',
+     details:[
+       {who:'webhook', text:'Se crea Payment tipo "servicio" con el monto, wompiTransactionId, y fecha.'},
+     ],
+     triggers:[]},
+    {name:'Heirs', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Assets', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'DocumentChecklist', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Documents', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'NotaryProcess', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+  ]
+},
+{
+  id:'f0', label:'F0 · Asignación', title:'Fase 0 — Asignación del caso al abogado',
+  desc:'El caso está en el pool. Un abogado lo toma. El cliente espera.',
+  collections:[
+    {name:'Members', active:true, ops:['read'],
+     header:'#EEEDFE', headerText:'#3C3489',
+     details:[
+       {who:'client', text:'Lee su perfil para el dashboard.'},
+       {who:'lawyer', text:'Lee datos del cliente asociado al caso.'},
+     ], triggers:[]},
+    {name:'Cases', active:true, ops:['read','update'],
+     header:'#E1F5EE', headerText:'#085041',
+     details:[
+       {who:'lawyer', text:'Lee casos donde abogadoAsignado = null (pool). Botón "Tomar caso" → PATCH abogadoAsignado = member.id.'},
+       {who:'client', text:'Lee su caso: ve "Esperando asignación de abogado".'},
+     ],
+     triggers:['Email al cliente: abogado asignado con nombre y datos']},
+    {name:'Consultations', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Payments', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Heirs', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Assets', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'DocumentChecklist', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Documents', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'NotaryProcess', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:true, ops:['create'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'client', text:'Puede usar el chat IA dentro de la app mientras espera.'},
+     ], triggers:[]},
+  ]
+},
+{
+  id:'f1', label:'F1 · Reunión', title:'Fase 1 — Reunión inicial, contrato y anticipo',
+  desc:'Reunión presencial. Se firma contrato + poder, se declaran bienes y herederos formalmente, se cobra anticipo. El abogado registra todo en la app.',
+  collections:[
+    {name:'Members', active:true, ops:['read'],
+     header:'#EEEDFE', headerText:'#3C3489',
+     details:[
+       {who:'client', text:'Ve datos de su abogado asignado.'},
+     ], triggers:[]},
+    {name:'Cases', active:true, ops:['update'],
+     header:'#E1F5EE', headerText:'#085041',
+     details:[
+       {who:'lawyer', text:'Registra datos de la reunión: fecha, lugar, notas. Marca checkboxes: contrato firmado ✓, poder firmado ✓. Al final avanza faseActual de 1 → 2.'},
+     ],
+     triggers:['Email al cliente: lista de documentos requeridos (al avanzar a fase 2)']},
+    {name:'Heirs', active:true, ops:['create'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Registra cada heredero formal: nombre, cédula, parentesco. Marca representación si aplica.'},
+       {who:'client', text:'También puede agregar herederos desde su panel.'},
+     ], triggers:[]},
+    {name:'Assets', active:true, ops:['create'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Registra cada bien declarado: tipo (inmueble/vehículo/financiero), descripción, ubicación.'},
+     ], triggers:[]},
+    {name:'Documents', active:true, ops:['create'],
+     header:'#EAF3DE', headerText:'#27500A',
+     details:[
+       {who:'lawyer', text:'Sube PDFs escaneados del contrato firmado y del poder de representación → R2.'},
+     ], triggers:[]},
+    {name:'Payments', active:true, ops:['create'],
+     header:'#FAECE7', headerText:'#712B13',
+     details:[
+       {who:'lawyer', text:'Registra el anticipo recibido: monto, método (transferencia/efectivo/Nequi), fecha.'},
+     ], triggers:[]},
+    {name:'DocumentChecklist', active:true, ops:['create'],
+     header:'#FFF4EC', headerText:'#CC6010',
+     details:[
+       {who:'server', text:'Hook de Cases al avanzar a fase 2: auto-genera el checklist. 2 docs del causante + 2 × N herederos + 1-2 × N bienes.'},
+     ],
+     triggers:['Checklist auto-generado basado en herederos y bienes registrados']},
+    {name:'Consultations', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'NotaryProcess', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:true, ops:['create'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'client', text:'Coordina fecha/lugar de reunión con el abogado por chat.'},
+       {who:'lawyer', text:'Responde al cliente para coordinar.'},
+     ], triggers:[]},
+  ]
+},
+{
+  id:'f2', label:'F2 · Documentos', title:'Fase 2 — Recolección de documentos',
+  desc:'El cliente sube los documentos del checklist. El abogado espera y opcionalmente solicita investigación de bienes.',
+  collections:[
+    {name:'DocumentChecklist', active:true, ops:['read','update'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'client', text:'Lee el checklist con las 3 secciones: causante, por heredero, por bien. Ve estado de cada item.'},
+       {who:'server', text:'Cuando se sube un documento, el item vinculado cambia status a "uploaded".'},
+     ], triggers:[]},
+    {name:'Documents', active:true, ops:['create'],
+     header:'#EAF3DE', headerText:'#27500A',
+     details:[
+       {who:'client', text:'Sube PDFs/imágenes para cada item del checklist. Archivos van a R2. Max 10MB.'},
+     ],
+     triggers:['Email al abogado: "N documentos nuevos en caso X"']},
+    {name:'Assets', active:true, ops:['create','update'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Solicita investigación de bienes ($150k). Estado: solicitada → en proceso → recibida. Sube resultado como PDF. También puede agregar bienes encontrados en consulta gubernamental.'},
+     ], triggers:[]},
+    {name:'Heirs', active:true, ops:['create'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'client', text:'Puede agregar herederos que falten desde su panel.'},
+     ], triggers:['Si se agrega heredero en fase 2+: auto-genera items nuevos en DocumentChecklist']},
+    {name:'Cases', active:true, ops:['read'],
+     header:'#f1efe8', headerText:'#5F5E5A',
+     details:[
+       {who:'client', text:'Lee progreso general del caso en el dashboard.'},
+       {who:'lawyer', text:'Ve badge de alerta "docs subidos" en la central de casos.'},
+     ], triggers:[]},
+    {name:'Members', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Consultations', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Payments', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'NotaryProcess', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+  ]
+},
+{
+  id:'f3', label:'F3 · Validación', title:'Fase 3 — Validación de documentos y subsanación',
+  desc:'El abogado revisa cada documento: aprueba, rechaza con nota, o solicita adicionales. Ciclo se repite hasta que todo esté aprobado.',
+  collections:[
+    {name:'Documents', active:true, ops:['read','update','create'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Abre cada PDF con signed URL (TTL: 1h). Aprueba o rechaza con nota visible para el cliente.'},
+       {who:'client', text:'Ve estado de cada documento. Si rechazado: lee nota del abogado. Sube versión corregida (nuevo Document vinculado como previousVersion).'},
+     ],
+     triggers:['Email al cliente: "documento X aprobado"', 'Email al cliente: "documento X requiere corrección"', 'Email al abogado: "documento corregido en caso X"']},
+    {name:'DocumentChecklist', active:true, ops:['update','create'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Actualiza status de cada item: approved / rejected + reviewNote. Puede crear items nuevos si necesita documentos adicionales.'},
+     ], triggers:[]},
+    {name:'Assets', active:true, ops:['update'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Si encuentra hipotecas/embargos en los documentos revisados, registra hallazgosJuridicos en el bien correspondiente.'},
+     ], triggers:[]},
+    {name:'Cases', active:true, ops:['update'],
+     header:'#E1F5EE', headerText:'#085041',
+     details:[
+       {who:'lawyer', text:'Cuando TODOS los items del checklist están en "approved": botón "Avanzar a fase 4". Server valida que no hay pendientes antes de aceptar.'},
+     ],
+     triggers:['Email al cliente: "todos los documentos en orden, avanzamos a notaría"']},
+    {name:'Members', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Consultations', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Heirs', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Payments', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'NotaryProcess', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+  ]
+},
+{
+  id:'f4', label:'F4 · Notaría', title:'Fase 4 — Escritos y radicación ante notaría',
+  desc:'El abogado elabora escritos (offline), los radica, y espera respuesta del notario. Se crea el NotaryProcess.',
+  collections:[
+    {name:'NotaryProcess', active:true, ops:['create','update'],
+     header:'#EAF3DE', headerText:'#27500A',
+     details:[
+       {who:'lawyer', text:'CREA el registro: notaría, notario, fecha de radicación, número de radicado. Luego ACTUALIZA con respuesta del notario (aprobado / requiere documentos / correcciones).'},
+     ], triggers:[]},
+    {name:'Documents', active:true, ops:['create'],
+     header:'#EAF3DE', headerText:'#27500A',
+     details:[
+       {who:'lawyer', text:'Sube escritos radicados (PDF). Si notario aprueba: sube autorización de edictos (PDF). Marcados como visibility: "internal".'},
+     ], triggers:[]},
+    {name:'Cases', active:true, ops:['read','update'],
+     header:'#E1F5EE', headerText:'#085041',
+     details:[
+       {who:'client', text:'Lee: timeline dice "Tus documentos están en la notaría".'},
+       {who:'lawyer', text:'Cuando autorización recibida → avanza a fase 5.'},
+     ],
+     triggers:['Email al cliente: "edictos autorizados, avanzamos"']},
+    {name:'Members', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Consultations', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Heirs', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Assets', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'DocumentChecklist', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Payments', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+  ]
+},
+{
+  id:'f5', label:'F5 · Edictos', title:'Fase 5 — Publicación de edictos y plazo legal',
+  desc:'Se publican edictos en periódico/radio. 10 días hábiles de espera legal. El sistema calcula automáticamente la fecha de vencimiento.',
+  collections:[
+    {name:'NotaryProcess', active:true, ops:['update'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Registra: medio de publicación, fecha, costo. El hook calcula fechaVencimiento = fecha + 10 días hábiles (excl. fines de semana + festivos CO). Después marca comprobantesEntregados = true con fecha.'},
+     ],
+     triggers:['Hook: cálculo automático de fecha de vencimiento con festivos colombianos']},
+    {name:'Documents', active:true, ops:['create'],
+     header:'#EAF3DE', headerText:'#27500A',
+     details:[
+       {who:'lawyer', text:'Sube: edicto firmado (PDF) y comprobante de pago de publicación (PDF).'},
+     ], triggers:[]},
+    {name:'Cases', active:true, ops:['read','update'],
+     header:'#E1F5EE', headerText:'#085041',
+     details:[
+       {who:'client', text:'Lee: countdown de días hábiles restantes en el timeline.'},
+       {who:'lawyer', text:'Cuando comprobantes entregados → avanza a fase 6.'},
+     ],
+     triggers:['Email al cliente: "edictos completados, siguiente paso: validación"']},
+    {name:'Members', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Consultations', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Heirs', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Assets', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'DocumentChecklist', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Payments', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+  ]
+},
+{
+  id:'f6', label:'F6 · DIAN/UGPP', title:'Fase 6 — Validación DIAN / UGPP',
+  desc:'La notaría consulta internamente con DIAN y UGPP. ~3 semanas de espera. Si hay hallazgos, el abogado los gestiona.',
+  collections:[
+    {name:'NotaryProcess', active:true, ops:['update'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Actualiza dian.status y ugpp.status: pendiente → en_validación → aprobado (o hallazgos). Si hay hallazgos: documenta en textarea y gestiona resolución offline.'},
+     ], triggers:[]},
+    {name:'Cases', active:true, ops:['read','update'],
+     header:'#E1F5EE', headerText:'#085041',
+     details:[
+       {who:'client', text:'Lee: timeline dice "Verificando con entidades del gobierno" + tiempo estimado.'},
+       {who:'lawyer', text:'Cuando ambos status = aprobado → avanza a fase 7.'},
+     ],
+     triggers:['Email al cliente: "todo aprobado, próximo paso: firma"']},
+    {name:'Members', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Consultations', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Heirs', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Assets', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'DocumentChecklist', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Documents', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Payments', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+  ]
+},
+{
+  id:'f7', label:'F7 · Firma', title:'Fase 7 — Firma de escritura pública',
+  desc:'Todos los herederos firman en la notaría. El cliente paga gastos notariales + excedente. El abogado registra costos y sube la escritura.',
+  collections:[
+    {name:'NotaryProcess', active:true, ops:['update'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Registra: fecha/hora/lugar de firma. Costos notariales: derechos, impuesto de registro, boleta fiscal.'},
+     ], triggers:[]},
+    {name:'Documents', active:true, ops:['create'],
+     header:'#EAF3DE', headerText:'#27500A',
+     details:[
+       {who:'lawyer', text:'Sube escritura pública de sucesión firmada (PDF). Marcada visibility: "client" para que el cliente la pueda descargar.'},
+     ], triggers:[]},
+    {name:'Payments', active:true, ops:['create'],
+     header:'#FAECE7', headerText:'#712B13',
+     details:[
+       {who:'lawyer', text:'Crea Payments por cada concepto notarial (derechos, impuesto, boleta). Registra excedente de honorarios recibido.'},
+       {who:'client', text:'Si pasarela integrada: paga excedente online vía Wompi.'},
+     ],
+     triggers:['Email al cliente: "costos notariales definidos + desglose"']},
+    {name:'Cases', active:true, ops:['update'],
+     header:'#E1F5EE', headerText:'#085041',
+     details:[
+       {who:'client', text:'Lee: fecha de firma, costos, lugar en el timeline.'},
+       {who:'lawyer', text:'Cuando escritura subida + pagos registrados → avanza a fase 8.'},
+     ],
+     triggers:['Email al cliente: "escritura firmada, último paso: registro"']},
+    {name:'Members', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Consultations', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Heirs', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Assets', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'DocumentChecklist', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+  ]
+},
+{
+  id:'f8', label:'F8 · Registro', title:'Fase 8 — Registro y cierre del caso',
+  desc:'La escritura se registra en instrumentos públicos (~1 mes). Al confirmar registro, el caso se cierra oficialmente.',
+  collections:[
+    {name:'NotaryProcess', active:true, ops:['update'],
+     header:'#E6F1FB', headerText:'#0C447C',
+     details:[
+       {who:'lawyer', text:'Registra fecha de salida para registro. Actualiza status: en_registro → registrado con fecha de registro en folio de matrícula.'},
+     ], triggers:[]},
+    {name:'Documents', active:true, ops:['create'],
+     header:'#EAF3DE', headerText:'#27500A',
+     details:[
+       {who:'lawyer', text:'Sube certificado de tradición actualizado con nuevos propietarios (PDF). Visibility: "client".'},
+       {who:'client', text:'Descarga documentos finales: escritura pública + certificado de tradición (signed URLs).'},
+     ], triggers:[]},
+    {name:'Cases', active:true, ops:['update'],
+     header:'#E1F5EE', headerText:'#085041',
+     details:[
+       {who:'lawyer', text:'Botón "Marcar como completado" → status = "completed". Se registra fechaCompletado. Genera métricas: duración total, documentos procesados.'},
+     ],
+     triggers:['Email al cliente: "¡Sucesión completada! Bienes registrados a su nombre"', 'Email al abogado: "caso cerrado + resumen de métricas"']},
+    {name:'Members', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Consultations', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Heirs', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Assets', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'DocumentChecklist', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'Payments', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+    {name:'ChatMessages', active:false, ops:[], header:'#f1efe8', headerText:'#5F5E5A', details:[], triggers:[]},
+  ]
+}
+];
+
+const opLabel = {create:'CREATE', read:'READ', update:'UPDATE', trigger:'TRIGGER'};
+const opClass = {create:'op-create', read:'op-read', update:'op-update', trigger:'op-trigger'};
+const whoLabel = {client:'Cliente', lawyer:'Abogado', server:'Server', webhook:'Webhook'};
+const whoClass = {client:'who-client', lawyer:'who-lawyer', server:'who-server', webhook:'who-webhook'};
+
+function renderNav() {
+  document.getElementById('nav').innerHTML = data.map((p,i) =>
+    `<button class="nav-btn ${i===0?'active':''}" onclick="show('${p.id}')">${p.label}</button>`
+  ).join('');
+}
+
+function show(id) {
+  data.forEach((p,i) => {
+    document.querySelectorAll('.nav-btn')[i].classList.toggle('active', p.id===id);
+  });
+  document.querySelectorAll('.phase').forEach(el => el.classList.remove('active'));
+  document.getElementById('p-'+id).classList.add('active');
+}
+
+function render() {
+  renderNav();
+  const el = document.getElementById('content');
+  el.innerHTML = data.map(p => {
+    let h = `<div class="phase ${p.id===data[0].id?'active':''}" id="p-${p.id}">`;
+    h += `<div class="phase-header"><div class="phase-title">${p.title}</div>`;
+    h += `<div class="phase-desc">${p.desc}</div></div>`;
+
+    const active = p.collections.filter(c=>c.active);
+    const inactive = p.collections.filter(c=>!c.active);
+
+    h += `<div class="collections-grid">`;
+    active.forEach(c => {
+      h += `<div class="col-card">`;
+      h += `<div class="col-header" style="background:${c.header}">`;
+      h += `<span class="col-name" style="color:${c.headerText}">${c.name}</span>`;
+      h += `<div class="col-ops">${c.ops.map(o=>`<span class="col-op ${opClass[o]}">${opLabel[o]}</span>`).join('')}</div>`;
+      h += `</div>`;
+      if (c.details.length || c.triggers.length) {
+        h += `<div class="col-body">`;
+        c.details.forEach(d => {
+          h += `<div class="col-detail"><span class="col-who ${whoClass[d.who]}">${whoLabel[d.who]}</span> ${d.text}</div>`;
+        });
+        if (c.triggers.length) {
+          h += `<div class="triggers-section">`;
+          c.triggers.forEach(t => {
+            h += `<div class="trigger-item"><span class="trigger-icon">→</span>${t}</div>`;
+          });
+          h += `</div>`;
+        }
+        h += `</div>`;
+      }
+      h += `</div>`;
+    });
+    h += `</div>`;
+
+    if (inactive.length) {
+      h += `<div class="summary"><div class="summary-title">No se tocan en esta fase</div>`;
+      h += `<div style="display:flex;flex-wrap:wrap;gap:6px">`;
+      inactive.forEach(c => {
+        h += `<span style="font-size:12px;color:#B4B2A9;background:#f8f7f4;padding:4px 10px;border-radius:4px">${c.name}</span>`;
+      });
+      h += `</div></div>`;
+    }
+
+    // Summary table
+    h += `<div class="summary" style="margin-top:16px"><div class="summary-title">Resumen de operaciones en esta fase</div>`;
+    h += `<table class="summary-table"><tr><th>Colección</th><th>Operaciones</th><th>Quién actúa</th></tr>`;
+    active.forEach(c => {
+      const whos = [...new Set(c.details.map(d=>d.who))];
+      h += `<tr><td style="font-weight:500">${c.name}</td>`;
+      h += `<td>${c.ops.map(o=>`<span class="col-op ${opClass[o]}" style="margin-right:3px">${opLabel[o]}</span>`).join('')}</td>`;
+      h += `<td>${whos.map(w=>`<span class="col-who ${whoClass[w]}">${whoLabel[w]}</span>`).join(' ')}</td>`;
+      h += `</tr>`;
+    });
+    h += `</table></div>`;
+
+    h += `</div>`;
+    return h;
+  }).join('');
+}
+
+render();
+</script>
+</body>
+</html>

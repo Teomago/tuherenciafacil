@@ -1,192 +1,94 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>tuHerenciaFácil — Documentación interna</title>
-    <style>
-      * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-      }
-      body {
-        font-family:
-          system-ui,
-          -apple-system,
-          sans-serif;
-        background: #f8f7f4;
-        color: #1a1a18;
-        padding: 40px 20px;
-        max-width: 700px;
-        margin: 0 auto;
-      }
-      h1 {
-        font-size: 24px;
-        font-weight: 500;
-        color: #002845;
-        margin-bottom: 4px;
-      }
-      h1 span {
-        color: #ff8c3c;
-      }
-      .subtitle {
-        font-size: 14px;
-        color: #5f5e5a;
-        margin-bottom: 32px;
-      }
-      .section {
-        margin-bottom: 28px;
-      }
-      .section-title {
-        font-size: 13px;
-        font-weight: 500;
-        text-transform: uppercase;
-        letter-spacing: 0.5px;
-        color: #3a8da8;
-        margin-bottom: 12px;
-      }
-      .card {
-        display: block;
-        background: #fff;
-        border: 0.5px solid #e2e0d8;
-        border-radius: 10px;
-        padding: 16px 20px;
-        margin-bottom: 10px;
-        text-decoration: none;
-        color: inherit;
-        transition: all 0.15s;
-      }
-      .card:hover {
-        border-color: #3a8da8;
-        background: #ebf5fa;
-      }
-      .card-title {
-        font-size: 15px;
-        font-weight: 500;
-        color: #002845;
-        margin-bottom: 4px;
-      }
-      .card-desc {
-        font-size: 12px;
-        color: #5f5e5a;
-        line-height: 1.5;
-      }
-      .badge {
-        display: inline-block;
-        font-size: 10px;
-        font-weight: 500;
-        padding: 2px 8px;
-        border-radius: 4px;
-        margin-left: 8px;
-        vertical-align: middle;
-      }
-      .badge-html {
-        background: #ebf5fa;
-        color: #2a6880;
-      }
-      .badge-md {
-        background: #eaf3de;
-        color: #27500a;
-      }
-      .badge-svg {
-        background: #eeedfe;
-        color: #3c3489;
-      }
-      .footer {
-        margin-top: 40px;
-        padding-top: 20px;
-        border-top: 0.5px solid #e2e0d8;
-        font-size: 11px;
-        color: #b4b2a9;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>tu<span>Herencia</span>Fácil</h1>
-    <p class="subtitle">Documentación interna del producto — uso exclusivo del equipo</p>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>tuHerenciaFácil — Documentación interna</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { font-family:system-ui,-apple-system,sans-serif; background:#f8f7f4; color:#1a1a18; padding:40px 20px; max-width:700px; margin:0 auto; }
+h1 { font-size:24px; font-weight:500; color:#002845; margin-bottom:4px; }
+h1 span { color:#FF8C3C; }
+.subtitle { font-size:14px; color:#5F5E5A; margin-bottom:32px; }
+.section { margin-bottom:28px; }
+.section-title { font-size:13px; font-weight:500; text-transform:uppercase; letter-spacing:.5px; color:#3A8DA8; margin-bottom:12px; }
+.card { display:block; background:#fff; border:0.5px solid #e2e0d8; border-radius:10px; padding:16px 20px; margin-bottom:10px; text-decoration:none; color:inherit; transition:all .15s; }
+.card:hover { border-color:#3A8DA8; background:#EBF5FA; }
+.card-title { font-size:15px; font-weight:500; color:#002845; margin-bottom:4px; }
+.card-desc { font-size:12px; color:#5F5E5A; line-height:1.5; }
+.badge { display:inline-block; font-size:10px; font-weight:500; padding:2px 8px; border-radius:4px; margin-left:8px; vertical-align:middle; }
+.badge-html { background:#EBF5FA; color:#2A6880; }
+.badge-md { background:#EAF3DE; color:#27500A; }
+.badge-svg { background:#EEEDFE; color:#3C3489; }
+.footer { margin-top:40px; padding-top:20px; border-top:0.5px solid #e2e0d8; font-size:11px; color:#B4B2A9; }
+</style>
+</head>
+<body>
+<h1>tu<span>Herencia</span>Fácil</h1>
+<p class="subtitle">Documentación interna del producto — uso exclusivo del equipo</p>
 
-    <div class="section">
-      <div class="section-title">Diseño de la aplicación</div>
+<div class="section">
+  <div class="section-title">Diseño de la aplicación</div>
+  
+  <a class="card" href="design/app-flowchart.html">
+    <div class="card-title">Diagrama de flujo completo <span class="badge badge-html">HTML interactivo</span></div>
+    <div class="card-desc">El qué, cómo y por qué de cada pantalla. Swim lanes cliente ↔ abogado, fase por fase. Incluye endpoints, datos que se crean, y triggers de cada acción.</div>
+  </a>
 
-      <a class="card" href="design/app-flowchart.html">
-        <div class="card-title">
-          Diagrama de flujo completo <span class="badge badge-html">HTML interactivo</span>
-        </div>
-        <div class="card-desc">
-          El qué, cómo y por qué de cada pantalla. Swim lanes cliente ↔ abogado, fase por fase.
-          Incluye endpoints, datos que se crean, y triggers de cada acción.
-        </div>
-      </a>
+  <a class="card" href="design/SCREEN_MAP.md">
+    <div class="card-title">Mapa de pantallas <span class="badge badge-md">Markdown</span></div>
+    <div class="card-desc">19 pantallas + 1 widget de chat público. Definición completa de cada pantalla: contenido, funcionalidad, roles, seguridad, modelo de datos.</div>
+  </a>
 
-      <a class="card" href="design/SCREEN_MAP.md">
-        <div class="card-title">Mapa de pantallas <span class="badge badge-md">Markdown</span></div>
-        <div class="card-desc">
-          19 pantallas + 1 widget de chat público. Definición completa de cada pantalla: contenido,
-          funcionalidad, roles, seguridad, modelo de datos.
-        </div>
-      </a>
+  <a class="card" href="design/collections-by-phase.html">
+    <div class="card-title">Colecciones por fase <span class="badge badge-html">HTML interactivo</span></div>
+    <div class="card-desc">Qué colección de Payload se toca en cada fase, con qué operación (CREATE/READ/UPDATE), quién actúa (cliente/abogado/server), y qué triggers se disparan.</div>
+  </a>
 
-      <a class="card" href="design/diagrams/01-prepago.svg">
-        <div class="card-title">
-          Diagrama: Pre-pago (3 pantallas) <span class="badge badge-svg">SVG</span>
-        </div>
-        <div class="card-desc">Flujo de bienvenida → formulario → pago → caso creado.</div>
-      </a>
+  <a class="card" href="design/COLLECTIONS.md">
+    <div class="card-title">Colecciones de Payload CMS <span class="badge badge-md">Markdown</span></div>
+    <div class="card-desc">10 colecciones definidas con campos, relaciones, access control, hooks, y endpoints custom. Listo para implementar.</div>
+  </a>
 
-      <a class="card" href="design/diagrams/02-cliente.svg">
-        <div class="card-title">
-          Diagrama: Cliente (7 pantallas + chat) <span class="badge badge-svg">SVG</span>
-        </div>
-        <div class="card-desc">
-          Dashboard, casos, vista del caso, herederos, bienes, documentos, pagos, chat.
-        </div>
-      </a>
+  <a class="card" href="design/diagrams/01-prepago.svg">
+    <div class="card-title">Diagrama: Pre-pago (3 pantallas) <span class="badge badge-svg">SVG</span></div>
+    <div class="card-desc">Flujo de bienvenida → formulario → pago → caso creado.</div>
+  </a>
 
-      <a class="card" href="design/diagrams/03-abogado.svg">
-        <div class="card-title">
-          Diagrama: Abogado (9 pantallas + chat) <span class="badge badge-svg">SVG</span>
-        </div>
-        <div class="card-desc">
-          Dashboard, central de casos, gestión, herederos, bienes, documentos, notaría, pagos, chat.
-        </div>
-      </a>
+  <a class="card" href="design/diagrams/02-cliente.svg">
+    <div class="card-title">Diagrama: Cliente (7 pantallas + chat) <span class="badge badge-svg">SVG</span></div>
+    <div class="card-desc">Dashboard, casos, vista del caso, herederos, bienes, documentos, pagos, chat.</div>
+  </a>
 
-      <a class="card" href="design/diagrams/04-mapping.svg">
-        <div class="card-title">
-          Diagrama: 19 pantallas → 12 page.tsx <span class="badge badge-svg">SVG</span>
-        </div>
-        <div class="card-desc">
-          Mapeo de pantallas a archivos reales de Next.js con renderizado condicional por rol.
-        </div>
-      </a>
-    </div>
+  <a class="card" href="design/diagrams/03-abogado.svg">
+    <div class="card-title">Diagrama: Abogado (9 pantallas + chat) <span class="badge badge-svg">SVG</span></div>
+    <div class="card-desc">Dashboard, central de casos, gestión, herederos, bienes, documentos, notaría, pagos, chat.</div>
+  </a>
 
-    <div class="section">
-      <div class="section-title">Marca</div>
-      <a href="brand/README.md">
-        <div class="card" style="cursor: default">
-          <div class="card-title">Paleta de colores y assets</div>
-          <div class="card-desc">
-            Pendiente: logo, tipografía, y assets del diseñador se agregarán aquí.
-          </div>
-        </div>
-      </a>
-    </div>
+  <a class="card" href="design/diagrams/04-mapping.svg">
+    <div class="card-title">Diagrama: 19 pantallas → 12 page.tsx <span class="badge badge-svg">SVG</span></div>
+    <div class="card-desc">Mapeo de pantallas a archivos reales de Next.js con renderizado condicional por rol.</div>
+  </a>
+</div>
 
-    <div class="section">
-      <div class="section-title">Decisiones</div>
-      <a href="decisions/README.md">
-        <div class="card" style="cursor: default">
-          <div class="card-title">RFCs y notas de reuniones</div>
-          <div class="card-desc">
-            Pendiente: decisiones sobre pricing, pasarela de pago, y alcance del chatbot se
-            documentarán aquí.
-          </div>
-        </div>
-      </a>
-    </div>
+<div class="section">
+  <div class="section-title">Marca</div>
+  <div class="card" style="cursor:default;">
+    <div class="card-title">Paleta de colores y assets</div>
+    <div class="card-desc">Pendiente: logo, tipografía, y assets del diseñador se agregarán aquí.</div>
+  </div>
+</div>
 
-    <div class="footer">tuHerenciaFácil — Documento interno. Última actualización: marzo 2026.</div>
-  </body>
+<div class="section">
+  <div class="section-title">Decisiones</div>
+  <div class="card" style="cursor:default;">
+    <div class="card-title">RFCs y notas de reuniones</div>
+    <div class="card-desc">Pendiente: decisiones sobre pricing, pasarela de pago, y alcance del chatbot se documentarán aquí.</div>
+  </div>
+</div>
+
+<div class="footer">
+  tuHerenciaFácil — Documento interno. Última actualización: marzo 2026.
+</div>
+</body>
 </html>

@@ -141,16 +141,17 @@ Estas pantallas son accesibles después de crear cuenta pero antes de pagar. El 
 **Propósito:** La pantalla estrella del cliente. Muestra el avance del caso de forma visual y atractiva, como un tracking de pedido.
 **Contenido:**
 - Timeline visual con las 8 fases en lenguaje humano (no legal):
-  - "Registro completado" (no "Fase 0 — Registro")
-  - "Reunión inicial y contrato" (no "Fase 1")
-  - "Documentos entregados" (no "Fase 2 — Documentos")
-  - "Todo verificado y en orden" (no "Fase 3 — Validación")
-  - "Tus documentos están en la notaría" (no "Fase 4 — Radicación")
-  - "Publicación oficial en curso" (no "Fase 5 — Edictos")
-  - "Verificando con entidades del gobierno" (no "Fase 6 — DIAN/UGPP")
-  - "Firma de escritura" (no "Fase 7")
-  - "Registrado a tu nombre" (no "Fase 8 — Registro")
+  - "Registro completado" (Fase 0)
+  - "Reunión inicial y firma de contrato" (Fase 1)
+  - "Documentos cargados y en revisión" (Fase 2)
+  - "Todo verificado y subsanado" (Fase 3)
+  - "Tus documentos están en la notaría (Radicación)" (Fase 4)
+  - "Publicación de edictos en curso (10 días hábiles)" (Fase 5)
+  - "Verificación con DIAN y UGPP (Aprox. 3 semanas)" (Fase 6)
+  - "Firma de escritura pública y pago de gastos" (Fase 7)
+  - "Registrado en el folio de matrícula inmobiliaria" (Fase 8)
 - Fase actual destacada con descripción de qué está pasando y qué sigue
+- Registro de Gestión Física: Ver en tiempo real qué está haciendo el abogado (ej: "En la notaría recogiendo autorización de edictos")
 - Si hay acción requerida del cliente (subir doc, agendar firma), call-to-action directo
 - Tarjetas resumen debajo del timeline:
   - Herederos: "5 registrados, 1 con documentos pendientes"

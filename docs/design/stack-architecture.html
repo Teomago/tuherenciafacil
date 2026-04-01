@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Stack architecture — Agencia</title>
+<style>
+  body { margin: 0; padding: 2rem; font-family: system-ui, -apple-system, sans-serif; background: #f8f7f4; display: flex; justify-content: center; }
+  .container { max-width: 720px; width: 100%; }
+  h1 { font-size: 1.1rem; font-weight: 500; color: #3d3d3a; margin-bottom: 1rem; }
+  svg text { font-family: system-ui, -apple-system, sans-serif; }
+
+  /* Color ramps */
+  .c-purple rect { fill: #EEEDFE; stroke: #534AB7; }
+  .c-purple .th { fill: #3C3489; }
+  .c-purple .ts { fill: #534AB7; }
+  .c-gray rect { fill: #F1EFE8; stroke: #5F5E5A; }
+  .c-gray .th { fill: #444441; }
+  .c-gray .ts { fill: #5F5E5A; }
+  .c-blue rect { fill: #E6F1FB; stroke: #185FA5; }
+  .c-blue .th { fill: #0C447C; }
+  .c-blue .ts { fill: #185FA5; }
+  .c-teal rect { fill: #E1F5EE; stroke: #0F6E56; }
+  .c-teal .th { fill: #085041; }
+  .c-teal .ts { fill: #0F6E56; }
+  .c-green rect { fill: #EAF3DE; stroke: #3B6D11; }
+  .c-green .th { fill: #27500A; }
+  .c-green .ts { fill: #3B6D11; }
+  .c-amber rect { fill: #FAEEDA; stroke: #854F0B; }
+  .c-amber .th { fill: #633806; }
+  .c-amber .ts { fill: #854F0B; }
+  .c-coral rect { fill: #FAECE7; stroke: #993C1D; }
+  .c-coral .th { fill: #712B13; }
+  .c-coral .ts { fill: #993C1D; }
+
+  .th { font-size: 14px; font-weight: 500; }
+  .ts { font-size: 12px; font-weight: 400; }
+  .arr { stroke: #73726c; stroke-width: 1.5; fill: none; }
+</style>
+</head>
+<body>
+<div class="container">
+<h1>Stack architecture — tuHerenciaFácil</h1>
+<svg width="100%" viewBox="0 0 680 620" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+    <path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </marker>
+</defs>
+
+<!-- DEV LAYER -->
+<g class="c-purple">
+  <rect x="30" y="20" width="140" height="580" rx="16" stroke-width="0.5" stroke-dasharray="5 3"/>
+  <text class="th" x="100" y="44" text-anchor="middle" dominant-baseline="central">Desarrollo</text>
+</g>
+<g class="c-purple">
+  <rect x="46" y="60" width="108" height="48" rx="8" stroke-width="0.5"/>
+  <text class="th" x="100" y="80" text-anchor="middle" dominant-baseline="central">Claude Code</text>
+  <text class="ts" x="100" y="98" text-anchor="middle" dominant-baseline="central">agente IA</text>
+</g>
+<g class="c-purple">
+  <rect x="46" y="122" width="108" height="48" rx="8" stroke-width="0.5"/>
+  <text class="th" x="100" y="142" text-anchor="middle" dominant-baseline="central">Antigravity</text>
+  <text class="ts" x="100" y="160" text-anchor="middle" dominant-baseline="central">automatización</text>
+</g>
+<g class="c-gray">
+  <rect x="46" y="184" width="108" height="48" rx="8" stroke-width="0.5"/>
+  <text class="th" x="100" y="204" text-anchor="middle" dominant-baseline="central">RFC</text>
+  <text class="ts" x="100" y="222" text-anchor="middle" dominant-baseline="central">planificación</text>
+</g>
+<g class="c-gray">
+  <rect x="46" y="246" width="108" height="48" rx="8" stroke-width="0.5"/>
+  <text class="th" x="100" y="266" text-anchor="middle" dominant-baseline="central">GitHub</text>
+  <text class="ts" x="100" y="284" text-anchor="middle" dominant-baseline="central">repositorio</text>
+</g>
+
+<line x1="154" y1="270" x2="192" y2="270" class="arr" marker-end="url(#arrow)" stroke-width="0.5"/>
+<text class="ts" x="173" y="263" text-anchor="middle" fill="#73726c">push</text>
+
+<!-- FRONTEND LAYER -->
+<g class="c-blue">
+  <rect x="186" y="20" width="464" height="160" rx="16" stroke-width="0.5"/>
+  <text class="th" x="206" y="44" dominant-baseline="central">Frontend + deploy</text>
+</g>
+<g class="c-blue">
+  <rect x="202" y="58" width="130" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="267" y="78" text-anchor="middle" dominant-baseline="central">Vercel</text>
+  <text class="ts" x="267" y="98" text-anchor="middle" dominant-baseline="central">hosting + CDN</text>
+</g>
+<g class="c-blue">
+  <rect x="348" y="58" width="130" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="413" y="78" text-anchor="middle" dominant-baseline="central">Next.js 16</text>
+  <text class="ts" x="413" y="98" text-anchor="middle" dominant-baseline="central">SSR + routing</text>
+</g>
+<g class="c-blue">
+  <rect x="494" y="58" width="140" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="564" y="78" text-anchor="middle" dominant-baseline="central">Payload CMS</text>
+  <text class="ts" x="564" y="98" text-anchor="middle" dominant-baseline="central">admin + API</text>
+</g>
+<line x1="332" y1="86" x2="348" y2="86" class="arr" marker-end="url(#arrow)" stroke-width="0.5"/>
+<line x1="478" y1="86" x2="494" y2="86" class="arr" marker-end="url(#arrow)" stroke-width="0.5"/>
+
+<line x1="418" y1="180" x2="418" y2="216" class="arr" marker-end="url(#arrow)" stroke-width="0.5"/>
+<line x1="408" y1="216" x2="408" y2="180" class="arr" marker-end="url(#arrow)" stroke-width="0.5"/>
+<text class="ts" x="442" y="202" text-anchor="start" fill="#73726c">queries</text>
+
+<!-- BACKEND LAYER -->
+<g class="c-teal">
+  <rect x="186" y="220" width="464" height="120" rx="16" stroke-width="0.5"/>
+  <text class="th" x="206" y="244" dominant-baseline="central">Backend — ORM + tipos</text>
+</g>
+<g class="c-teal">
+  <rect x="202" y="258" width="180" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="292" y="278" text-anchor="middle" dominant-baseline="central">Drizzle ORM</text>
+  <text class="ts" x="292" y="298" text-anchor="middle" dominant-baseline="central">migraciones + queries</text>
+</g>
+<g class="c-teal">
+  <rect x="398" y="258" width="236" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="516" y="278" text-anchor="middle" dominant-baseline="central">TypeScript + payload-types</text>
+  <text class="ts" x="516" y="298" text-anchor="middle" dominant-baseline="central">tipado end-to-end</text>
+</g>
+
+<line x1="418" y1="340" x2="418" y2="376" class="arr" marker-end="url(#arrow)" stroke-width="0.5"/>
+<line x1="408" y1="376" x2="408" y2="340" class="arr" marker-end="url(#arrow)" stroke-width="0.5"/>
+
+<!-- DATA LAYER -->
+<g class="c-green">
+  <rect x="186" y="380" width="220" height="120" rx="16" stroke-width="0.5"/>
+  <text class="th" x="206" y="404" dominant-baseline="central">Base de datos</text>
+</g>
+<g class="c-green">
+  <rect x="202" y="418" width="188" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="296" y="438" text-anchor="middle" dominant-baseline="central">Neon PostgreSQL</text>
+  <text class="ts" x="296" y="458" text-anchor="middle" dominant-baseline="central">serverless + scale-to-zero</text>
+</g>
+
+<!-- STORAGE LAYER -->
+<g class="c-amber">
+  <rect x="420" y="380" width="230" height="120" rx="16" stroke-width="0.5"/>
+  <text class="th" x="440" y="404" dominant-baseline="central">Almacenamiento</text>
+</g>
+<g class="c-amber">
+  <rect x="436" y="418" width="198" height="56" rx="8" stroke-width="0.5"/>
+  <text class="th" x="535" y="438" text-anchor="middle" dominant-baseline="central">Cloudflare R2</text>
+  <text class="ts" x="535" y="458" text-anchor="middle" dominant-baseline="central">S3-compat · sin egress</text>
+</g>
+
+<line x1="296" y1="500" x2="296" y2="536" class="arr" marker-end="url(#arrow)" stroke-width="0.5"/>
+<line x1="535" y1="500" x2="535" y2="536" class="arr" marker-end="url(#arrow)" stroke-width="0.5"/>
+
+<!-- EMAIL LAYER -->
+<g class="c-coral">
+  <rect x="186" y="540" width="464" height="60" rx="16" stroke-width="0.5"/>
+  <text class="th" x="206" y="562" dominant-baseline="central">Email transaccional</text>
+</g>
+<g class="c-coral">
+  <rect x="202" y="556" width="432" height="28" rx="6" stroke-width="0.5"/>
+  <text class="th" x="418" y="570" text-anchor="middle" dominant-baseline="central">SMTP2GO — dominios ilimitados · $10 USD/mes</text>
+</g>
+</svg>
+</div>
+</body>
+</html>

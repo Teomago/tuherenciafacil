@@ -1,9 +1,16 @@
 import { withPayload } from '@payloadcms/next/withPayload'
 import createNextIntlPlugin from 'next-intl/plugin'
 
+import path from 'path'
+import { fileURLToPath } from 'url'
+
+const __filename = fileURLToPath(import.meta.url)
+const dirname = path.dirname(__filename)
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   turbopack: {
+    root: path.resolve(dirname),
     rules: {
       '*.svg': {
         loaders: ['@svgr/webpack'],

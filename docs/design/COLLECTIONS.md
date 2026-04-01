@@ -21,7 +21,7 @@ La colección `users` de Payload (admin panel) no se toca — es solo para edito
 | DocumentChecklist | CREAR | Checklist auto-generado de documentos requeridos |
 | Documents | CREAR | Archivos subidos (PDFs, imágenes) en R2 |
 | NotaryProcess | CREAR | Tracking del proceso notarial |
-| Payments | CREAR | Registro de pagos y costos |
+| Payments | CREAR | Registro de pagos y costos (Honorarios vs Gastos terceros) |
 | ChatMessages | CREAR | Mensajes del chat (bot, abogado, soporte) |
 
 ---
@@ -172,6 +172,7 @@ delete:  solo admin (nunca se borran casos)
 ## 3. Consultations (CREAR)
 
 **Propósito:** Formulario de intake pre-pago. Se convierte en caso al pagar.
+**Flujo CRM para Germán:** Las consultas en estado `draft` permiten al equipo de soporte contactar al cliente para cerrar la venta a través del chat de Soporte.
 
 ```
 slug: 'consultations'
@@ -330,6 +331,10 @@ fields:
                     (ej: "Registro civil de nacimiento con notas marginales")
   descripcion:      text, optional
                     (ej: "No mayor a 30 días, expedido por registraduría")
+  
+  // --- Guía de Paola (Tips para el cliente) ---
+  guiaDePaola:      text, optional
+                    (ej: "Asegúrese que la fecha de expedición no supere los 90 días")
   
   // --- A quién pertenece ---
   categoria:        select ['causante', 'heredero', 'bien'], required
@@ -568,6 +573,11 @@ slug: 'payments'
 fields:
   case:             relationship → Cases, required
   
+  // --- Categoría de pago ---
+  category:         select ['legal_fees', 'third_party_costs'], required
+                    (legal_fees = honorarios de tuHerenciaFácil)
+                    (third_party_costs = notaría, edictos, registro, etc.)
+
   // --- Tipo de pago ---
   tipo:             select [
                       'servicio',           // pago inicial del servicio
@@ -793,4 +803,10 @@ Con las colecciones definidas, el siguiente paso es:
    Members (modificar) → Cases → Consultations → Heirs → Assets → 
    DocumentChecklist → Documents → NotaryProcess → Payments → ChatMessages
 2. Correr migraciones con Drizzle
+3. Verificar en /admin que todo aparece y se puede crear datos de prueba
+ations → Heirs → Assets → 
+   DocumentChecklist → Documents → NotaryProcess → Payments → ChatMessages
+2. Correr migraciones con Drizzle
+3. Verificar en /admin que todo aparece y se puede crear datos de prueba
+s con Drizzle
 3. Verificar en /admin que todo aparece y se puede crear datos de prueba

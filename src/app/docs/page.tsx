@@ -58,14 +58,21 @@ export default function DocsIndex() {
           href="/docs/design/app-flowchart"
           title="Diagrama de flujo completo"
           badge={<BadgeHtml />}
-          desc="El qué, cómo y por qué de cada pantalla. Swim lanes cliente ↔ abogado, fase por fase. Incluye endpoints, datos que se crean, y triggers de cada acción."
+          desc="El qué, cómo y por qué de cada pantalla. Incluye el nuevo embudo de consultas, tarifas de investigación planas ($150k), y hitos de pago por Tier."
         />
 
-        <Card 
+        <Card
           href="/docs/design/SCREEN_MAP"
           title="Mapa de pantallas"
           badge={<BadgeMd />}
-          desc="19 pantallas + 1 widget de chat público. Definición completa de cada pantalla: contenido, funcionalidad, roles, seguridad, modelo de datos."
+          desc="21 pantallas + Portal de Transparencia. Definición completa: contenido, roles, seguridad y modelo de datos. Incluye filtro de elegibilidad, flujo de consulta y comportamiento condicional de Fase 8 por Tier."
+        />
+
+        <Card 
+          href="/docs/decisions/NOTES"
+          title="Notas de Negocio y Tiers"
+          badge={<BadgeMd />}
+          desc="Consolidado de la reunión del 1 de abril: Tiers (Estándar, Premium, Elite), tarifas de consulta (70k/100k) y automatización de comunicación notarial."
         />
 
         <Card 
@@ -75,18 +82,18 @@ export default function DocsIndex() {
           desc="Qué colección de Payload se toca en cada fase, con qué operación (CREATE/READ/UPDATE), quién actúa (cliente/abogado/server), y qué triggers se disparan."
         />
 
-        <Card 
+        <Card
           href="/docs/design/COLLECTIONS"
           title="Colecciones de Payload CMS"
           badge={<BadgeMd />}
-          desc="10 colecciones definidas con campos, relaciones, access control, hooks, y endpoints custom. Listo para implementar."
+          desc="11 colecciones definidas con campos, relaciones, access control, hooks, y endpoints custom. Incluye Appointments, CaseIntake, sistema de créditos y política de transparencia de pagos."
         />
         
-        <Card 
+        <Card
           href="/docs/design/diagrams/01-prepago"
-          title="Diagrama: Pre-pago (3 pantallas)"
+          title="Diagrama: Pre-pago (5 pantallas)"
           badge={<BadgeHtml />}
-          desc="Flujo de bienvenida → formulario → pago → caso creado."
+          desc="Filtro de elegibilidad → consulta → pago de consulta → intake → pago del paquete → caso creado."
         />
 
         <Card 
@@ -110,11 +117,27 @@ export default function DocsIndex() {
           desc="Arquitectura de la plataforma: Next.js, Payload, Drizzle, Neon, Cloudflare R2 y automatización con IA."
         />
 
-        <Card 
+        <Card
           href="/docs/design/diagrams/04-mapping"
-          title="Diagrama: 19 pantallas → 12 page.tsx"
+          title="Diagrama: 21 pantallas → 14 page.tsx"
           badge={<BadgeHtml />}
-          desc="Mapeo de pantallas a archivos reales de Next.js con renderizado condicional por rol."
+          desc="Mapeo de pantallas a archivos reales de Next.js con renderizado condicional por rol. Incluye consulta/ y consulta/pago/ del nuevo flujo pre-pago."
+        />
+      </div>
+
+      <div className="mb-7">
+        <div className="text-[13px] font-medium uppercase tracking-wide text-[#3A8DA8] mb-3">Guías operativas</div>
+        <Card
+          href="/docs/guides/elite-manual"
+          title="Manual Elite — Gestión de casos avanzados"
+          badge={<BadgeMd />}
+          desc="Guía paso a paso para Paola: crear caso Elite, configurar plan de pagos personalizado, aplicar crédito de consulta y gestionar Fase 8 desde /admin."
+        />
+        <Card
+          href="/docs/decisions/DEC-004-tiers-de-servicio"
+          title="Tiers de servicio — Estándar, Premium, Elite"
+          badge={<BadgeMd />}
+          desc="Precios, modelos de pago, qué incluye cada tier, sistema de créditos por consulta previa, y scope de v1 vs backlog."
         />
       </div>
 

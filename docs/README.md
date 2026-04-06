@@ -13,14 +13,23 @@ Bienvenido al centro de documentación de **tuHerenciaFácil**. Este espacio sir
 -   **`/design`**: Contiene los planos de la aplicación.
     -   `COLLECTIONS.md`: Definición técnica de las bases de datos (Payload CMS).
     -   `SCREEN_MAP.md`: Mapa detallado de todas las pantallas y flujos por rol.
-    -   `COLLECTIONS.md`: Definición detallada de campos, relaciones y lógica de negocio.
 -   **`/brand`**: Guía de estilo, paleta de colores y activos visuales.
--   **`/decisions`**: Registro de decisiones de producto y minutas de reuniones.
+-   **`/decisions`**: Registro de decisiones de producto, RFCs y minutas de reuniones.
+-   **`/guides`**: Manuales operativos para el equipo.
+    -   `elite-manual.md`: Guía paso a paso para gestionar casos Elite desde el panel `/admin`.
 -   **`.agents` (Interno)**: Instrucciones y contextos específicos para los agentes de IA que asisten en el desarrollo.
 
 ## Cómo usar esta documentación
 
 Esta documentación se renderiza automáticamente en la ruta `/docs` de la aplicación web. Cualquier cambio realizado en los archivos `.md` del repositorio se reflejará en tiempo real después de un despliegue exitoso en Vercel.
 
+## Ciclo de vida de esta carpeta
+
+Los archivos `.md` de esta carpeta **permanecen en el repositorio indefinidamente** — son documentación técnica del equipo, valiosa tanto durante el diseño como después. No se eliminan.
+
+Lo que sí se retira cuando el producto esté en producción y el equipo ya no lo necesite es la **ruta `/docs` del app de Next.js** (los archivos `src/app/docs/`). Esto la convierte en documentación interna del repo (visible para desarrolladores en GitHub) sin exponerla públicamente en la web.
+
+**Regla:** Los `.md` en `/docs` son permanentes. Los `.tsx` en `src/app/docs/` son temporales.
+
 ---
-*Última actualización: 2026-03-31*
+*Última actualización: 2026-04-06*

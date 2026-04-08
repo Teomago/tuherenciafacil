@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tuHerenciaFácil — Design System Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --azul-corp: #002845;
+            --azul-tec: #3A8DA8;
+            --naranja: #FF8C3C;
+            --bg-warm: #F9FAFB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--azul-corp);
+        }
+
+        .heading-hero {
+            font-size: 64px;
+            font-weight: 500;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .heading-section {
+            font-size: 32px;
+            font-weight: 500;
+            letter-spacing: -1px;
+        }
+
+        .btn-pill {
+            border-radius: 9999px;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-pill:hover {
+            transform: scale(1.05);
+        }
+
+        .btn-pill:active {
+            transform: scale(0.95);
+        }
+
+        .card-hybrid {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 40, 69, 0.1), 0 8px 10px -6px rgba(0, 40, 69, 0.1);
+            border: 1px solid rgba(0, 40, 69, 0.05);
+        }
+
+        .table-stripe {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .table-stripe th {
+            text-align: left;
+            font-size: 14px;
+            font-weight: 600;
+            color: #6B7280;
+            padding: 12px 16px;
+            border-bottom: 1px solid #E5E7EB;
+        }
+
+        .table-stripe td {
+            padding: 16px;
+            border-bottom: 1px solid #F3F4F6;
+            font-size: 15px;
+        }
+
+        .accent-border {
+            border-left: 4px solid var(--naranja);
+        }
+    </style>
+</head>
+<body class="p-8 lg:p-24">
+    <!-- Header -->
+    <header class="max-w-5xl mx-auto mb-20 flex justify-between items-center">
+        <div class="text-2xl font-bold tracking-tighter" style="color: var(--azul-corp);">
+            tu<span style="color: var(--naranja);">Herencia</span>Fácil
+        </div>
+        <nav class="hidden md:flex gap-8 font-medium text-sm">
+            <a href="#" class="hover:opacity-70">Mi Proceso</a>
+            <a href="#" class="hover:opacity-70">Documentos</a>
+            <a href="#" class="hover:opacity-70">Pagos</a>
+            <a href="#" class="hover:opacity-70" style="color: var(--azul-tec);">Ayuda</a>
+        </nav>
+        <button class="btn-pill px-6 py-2 text-white text-sm font-semibold shadow-lg" style="background-color: var(--azul-corp);">
+            Cerrar Sesión
+        </button>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="max-w-5xl mx-auto mb-24">
+        <h1 class="heading-hero mb-6">Gestiona tu herencia <br/> con absoluta claridad.</h1>
+        <p class="text-xl max-w-2xl mb-10 opacity-80" style="color: var(--azul-corp);">
+            Bienvenido de nuevo, Mateo. Tu proceso se encuentra en la <b>Fase 4: Radicación Notarial</b>. 
+            Paola ya ha enviado los documentos a la Notaría 62.
+        </p>
+        <div class="flex gap-4">
+            <button class="btn-pill px-8 py-4 text-white font-bold text-lg shadow-xl" style="background-color: var(--azul-tec);">
+                Ver mi progreso
+            </button>
+            <button class="btn-pill px-8 py-4 font-bold text-lg border-2" style="border-color: var(--azul-corp); color: var(--azul-corp);">
+                Hablar con Paola
+            </button>
+        </div>
+    </section>
+
+    <!-- Cards Grid -->
+    <section class="max-w-5xl mx-auto grid md:grid-cols-3 gap-8 mb-24">
+        <div class="card-hybrid p-8">
+            <div class="w-12 h-12 rounded-full mb-6 flex items-center justify-center text-white" style="background-color: var(--naranja);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Documentos</h3>
+            <p class="opacity-70 text-sm mb-6">8 de 12 documentos aprobados. Tienes 2 correcciones pendientes.</p>
+            <a href="#" class="font-bold text-sm" style="color: var(--azul-tec);">Subir documentos →</a>
+        </div>
+
+        <div class="card-hybrid p-8 accent-border">
+            <div class="w-12 h-12 rounded-full mb-6 flex items-center justify-center text-white" style="background-color: var(--azul-tec);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Pagos</h3>
+            <p class="opacity-70 text-sm mb-6">Tu saldo pendiente es de $2.500.000 COP. Próximo hito: Firma de escritura.</p>
+            <a href="#" class="font-bold text-sm" style="color: var(--azul-tec);">Ver estado de cuenta →</a>
+        </div>
+
+        <div class="card-hybrid p-8">
+            <div class="w-12 h-12 rounded-full mb-6 flex items-center justify-center text-white" style="background-color: var(--azul-corp);">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <h3 class="text-xl font-bold mb-2">Herederos</h3>
+            <p class="opacity-70 text-sm mb-6">5 herederos registrados. Todos han enviado sus documentos de identidad.</p>
+            <a href="#" class="font-bold text-sm" style="color: var(--azul-tec);">Ver herederos →</a>
+        </div>
+    </section>
+
+    <!-- Table Section -->
+    <section class="max-w-5xl mx-auto card-hybrid overflow-hidden mb-24">
+        <div class="p-8 border-bottom">
+            <h2 class="heading-section">Actividad Reciente</h2>
+        </div>
+        <table class="table-stripe">
+            <thead>
+                <tr>
+                    <th>FECHA</th>
+                    <th>ACTIVIDAD</th>
+                    <th>RESPONSABLE</th>
+                    <th>ESTADO</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="font-mono text-xs">06 ABR 2026</td>
+                    <td class="font-medium">Radicación en Notaría 62</td>
+                    <td>Abogado Asignado</td>
+                    <td><span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold uppercase">En curso</span></td>
+                </tr>
+                <tr>
+                    <td class="font-mono text-xs">04 ABR 2026</td>
+                    <td class="font-medium">Aprobación de Registro Civil de Defunción</td>
+                    <td>Abogado Asignado</td>
+                    <td><span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold uppercase">Completado</span></td>
+                </tr>
+                <tr>
+                    <td class="font-mono text-xs">02 ABR 2026</td>
+                    <td class="font-medium">Corrección solicitada: Escritura de Inmueble</td>
+                    <td>Mateo Ibagon</td>
+                    <td><span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-bold uppercase">Pendiente</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+</body>
+</html>

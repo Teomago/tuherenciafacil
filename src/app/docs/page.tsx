@@ -52,6 +52,17 @@ export default function DocsIndex() {
       <p className="text-sm text-[#5F5E5A] mb-8">Documentación interna del producto — uso exclusivo del equipo</p>
 
       <div className="mb-7">
+        <div className="text-[13px] font-medium uppercase tracking-wide text-[#3A8DA8] mb-3">Sistema de diseño visual</div>
+
+        <Card
+          href="/docs/design/example"
+          title="Ejemplos de diseño interactivos"
+          badge={<BadgeHtml />}
+          desc="4 pantallas de referencia con navegación lateral: Dashboard (claro y oscuro), Mi proceso (8 fases), y Documentos. Para mostrar a Paola y Germán antes de iniciar RFC-003."
+        />
+      </div>
+
+      <div className="mb-7">
         <div className="text-[13px] font-medium uppercase tracking-wide text-[#3A8DA8] mb-3">Diseño de la aplicación</div>
         
         <Card 

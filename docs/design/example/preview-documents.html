@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tuHerenciaFácil — Document Checklist Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --azul-corp: #002845;
+            --azul-tec: #3A8DA8;
+            --naranja: #FF8C3C;
+            --bg-warm: #F9FAFB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--azul-corp);
+        }
+
+        .heading-hero {
+            font-size: 64px;
+            font-weight: 500;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .heading-section {
+            font-size: 32px;
+            font-weight: 500;
+            letter-spacing: -1px;
+        }
+
+        .btn-pill {
+            border-radius: 9999px;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-pill:hover { transform: scale(1.05); }
+        .btn-pill:active { transform: scale(0.95); }
+
+        .card-hybrid {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 40, 69, 0.1), 0 8px 10px -6px rgba(0, 40, 69, 0.1);
+            border: 1px solid rgba(0, 40, 69, 0.05);
+        }
+
+        /* --- Document row states --- */
+
+        .doc-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px 24px;
+            border-bottom: 1px solid #F3F4F6;
+            transition: background 0.15s;
+        }
+
+        .doc-row:last-child { border-bottom: none; }
+        .doc-row:hover { background: #FAFBFC; }
+
+        .doc-row.correction {
+            background: rgba(255, 140, 60, 0.04);
+            border-left: 3px solid var(--naranja);
+        }
+
+        /* Status icon circle */
+        .doc-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .doc-icon.approved  { background: #D1FAE5; }
+        .doc-icon.reviewing { background: #DBEAFE; }
+        .doc-icon.correction { background: rgba(255, 140, 60, 0.15); }
+        .doc-icon.pending   { background: #F3F4F6; }
+
+        /* Upload zone */
+        .upload-zone {
+            border: 2px dashed #D1D5DB;
+            border-radius: 12px;
+            padding: 12px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: border-color 0.2s, background 0.2s;
+        }
+
+        .upload-zone:hover {
+            border-color: var(--azul-tec);
+            background: rgba(58, 141, 168, 0.04);
+        }
+
+        /* Progress bar */
+        .progress-track {
+            background-color: #E5E7EB;
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, var(--azul-tec), #5BBCD0);
+        }
+    </style>
+</head>
+<body class="p-8 lg:p-24">
+
+    <!-- Header -->
+    <header class="max-w-5xl mx-auto mb-20 flex justify-between items-center">
+        <div class="text-2xl font-bold tracking-tighter" style="color: var(--azul-corp);">
+            tu<span style="color: var(--naranja);">Herencia</span>Fácil
+        </div>
+        <nav class="hidden md:flex gap-8 font-medium text-sm">
+            <a href="#" class="hover:opacity-70">Mi Proceso</a>
+            <a href="#" class="font-bold" style="color: var(--azul-tec);">Documentos</a>
+            <a href="#" class="hover:opacity-70">Pagos</a>
+            <a href="#" class="hover:opacity-70">Ayuda</a>
+        </nav>
+        <button class="btn-pill px-6 py-2 text-white text-sm font-semibold shadow-lg" style="background-color: var(--azul-corp);">
+            Cerrar Sesión
+        </button>
+    </header>
+
+    <!-- Page Header -->
+    <section class="max-w-5xl mx-auto mb-12">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--azul-tec);">Fase 3 · Documentación</p>
+        <h1 class="heading-hero mb-4">Expediente <br/>documental</h1>
+        <p class="text-lg max-w-xl mb-8" style="color: #4B5563;">
+            Sube los documentos que tu abogada necesita para avanzar el proceso. Paola revisa y aprueba cada uno manualmente.
+        </p>
+
+        <!-- Progress summary -->
+        <div class="flex items-center gap-8 flex-wrap mb-6">
+            <div class="text-center">
+                <div class="text-3xl font-bold" style="color: var(--azul-corp);">8</div>
+                <div class="text-xs uppercase tracking-wider mt-1" style="color: #6B7280;">Aprobados</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold" style="color: #3B82F6;">1</div>
+                <div class="text-xs uppercase tracking-wider mt-1" style="color: #6B7280;">En revisión</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold" style="color: var(--naranja);">1</div>
+                <div class="text-xs uppercase tracking-wider mt-1" style="color: #6B7280;">Con corrección</div>
+            </div>
+            <div class="text-center">
+                <div class="text-3xl font-bold" style="color: #9CA3AF;">2</div>
+                <div class="text-xs uppercase tracking-wider mt-1" style="color: #6B7280;">Pendientes</div>
+            </div>
+        </div>
+
+        <div class="max-w-lg">
+            <div class="flex justify-between text-sm font-semibold mb-2">
+                <span>8 de 12 aprobados</span>
+                <span style="color: var(--azul-tec);">67%</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" style="width: 67%;"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Document Checklist -->
+    <section class="max-w-5xl mx-auto mb-12">
+        <div class="card-hybrid overflow-hidden">
+
+            <!-- Group: Causante -->
+            <div class="px-8 py-4 border-b" style="background: #F8FAFC; border-color: #E5E7EB;">
+                <h3 class="text-sm font-bold uppercase tracking-widest" style="color: #6B7280;">Documentos del Causante</h3>
+            </div>
+
+            <!-- ✅ Approved -->
+            <div class="doc-row">
+                <div class="doc-icon approved">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm">Registro Civil de Defunción</div>
+                    <div class="text-xs mt-0.5" style="color: #9CA3AF;">Aprobado por Paola el 25 MAR 2026</div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0" style="background: #D1FAE5; color: #065F46;">Aprobado</span>
+            </div>
+
+            <!-- ✅ Approved -->
+            <div class="doc-row">
+                <div class="doc-icon approved">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm">Registro Civil de Nacimiento del Causante</div>
+                    <div class="text-xs mt-0.5" style="color: #9CA3AF;">Aprobado por Paola el 25 MAR 2026</div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0" style="background: #D1FAE5; color: #065F46;">Aprobado</span>
+            </div>
+
+            <!-- ✅ Approved -->
+            <div class="doc-row">
+                <div class="doc-icon approved">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm">Cédula de ciudadanía del Causante</div>
+                    <div class="text-xs mt-0.5" style="color: #9CA3AF;">Aprobado por Paola el 26 MAR 2026</div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0" style="background: #D1FAE5; color: #065F46;">Aprobado</span>
+            </div>
+
+            <!-- Group: Herederos -->
+            <div class="px-8 py-4 border-b border-t" style="background: #F8FAFC; border-color: #E5E7EB;">
+                <h3 class="text-sm font-bold uppercase tracking-widest" style="color: #6B7280;">Documentos de Herederos</h3>
+            </div>
+
+            <!-- ✅ Approved -->
+            <div class="doc-row">
+                <div class="doc-icon approved">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm">Registros Civiles de Nacimiento (5 herederos)</div>
+                    <div class="text-xs mt-0.5" style="color: #9CA3AF;">Aprobados por Paola el 27 MAR 2026</div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0" style="background: #D1FAE5; color: #065F46;">Aprobado</span>
+            </div>
+
+            <!-- ✅ Approved -->
+            <div class="doc-row">
+                <div class="doc-icon approved">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm">Cédulas de ciudadanía (5 herederos)</div>
+                    <div class="text-xs mt-0.5" style="color: #9CA3AF;">Aprobadas por Paola el 28 MAR 2026</div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0" style="background: #D1FAE5; color: #065F46;">Aprobado</span>
+            </div>
+
+            <!-- Group: Bienes -->
+            <div class="px-8 py-4 border-b border-t" style="background: #F8FAFC; border-color: #E5E7EB;">
+                <h3 class="text-sm font-bold uppercase tracking-widest" style="color: #6B7280;">Documentos del Bien Inmueble</h3>
+            </div>
+
+            <!-- ✅ Approved -->
+            <div class="doc-row">
+                <div class="doc-icon approved">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm">Certificado de Tradición y Libertad</div>
+                    <div class="text-xs mt-0.5" style="color: #9CA3AF;">Aprobado por Paola el 1 ABR 2026</div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0" style="background: #D1FAE5; color: #065F46;">Aprobado</span>
+            </div>
+
+            <!-- ✅ Approved -->
+            <div class="doc-row">
+                <div class="doc-icon approved">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#059669" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm">Paz y Salvo de Impuesto Predial</div>
+                    <div class="text-xs mt-0.5" style="color: #9CA3AF;">Aprobado por Paola el 2 ABR 2026</div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0" style="background: #D1FAE5; color: #065F46;">Aprobado</span>
+            </div>
+
+            <!-- 🔵 En revisión -->
+            <div class="doc-row">
+                <div class="doc-icon reviewing">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm">Avalúo Comercial del Inmueble</div>
+                    <div class="text-xs mt-0.5" style="color: #3B82F6;">Subido el 4 ABR 2026 · Pendiente de revisión por Paola</div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0" style="background: #DBEAFE; color: #1D4ED8;">En revisión</span>
+            </div>
+
+            <!-- 🟠 Corrección solicitada -->
+            <div class="doc-row correction">
+                <div class="doc-icon correction">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#FF8C3C" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm">Escritura Pública del Inmueble</div>
+                    <div class="text-xs mt-1 font-medium" style="color: var(--naranja);">Corrección solicitada por Paola</div>
+                    <div class="mt-2 p-3 rounded-xl text-sm" style="background: rgba(255, 140, 60, 0.08); color: #92400E; border: 1px solid rgba(255,140,60,0.2);">
+                        "La copia enviada está incompleta — faltan las páginas 3 y 4. Por favor sube la escritura completa en formato PDF."
+                    </div>
+                    <div class="mt-3">
+                        <button class="btn-pill px-5 py-2 text-white text-sm font-semibold" style="background-color: var(--naranja);">Subir nueva versión</button>
+                    </div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0 self-start" style="background: rgba(255,140,60,0.15); color: var(--naranja);">Corrección</span>
+            </div>
+
+            <!-- Group: Adicionales -->
+            <div class="px-8 py-4 border-b border-t" style="background: #F8FAFC; border-color: #E5E7EB;">
+                <h3 class="text-sm font-bold uppercase tracking-widest" style="color: #6B7280;">Documentos Adicionales</h3>
+            </div>
+
+            <!-- ⬜ Pendiente con upload zone -->
+            <div class="doc-row">
+                <div class="doc-icon pending">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm mb-2">Declaración de Renta del Causante (último año)</div>
+                    <div class="upload-zone">
+                        <p class="text-sm" style="color: #9CA3AF;">Arrastra tu archivo aquí o <span style="color: var(--azul-tec); font-weight: 600;">selecciona desde tu dispositivo</span></p>
+                        <p class="text-xs mt-1" style="color: #D1D5DB;">PDF, JPG o PNG · Máximo 10 MB</p>
+                    </div>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0 self-start" style="background: #F3F4F6; color: #9CA3AF;">Pendiente</span>
+            </div>
+
+            <!-- ⬜ Pendiente simple -->
+            <div class="doc-row">
+                <div class="doc-icon pending">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9CA3AF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <div class="font-semibold text-sm mb-1">Paz y Salvo de Servicios Públicos</div>
+                    <button class="btn-pill px-4 py-1.5 text-sm font-semibold border" style="border-color: #D1D5DB; color: #4B5563;">Subir archivo</button>
+                </div>
+                <span class="text-xs font-bold px-3 py-1 rounded-full flex-shrink-0" style="background: #F3F4F6; color: #9CA3AF;">Pendiente</span>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Legend -->
+    <section class="max-w-5xl mx-auto mb-24">
+        <div class="flex flex-wrap gap-6 text-sm" style="color: #6B7280;">
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full" style="background: #059669;"></span>
+                Aprobado por Paola
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full" style="background: #3B82F6;"></span>
+                Subido · En revisión
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full" style="background: var(--naranja);"></span>
+                Corrección solicitada
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full" style="background: #D1D5DB;"></span>
+                Pendiente de subir
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

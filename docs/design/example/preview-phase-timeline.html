@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>tuHerenciaFácil — Phase Timeline Preview</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+        :root {
+            --azul-corp: #002845;
+            --azul-tec: #3A8DA8;
+            --naranja: #FF8C3C;
+            --bg-warm: #F9FAFB;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-warm);
+            color: var(--azul-corp);
+        }
+
+        .heading-hero {
+            font-size: 64px;
+            font-weight: 500;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+
+        .heading-section {
+            font-size: 32px;
+            font-weight: 500;
+            letter-spacing: -1px;
+        }
+
+        .btn-pill {
+            border-radius: 9999px;
+            transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .btn-pill:hover { transform: scale(1.05); }
+        .btn-pill:active { transform: scale(0.95); }
+
+        .card-hybrid {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px -5px rgba(0, 40, 69, 0.1), 0 8px 10px -6px rgba(0, 40, 69, 0.1);
+            border: 1px solid rgba(0, 40, 69, 0.05);
+        }
+
+        /* --- Timeline specific --- */
+
+        .phase-connector {
+            width: 2px;
+            background-color: #E5E7EB;
+            flex-shrink: 0;
+            margin: 0 auto;
+        }
+
+        .phase-connector.done {
+            background-color: var(--azul-tec);
+        }
+
+        /* Step number circle */
+        .phase-dot {
+            width: 44px;
+            height: 44px;
+            border-radius: 9999px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 15px;
+            transition: box-shadow 0.3s;
+        }
+
+        .phase-dot.done {
+            background-color: var(--azul-tec);
+            color: white;
+        }
+
+        .phase-dot.active {
+            background-color: var(--naranja);
+            color: white;
+            box-shadow: 0 0 0 6px rgba(255, 140, 60, 0.18);
+        }
+
+        .phase-dot.upcoming {
+            background-color: white;
+            color: #9CA3AF;
+            border: 2px solid #E5E7EB;
+        }
+
+        .phase-dot.locked {
+            background-color: #F3F4F6;
+            color: #D1D5DB;
+            border: 2px dashed #E5E7EB;
+        }
+
+        /* Phase row card */
+        .phase-row {
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+            padding: 20px 28px;
+            border-radius: 16px;
+            transition: background 0.2s;
+        }
+
+        .phase-row.active {
+            background: rgba(255, 140, 60, 0.06);
+            border: 1px solid rgba(255, 140, 60, 0.2);
+        }
+
+        .phase-row.done {
+            opacity: 0.75;
+        }
+
+        .phase-row.upcoming {
+            opacity: 0.55;
+        }
+
+        .phase-row.locked {
+            opacity: 0.4;
+        }
+
+        /* Progress bar */
+        .progress-track {
+            background-color: #E5E7EB;
+            border-radius: 9999px;
+            height: 8px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            border-radius: 9999px;
+            background: linear-gradient(90deg, var(--azul-tec), var(--naranja));
+            transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+    </style>
+</head>
+<body class="p-8 lg:p-24">
+
+    <!-- Header -->
+    <header class="max-w-5xl mx-auto mb-20 flex justify-between items-center">
+        <div class="text-2xl font-bold tracking-tighter" style="color: var(--azul-corp);">
+            tu<span style="color: var(--naranja);">Herencia</span>Fácil
+        </div>
+        <nav class="hidden md:flex gap-8 font-medium text-sm">
+            <a href="#" class="hover:opacity-70">Mi Proceso</a>
+            <a href="#" class="hover:opacity-70">Documentos</a>
+            <a href="#" class="hover:opacity-70">Pagos</a>
+            <a href="#" class="hover:opacity-70" style="color: var(--azul-tec);">Ayuda</a>
+        </nav>
+        <button class="btn-pill px-6 py-2 text-white text-sm font-semibold shadow-lg" style="background-color: var(--azul-corp);">
+            Cerrar Sesión
+        </button>
+    </header>
+
+    <!-- Case Header + Progress Summary -->
+    <section class="max-w-5xl mx-auto mb-12">
+        <p class="text-sm font-semibold uppercase tracking-widest mb-3" style="color: var(--azul-tec);">Sucesión · Plan Premium</p>
+        <h1 class="heading-hero mb-4">Caso de Luis Rodríguez <br/>Vargas</h1>
+        <p class="text-lg max-w-xl mb-8" style="color: #4B5563;">
+            Radicado el 10 de enero de 2026. Abogado asignado: <b style="color: var(--azul-corp);">Paola Suárez</b>.
+        </p>
+
+        <!-- Progress bar -->
+        <div class="max-w-xl">
+            <div class="flex justify-between text-sm font-semibold mb-2">
+                <span style="color: var(--azul-corp);">Progreso del proceso</span>
+                <span style="color: var(--naranja);">Fase 4 de 8</span>
+            </div>
+            <div class="progress-track">
+                <div class="progress-fill" style="width: 43%;"></div>
+            </div>
+            <p class="text-xs mt-2" style="color: #6B7280;">Estimado de finalización: julio 2026</p>
+        </div>
+    </section>
+
+    <!-- Timeline -->
+    <section class="max-w-5xl mx-auto mb-24">
+        <h2 class="heading-section mb-10">Tu hoja de ruta</h2>
+
+        <div class="space-y-2">
+
+            <!-- Phase 1: Done -->
+            <div class="phase-row done">
+                <div class="phase-dot done">
+                    <!-- Checkmark icon -->
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0 pt-1">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <span class="text-xs font-bold uppercase tracking-widest" style="color: #9CA3AF;">Fase 1</span>
+                        <span class="px-2 py-0.5 text-xs font-bold rounded-full" style="background: #D1FAE5; color: #065F46;">Completada</span>
+                    </div>
+                    <h3 class="text-lg font-bold mt-1 mb-1">Consulta y Contrato</h3>
+                    <p class="text-sm" style="color: #6B7280;">Consulta inicial realizada. Contrato de servicios firmado y plan Estándar activado.</p>
+                    <p class="text-xs font-mono mt-2" style="color: #9CA3AF;">Completada el 15 ENE 2026</p>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div style="height: 24px; display: flex; justify-content: flex-start; padding-left: 50px;">
+                <div class="phase-connector done" style="height: 100%;"></div>
+            </div>
+
+            <!-- Phase 2: Done -->
+            <div class="phase-row done">
+                <div class="phase-dot done">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0 pt-1">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <span class="text-xs font-bold uppercase tracking-widest" style="color: #9CA3AF;">Fase 2</span>
+                        <span class="px-2 py-0.5 text-xs font-bold rounded-full" style="background: #D1FAE5; color: #065F46;">Completada</span>
+                    </div>
+                    <h3 class="text-lg font-bold mt-1 mb-1">Poder Notarial</h3>
+                    <p class="text-sm" style="color: #6B7280;">Poder notarial firmado por los 5 herederos y recibido físicamente por el equipo legal.</p>
+                    <p class="text-xs font-mono mt-2" style="color: #9CA3AF;">Completada el 3 FEB 2026</p>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div style="height: 24px; display: flex; justify-content: flex-start; padding-left: 50px;">
+                <div class="phase-connector done" style="height: 100%;"></div>
+            </div>
+
+            <!-- Phase 3: Done -->
+            <div class="phase-row done">
+                <div class="phase-dot done">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </div>
+                <div class="flex-1 min-w-0 pt-1">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <span class="text-xs font-bold uppercase tracking-widest" style="color: #9CA3AF;">Fase 3</span>
+                        <span class="px-2 py-0.5 text-xs font-bold rounded-full" style="background: #D1FAE5; color: #065F46;">Completada</span>
+                    </div>
+                    <h3 class="text-lg font-bold mt-1 mb-1">Documentación</h3>
+                    <p class="text-sm" style="color: #6B7280;">Los 12 documentos requeridos fueron subidos, revisados y aprobados por Paola.</p>
+                    <p class="text-xs font-mono mt-2" style="color: #9CA3AF;">Completada el 28 MAR 2026</p>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div style="height: 24px; display: flex; justify-content: flex-start; padding-left: 50px;">
+                <div class="phase-connector done" style="height: 100%;"></div>
+            </div>
+
+            <!-- Phase 4: ACTIVE -->
+            <div class="phase-row active">
+                <div class="phase-dot active">4</div>
+                <div class="flex-1 min-w-0 pt-1">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <span class="text-xs font-bold uppercase tracking-widest" style="color: var(--naranja);">Fase 4 · Ahora</span>
+                        <span class="px-2 py-0.5 text-xs font-bold rounded-full" style="background: rgba(255,140,60,0.15); color: var(--naranja);">En progreso</span>
+                    </div>
+                    <h3 class="text-lg font-bold mt-1 mb-1">Radicación Notarial</h3>
+                    <p class="text-sm" style="color: #4B5563;">Paola ha presentado el expediente ante la Notaría 62 de Bogotá. Estamos en espera de la asignación de turno.</p>
+                    <div class="mt-4">
+                        <button class="btn-pill px-5 py-2 text-white text-sm font-semibold" style="background-color: var(--azul-tec);">Ver detalles de radicación</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div style="height: 24px; display: flex; justify-content: flex-start; padding-left: 50px;">
+                <div class="phase-connector" style="height: 100%;"></div>
+            </div>
+
+            <!-- Phase 5: Upcoming -->
+            <div class="phase-row upcoming">
+                <div class="phase-dot upcoming">5</div>
+                <div class="flex-1 min-w-0 pt-1">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-bold uppercase tracking-widest" style="color: #9CA3AF;">Fase 5</span>
+                    </div>
+                    <h3 class="text-lg font-bold mt-1 mb-1">Edictos Emplazatorios</h3>
+                    <p class="text-sm" style="color: #9CA3AF;">Publicación de edictos en el periódico oficial y período de espera legal de 15 días hábiles.</p>
+                    <p class="text-xs font-mono mt-2" style="color: #B0B7C3;">Estimado: mayo 2026</p>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div style="height: 24px; display: flex; justify-content: flex-start; padding-left: 50px;">
+                <div class="phase-connector" style="height: 100%;"></div>
+            </div>
+
+            <!-- Phase 6: Upcoming -->
+            <div class="phase-row upcoming">
+                <div class="phase-dot upcoming">6</div>
+                <div class="flex-1 min-w-0 pt-1">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-bold uppercase tracking-widest" style="color: #9CA3AF;">Fase 6</span>
+                    </div>
+                    <h3 class="text-lg font-bold mt-1 mb-1">Trámites DIAN</h3>
+                    <p class="text-sm" style="color: #9CA3AF;">Declaración de activos del causante y liquidación de impuestos ante la DIAN.</p>
+                    <p class="text-xs font-mono mt-2" style="color: #B0B7C3;">Estimado: junio 2026</p>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div style="height: 24px; display: flex; justify-content: flex-start; padding-left: 50px;">
+                <div class="phase-connector" style="height: 100%;"></div>
+            </div>
+
+            <!-- Phase 7: Upcoming -->
+            <div class="phase-row upcoming">
+                <div class="phase-dot upcoming">7</div>
+                <div class="flex-1 min-w-0 pt-1">
+                    <div class="flex items-center gap-3">
+                        <span class="text-xs font-bold uppercase tracking-widest" style="color: #9CA3AF;">Fase 7</span>
+                    </div>
+                    <h3 class="text-lg font-bold mt-1 mb-1">Escritura Pública</h3>
+                    <p class="text-sm" style="color: #9CA3AF;">Firma de la escritura de sucesión ante el Notario con todos los herederos.</p>
+                    <p class="text-xs font-mono mt-2" style="color: #B0B7C3;">Estimado: julio 2026</p>
+                </div>
+            </div>
+
+            <!-- Connector -->
+            <div style="height: 24px; display: flex; justify-content: flex-start; padding-left: 50px;">
+                <div class="phase-connector" style="height: 100%;"></div>
+            </div>
+
+            <!-- Phase 8: LOCKED (Estándar would hide this; Premium shows it) -->
+            <div class="phase-row locked">
+                <div class="phase-dot locked">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </div>
+                <div class="flex-1 min-w-0 pt-1">
+                    <div class="flex items-center gap-3 flex-wrap">
+                        <span class="text-xs font-bold uppercase tracking-widest" style="color: #D1D5DB;">Fase 8</span>
+                        <span class="px-2 py-0.5 text-xs font-bold rounded-full bg-gray-100 text-gray-400">Premium</span>
+                    </div>
+                    <h3 class="text-lg font-bold mt-1 mb-1" style="color: #D1D5DB;">Registro Inmobiliario</h3>
+                    <p class="text-sm" style="color: #D1D5DB;">Registro de la escritura en la Oficina de Instrumentos Públicos. Incluido en tu plan Premium.</p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Next Action CTA Card -->
+    <section class="max-w-5xl mx-auto mb-24">
+        <div class="card-hybrid p-10 flex flex-col md:flex-row md:items-center gap-8" style="border-left: 4px solid var(--naranja);">
+            <div class="flex-1">
+                <p class="text-xs font-bold uppercase tracking-widest mb-2" style="color: var(--naranja);">Tu siguiente paso</p>
+                <h3 class="text-2xl font-bold mb-2">Nada por hacer ahora</h3>
+                <p style="color: #4B5563;">Tu equipo legal está activo. Recibirás un correo en cuanto la Notaría confirme el turno de radicación. Paola te notificará si necesita algo adicional.</p>
+            </div>
+            <div class="flex gap-3 flex-shrink-0">
+                <button class="btn-pill px-6 py-3 text-white font-semibold" style="background-color: var(--azul-tec);">Ir al chat</button>
+                <button class="btn-pill px-6 py-3 font-semibold border-2" style="border-color: var(--azul-corp); color: var(--azul-corp);">Ver documentos</button>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>

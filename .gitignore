@@ -45,6 +45,9 @@ next-env.d.ts
 # Payload CMS local documentation (not tracked in repo)
 /docs/payloadcms
 
+# Design reference
+/docs/design/reference
+
 # Claude Code internal files
 /.claude
 

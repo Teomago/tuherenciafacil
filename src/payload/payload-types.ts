@@ -1654,14 +1654,9 @@ export interface Member {
   lastName: string;
   secondLastName?: string | null;
   /**
-   * Account tier. Only admins can modify this field.
-   */
-  tier?: ('free' | 'premium') | null;
-  currency: 'USD' | 'EUR' | 'GBP' | 'COP';
-  /**
    * The user's preferred language for emails and system notifications.
    */
-  preferredLocale: 'en' | 'es';
+  preferredLocale: 'es' | 'en';
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1965,8 +1960,6 @@ export interface MembersSelect<T extends boolean = true> {
   secondName?: T;
   lastName?: T;
   secondLastName?: T;
-  tier?: T;
-  currency?: T;
   preferredLocale?: T;
   updatedAt?: T;
   createdAt?: T;

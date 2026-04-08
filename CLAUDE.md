@@ -33,10 +33,11 @@
 All implementation goes through `.agents/AGENTS.md`. The pipeline is:
 
 1. **Gemini CLI** — writes RFC spec in `.agents/specs/`
-2. **Claude Code (you)** — audits the spec, writes report in `.agents/audits/`
-3. **Teo** — reviews audit, writes immutable decision in `.agents/decisions/`
+2. **Claude Code (you)** — audits the spec, writes risk report in `.agents/audits/`
+3. **Teo + Claude Code (you)** — Teo reviews the audit and shares comments. You draft the decision file at `.agents/decisions/RFC-[N]-decision.md` based on the spec + audit + Teo's directions. You also suggest the best executor (Gemini or Claude Code) with reasoning. Teo approves the final decision file.
 4. **Executor (Antigravity or Claude Code)** — implements from the decision file only
-5. **Claude Code (you)** — closes cycle after QA approval
+5. **Teo** — runs QA verification checklist from the decision file
+6. **Claude Code (you)** — closes cycle after Teo confirms QA passed
 
 **ZERO code without a decision file in `.agents/decisions/`.** If there's no decision file, do not write implementation code — write the audit instead.
 
@@ -52,6 +53,35 @@ All implementation goes through `.agents/AGENTS.md`. The pipeline is:
 - **URL structure:** `(app)/app` route group, prefix-free Spanish — DEC-007
 - **Elite:** schema implemented in v1, UI deferred — DEC-008
 - **Payments (Wompi):** not implemented yet, stub for now — DEC-005 pending
+
+---
+
+## Database migration rules (READ BEFORE EVERY RFC)
+
+The project uses Payload CMS + Drizzle ORM + Neon (PostgreSQL).
+
+**Current phase: building from scratch — one Neon branch.**
+- `push` is enabled in development (`push: process.env.NODE_ENV !== 'production'`)
+- Drizzle auto-syncs schema changes to Neon automatically when `pnpm dev` runs
+- You do NOT need to create or run migration files during development
+- Data is disposable at this stage — schema changes apply instantly
+
+**What this means for RFCs:**
+- Any RFC that adds a collection, field, or drops a field does NOT need a migration step in the decision file right now
+- Drizzle push handles it automatically on next `pnpm dev`
+- Do NOT add `pnpm payload migrate:create` or `pnpm payload migrate` steps to decision files until INFRA-001 is complete
+
+**Future phase: after INFRA-001 (dev/prod Neon branch split)**
+- Dev branch: `push: true` — still auto-syncs locally
+- Prod branch: `push: false` — migrations only
+- Workflow for any schema change:
+  1. Branch prod → dev in Neon console (instant copy)
+  2. Build feature in dev with push auto-syncing
+  3. Run `pnpm payload migrate:create` to generate the SQL diff migration file
+  4. Review the generated file before committing
+  5. CI runs `pnpm payload migrate` against prod before `pnpm build`
+  6. Deploy
+- Never mix `push` and `migrate` on the same database
 
 ---
 

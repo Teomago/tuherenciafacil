@@ -16,11 +16,16 @@
    vulnerabilities, and architectural bottlenecks.
    Does NOT touch source code.
 
-3. **Teo + Claude Chat (CTO — Phase 3):**
-   Reviews the audit together. Resolves ambiguities.
-   Teo writes the immutable instruction at `.agents/decisions/RFC-[N]-decision.md`.
-   Claude Chat supports architecture decisions, debugging, and internet research.
-   This step is NOT delegated to any agent — Teo approves and writes decisions.
+3. **Teo + Claude Code (Decision Draft — Phase 3):**
+   Teo reviews the audit and shares his comments and directions.
+   Claude Code drafts `.agents/decisions/RFC-[N]-decision.md` based on:
+   - The original RFC spec
+   - The audit gaps and findings
+   - Teo's explicit comments and resolutions
+   Claude Code also suggests the best executor (Gemini or Claude Code) with
+   technical reasoning (complexity, scope, file access needs).
+   Teo makes the final call on the executor and approves the decision file.
+   The decision file is immutable once approved — no changes after this point.
 
 4. **Executor — Antigravity or Claude Code (Phase 4):**
    Reads strictly `.agents/decisions/RFC-[N]-decision.md`
@@ -28,7 +33,12 @@
    Writes the code. Does NOT read `BACKLOG.md` to avoid context pollution.
    After implementation, STOPS and waits for manual QA approval from Teo.
 
-5. **Cycle Closure (post-QA approval — Phase 5):**
+5. **QA Verification (Phase 5):**
+   Teo runs through the success criteria checklist in the decision file.
+   Each criterion must be manually verified before cycle closure is approved.
+   Teo confirms QA passed to Claude Code.
+
+6. **Cycle Closure (post-QA approval — Phase 6):**
    Executed by Claude Code after Teo confirms QA passed:
    1. Update `.agents/context/PROJECT_STATE.md` with what changed.
    2. Move `.agents/specs/RFC-[N]-*.md` → `.agents/archive/specs/`.
@@ -81,9 +91,9 @@ Every item in BACKLOG.md must follow this structure:
 - **Name:** tuherenciafacil
 - **Description:** Legal digital platform for estate succession processes
   under Colombian law. A partner lawyer validates all legal content.
-- **Stack:** Next.js 15 App Router + React 19 + TypeScript + Payload CMS 3.x
-  - Drizzle ORM + Supabase (PostgreSQL + S3) + Tailwind CSS v4 +
-    next-intl (EN/ES) + Brevo + Upstash Redis (deferred) + Vercel
+- **Stack:** Next.js 16.2.1 App Router + React 19 + TypeScript + Payload CMS 3.x
+  - Drizzle ORM + Neon (PostgreSQL) + Cloudflare R2 + Tailwind CSS v4 +
+    next-intl (ES default, EN deferred) + Brevo + Vercel
 - **Source base:** eterhub (selective copy — not a full migration)
 - **Primary language:** Spanish (ES). English (EN) present but deferred.
 - **Initialization success criterion:** User logs in → sees clean welcome

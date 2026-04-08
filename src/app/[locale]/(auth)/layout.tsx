@@ -36,7 +36,7 @@ export default async function AuthLayout(props: { children: React.ReactNode, par
                 <div className="flex items-center gap-2">
                   <LanguageSwitcher isMultiLangEnabled={isMultiLangEnabled} />
                   <ThemeToggle />
-                  <span className="font-bold text-xl tracking-tight pl-2">Heionhub</span>
+                  <span className="font-bold text-xl tracking-tight pl-2">tuHerenciaFácil</span>
                 </div>
               </header>
 

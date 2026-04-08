@@ -116,7 +116,7 @@
     "step4": "Agrega bloques de contenido y guarda la página",
     "openAdmin": "Abrir Panel de Administración"
   },
-  "Herencia": {
+  "App": {
     "welcome": "Bienvenido",
     "welcomeMessage": "Bienvenido, {user}",
     "subtitle": "Tu proceso de sucesión comienza aquí."

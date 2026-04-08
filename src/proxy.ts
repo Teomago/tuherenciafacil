@@ -3,11 +3,9 @@ import type { NextRequest } from 'next/server'
 // import { Ratelimit } from '@upstash/ratelimit'
 // import { Redis } from '@upstash/redis'
 import createMiddleware from 'next-intl/middleware'
+import { routing } from '@/i18n/routing'
 
-const intlMiddleware = createMiddleware({
-  locales: ['en', 'es'],
-  defaultLocale: 'en'
-})
+const intlMiddleware = createMiddleware(routing)
 
 export async function proxy(req: NextRequest) {
   const path = req.nextUrl.pathname

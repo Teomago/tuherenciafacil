@@ -116,7 +116,7 @@
     "step4": "Add content blocks and save the page",
     "openAdmin": "Open Admin Panel"
   },
-  "Herencia": {
+  "App": {
     "welcome": "Welcome",
     "welcomeMessage": "Welcome, {user}",
     "subtitle": "Your succession process starts here."

@@ -44,21 +44,34 @@
 ## Current state
 
 - `pnpm build` passes, `pnpm dev` starts clean
-- Frontend: marketing site loads, Welcome page renders in EN/ES
+- Frontend: marketing site loads at `/` in Spanish (prefix-free), `/en` in English
 - Auth: login/register/forgot-password/reset-password routes present
-- Route: /[locale]/herencia active, redirects from login
-- Admin: /admin loads Payload CMS panel
-- No Miru/finance routes or collections remain
+- Route: `/app` active — redirects from login, shows welcome + logout
+- Admin: `/admin` loads Payload CMS panel
+- No Miru/finance routes, collections, or branding remain
+- Members collection: clean — no `tier` or `currency` fields
+- i18n: prefix-free Spanish default, `as-needed` locale prefix
+- DB: `push: true` in dev (Drizzle auto-syncs), `push: false` in production
 - **No succession collections exist yet** — data layer not implemented
-- **No app screens exist yet** — /app/* routes not implemented
+- **No app screens exist yet beyond /app stub** — /app/* routes not implemented
 
-## What needs to happen next (pre-implementation)
+### RFC-002 completed — 2026-04-07
+- Members: removed `tier`, `currency` fields; `preferredLocale` defaults to `es`
+- Route group: `(herencia)` → `(app)`, route `/herencia` → `/app`
+- Login redirects to `/app`; logout clears `payload-token` cookie correctly
+- i18n: `routing.ts` + `proxy.ts` unified to prefix-free Spanish, `i18n.ts` fallback `es`
+- Translations: `"Herencia"` namespace → `"App"` in es.json + en.json
+- Miru/Heionhub branding removed from LoginForm, auth layouts, frontend layout
+- DB: switched from `push: false` to `push: process.env.NODE_ENV !== 'production'`
+- Agent pipeline: added Phase 3 (decision draft), Phase 5 (QA), Phase 6 (closure)
+- CLAUDE.md + GEMINI.md: added migration rules section, translation requirements
+- BACKLOG: added INFRA-001 (dev/prod Neon branch split, post-RFC-008)
 
-1. **Members cleanup:** Remove old `tier` (free/premium) and `currency` fields inherited from Miru/Eterhub — RFC-002
-2. **Route rename:** `(herencia)/herencia` → `(app)/app` with prefix-free next-intl config — RFC-002
-3. **Collections layer:** All 11 Payload collections — RFC-003
-4. **Pre-pago screens:** 5 screens with payment stubs — RFC-004
-5. **Client app screens:** 7 screens — RFC-005
-6. **Lawyer app screens:** Lawyer view + notaría — RFC-006
-7. **Phase engine:** advance-phase endpoint + gates — RFC-007
-8. **Wompi integration:** Blocked on DEC-005 — RFC-008
+## What needs to happen next
+
+1. **Collections layer:** All 11 Payload collections — RFC-003
+2. **Pre-pago screens:** 5 screens with payment stubs — RFC-004
+3. **Client app screens:** 7 screens — RFC-005
+4. **Lawyer app screens:** Lawyer view + notaría — RFC-006
+5. **Phase engine:** advance-phase endpoint + gates — RFC-007
+6. **Wompi integration:** Blocked on DEC-005 — RFC-008

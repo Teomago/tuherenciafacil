@@ -39,7 +39,7 @@ export function LoginForm({ coverImageUrl, isMultiLangEnabled }: LoginFormProps)
       })
 
       if (res.ok) {
-        router.push(`/${locale}/herencia`)
+        router.push(`/${locale}/app`)
         // Keep loading=true — button stays disabled until the component unmounts on navigation
         return
       }
@@ -60,7 +60,7 @@ export function LoginForm({ coverImageUrl, isMultiLangEnabled }: LoginFormProps)
         <div className="relative hidden lg:block lg:w-1/2">
           <Image
             src={coverImageUrl}
-            alt="Miru — Personal Finance"
+            alt="tuHerenciaFácil"
             fill
             className="object-cover"
             priority
@@ -88,7 +88,7 @@ export function LoginForm({ coverImageUrl, isMultiLangEnabled }: LoginFormProps)
         <div className="flex flex-1 flex-col items-center justify-center px-8 py-8">
           <div className="w-full max-w-sm space-y-8">
             <div className="space-y-1">
-              <p className="text-sm font-medium text-muted-foreground tracking-widest uppercase">Miru</p>
+              <p className="text-sm font-medium text-muted-foreground tracking-widest uppercase">tuHerenciaFácil</p>
               <h1 className="text-3xl font-bold tracking-tight">{t('welcomeBack')}</h1>
               <p className="text-sm text-muted-foreground">{t('loginDescription')}</p>
             </div>

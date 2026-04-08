@@ -40,7 +40,7 @@ export async function verifyInvitation(code: string) {
   return { success: true }
 }
 
-export async function registerMember(formData: FormData, invitationCode: string, locale: string = 'en') {
+export async function registerMember(formData: FormData, invitationCode: string, locale: string = 'es') {
   // Rate limit: 3 requests per IP per minute
   // if (process.env.KV_REST_API_URL && process.env.KV_REST_API_TOKEN) {
   //   try {
@@ -77,13 +77,8 @@ export async function registerMember(formData: FormData, invitationCode: string,
     return { success: false, error: 'PASSWORDS_DO_NOT_MATCH', message: 'Passwords do not match.' }
   }
 
-  // Determine tier based on invitation code presence
   const hasInvitationCode = invitationCode.trim().length > 0
-  let tier: 'free' | 'premium' = 'free'
-
-  // Locale-based currency: 'es' → COP, else USD
   const validLocale = locale === 'es' ? 'es' : 'en'
-  const currency = validLocale === 'es' ? 'COP' : 'USD'
 
   // Begin atomic transaction — all reads and writes happen inside
   const req = { payload } as any
@@ -136,11 +131,9 @@ export async function registerMember(formData: FormData, invitationCode: string,
         overrideAccess: true,
         req,
       })
-
-      tier = 'premium'
     }
 
-    // 2. Create Member with the determined tier (overrideAccess to ensure tier is not stripped)
+    // 2. Create Member
     await payload.create({
       collection: 'members',
       data: {
@@ -150,9 +143,7 @@ export async function registerMember(formData: FormData, invitationCode: string,
         secondName,
         lastName,
         secondLastName,
-        currency,
         preferredLocale: validLocale,
-        tier,
       },
       overrideAccess: true,
       req,
@@ -192,7 +183,7 @@ export async function login(formData: FormData) {
 
     if (result.token) {
       const cookieStore = await cookies()
-      cookieStore.set('payload-member-token', result.token, {
+      cookieStore.set('payload-token', result.token, {
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         path: '/',
@@ -210,6 +201,6 @@ export async function login(formData: FormData) {
 
 export async function logout() {
   const cookieStore = await cookies()
-  cookieStore.delete('payload-member-token')
+  cookieStore.delete('payload-token')
   return { success: true }
 }

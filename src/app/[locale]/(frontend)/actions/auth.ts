@@ -147,7 +147,7 @@ export async function registerMember(formData: FormData, invitationCode: string,
       },
       overrideAccess: true,
       req,
-    })
+    } as any)
 
     // 3. Commit — member creation + code burn (if applicable) succeed atomically
     if (transactionID) {

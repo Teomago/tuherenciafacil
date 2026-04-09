@@ -1657,6 +1657,22 @@ export interface Member {
    * The user's preferred language for emails and system notifications.
    */
   preferredLocale: 'es' | 'en';
+  role: 'cliente' | 'abogado';
+  isActive?: boolean | null;
+  /**
+   * Solo dígitos, sin puntos. Ejemplo: 1012345678
+   */
+  cedula?: string | null;
+  /**
+   * Número móvil colombiano. Ejemplo: 3001234567
+   */
+  telefono?: string | null;
+  ciudad?: string | null;
+  /**
+   * Crédito acumulado en pesos COP. Gestionado automáticamente por hooks. Solo editable por Admin/Abogado.
+   */
+  creditoAcumulado?: number | null;
+  isVerified?: boolean | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -1961,6 +1977,13 @@ export interface MembersSelect<T extends boolean = true> {
   lastName?: T;
   secondLastName?: T;
   preferredLocale?: T;
+  role?: T;
+  isActive?: T;
+  cedula?: T;
+  telefono?: T;
+  ciudad?: T;
+  creditoAcumulado?: T;
+  isVerified?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;

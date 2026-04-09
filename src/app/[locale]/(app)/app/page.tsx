@@ -2,6 +2,7 @@ import { headers } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 import { getPayload } from '@/lib/payload/getPayload'
+import { isMemberUser } from '@/lib/auth/typeGuards'
 import { logout } from '@/app/[locale]/(frontend)/actions/auth'
 
 export default async function AppPage({ params }: { params: Promise<{ locale: string }> }) {
@@ -12,6 +13,10 @@ export default async function AppPage({ params }: { params: Promise<{ locale: st
 
   if (!user) {
     redirect(`/${locale}/login`)
+  }
+
+  if (isMemberUser(user) && user.role === 'abogado' && user.isActive === false) {
+    redirect(`/${locale}/pending-activation`)
   }
 
   const name = ('firstName' in user ? user.firstName : user.name) || user.email

@@ -19,35 +19,64 @@
 
 ---
 
-## Phase 1: The Succession Data Layer (The Foundation)
-**Objective:** Implement the entire data model defined in `COLLECTIONS.md`. Without this, no screens can be built.
+## Phase 1: Core Identity & Succession Shell
+**Objective:** Implement the fundamental "Who" and "What" of the application.
 
-### RFC-003: Collections Implementation
+### RFC-003.1: Members, Cases & Appointments
 - **Tasks:**
-  1.  **Refine Members:** Add `role` (cliente/abogado), `cedula`, `telefono`, `creditoAcumulado`.
-  2.  **Core Succession:** Create `Cases`, `CaseIntake`, `Appointments`.
-  3.  **Data Entities:** Create `Heirs`, `Assets`, `Documents`.
-  4.  **Process Tracking:** Create `DocumentChecklist`, `NotaryProcess`, `Payments`, `ChatMessages`.
+  1.  **Refine Members:** Add `role` (cliente/abogado), `cedula`, `telefono`, `creditoAcumulado`. Remove any legacy eterhub fields.
+  2.  **Cases Collection:** Create the central `Cases` object with `caseNumber` auto-generation.
+  3.  **Appointments:** Create the `Appointments` collection for pre-case and case-active meetings.
+  4.  **Credit System (DEC-009):** Implement `autorizarCredito` hooks to sync between `Appointments` and `Members.creditoAcumulado`.
 - **Success Criteria:**
-  - All 11 collections appear in `/admin`.
-  - Relationships (e.g., Case -> Heirs) are functional.
-  - Every field has a corresponding translation key in `es.json` and `en.json`.
+  - `Members`, `Cases`, and `Appointments` appear in `/admin`.
+  - Relationships are functional and type-safe.
+  - TDD: Hooks for credit calculation are verified with Vitest.
 
 ---
 
-## Phase 2: App Shell & Reusable UI Kit
-**Objective:** Build the global layout and the atomic component library that will be used in all subsequent phases.
+## Phase 2: App Shell & UI Kit (Accelerated)
+**Objective:** Build the global layout and atomic components early to provide a testing environment for future data phases.
 
-### RFC-004: Layout & Base Components
+### RFC-004: App Shell & Primitives
 - **Tasks:**
-  1.  **Layout Implementation:** Create `src/app/[locale]/(app)/layout.tsx` with Auth Guard.
-  2.  **UI Primitives Library:** Create reusable React components in `src/components/ui/` (Button, Card, Badge, Input, Table) based on the `docs/design/example/` HTML/CSS.
-  3.  **Navigation:** `AppNavbar` and `AppSidebar` using the UI Primitives and Azul Corporativo (`#002845`).
-  4.  **Motion Config:** Set up base animations (Tailwind transitions or Framer Motion).
+  1.  **App Layout:** Create `src/app/[locale]/(app)/layout.tsx` with Auth Guard and role-aware navigation.
+  2.  **UI Kit:** Build `Button`, `Card`, `Badge`, and `Input` components in `src/components/ui/`.
+  3.  **Branding:** Apply "Azul Corporativo" (`#002845`) and "Naranja Acento" (`#FF8C3C`) tokens.
 - **Success Criteria:**
-  - A central library of components exists and is used to render the `/app` shell.
-  - Sidebar and Navbar are responsive and role-aware.
-  - Components match the visual weight and feel of the Hybrid Design previews.
+  - Logged-in users see a professional dashboard shell at `/app/dashboard`.
+  - Navigation sidebar correctly reflects the user's role (Cliente vs. Abogado).
+
+---
+
+## Phase 3: Intake & The Estate Data
+**Objective:** Capture user input for the succession process.
+
+### RFC-003.2: Intake, Heirs & Assets
+- **Tasks:**
+  1.  **CaseIntake:** Implement the pre-payment form defined in `COLLECTIONS.md`.
+  2.  **Heirs & Assets:** Create the sub-collections that feed into the `Cases` object.
+  3.  **Intake Conversion:** Logic to convert a `CaseIntake` into a `Case` upon payment.
+- **Success Criteria:**
+  - A `CaseIntake` can be created and successfully converted to a `Case` via script/API.
+
+---
+
+## Phase 4: Workflow Engine & Payments
+**Objective:** Build the interactive "Legal Machine" that drives the succession.
+
+### RFC-003.3: Documents, Checklist & Workflow
+- **Tasks:**
+  1.  **Documents & R2:** Set up the `Documents` collection with Cloudflare R2 storage.
+  2.  **Checklist Engine:** Auto-generation of the `DocumentChecklist` when a case advances to Phase 2.
+  3.  **Notary Tracking:** Create the `NotaryProcess` collection (abogado-only).
+  4.  **Phase Engine (RFC-007):** Implement the `advance-phase` logic and the **Poder Gate** (DEC-002).
+  5.  **Payments:** Implement the `Payments` collection and Wompi integration (DEC-005).
+
+---
+
+## Phase 5: Onboarding Funnel (Front-end)
+... (remaining phases shift down accordingly)
 
 ---
 

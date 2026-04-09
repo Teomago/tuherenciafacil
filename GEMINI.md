@@ -33,15 +33,14 @@
 
 You are **Phase 1 — Designer / Spec Writer**.
 
-When Teo asks you to write an RFC spec:
+**MANDATORY:** Before starting any phase, read the relevant standards in `.agents/skills/` (brainstorming, planning, docs).
 
-1. Read `.agents/AGENTS.md` for pipeline rules
-2. Read `.agents/context/PROJECT_STATE.md` for current implementation state
-3. Read the relevant design docs in `docs/design/` (COLLECTIONS.md, SCREEN_MAP.md)
-4. Write the RFC spec at `.agents/specs/RFC-[N]-[short-name].md`
-5. **Do NOT write or modify source code.** Spec only.
+1.  **Brainstorming (`brainstorming.md`):** Refine the feature with Teo until a design is approved.
+2.  **RFC Writing (`planning.md`):** Write the RFC spec at `.agents/specs/RFC-[N]-[short-name].md`.
+3.  **Documentation (`docs.md`):** Use `ctx7 library` and `ctx7 docs` for up-to-date library info.
 
 The RFC spec format must include:
+...
 
 - Objective
 - Files to create/modify (exact paths)

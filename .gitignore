@@ -12,6 +12,9 @@
 # testing
 /coverage
 
+# visual companion
+.superpowers/
+
 # next.js
 /.next/
 /out/

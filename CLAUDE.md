@@ -30,16 +30,16 @@
 
 ## Agent pipeline (READ THIS)
 
-All implementation goes through `.agents/AGENTS.md`. The pipeline is:
+All implementation goes through `.agents/AGENTS.md`. **MANDATORY:** Before starting any phase, read the relevant standards in `.agents/skills/` (planning, tdd, debugging, verification, brainstorming, docs).
 
-1. **Gemini CLI** — writes RFC spec in `.agents/specs/`
-2. **Claude Code (you)** — audits the spec, writes risk report in `.agents/audits/`
-3. **Teo + Claude Code (you)** — Teo reviews the audit and shares comments. You draft the decision file at `.agents/decisions/RFC-[N]-decision.md` based on the spec + audit + Teo's directions. You also suggest the best executor (Gemini or Claude Code) with reasoning. Teo approves the final decision file.
-4. **Executor (Antigravity or Claude Code)** — implements from the decision file only
-5. **Teo** — runs QA verification checklist from the decision file
-6. **Claude Code (you)** — closes cycle after Teo confirms QA passed
+1. **Gemini CLI** — writes RFC spec in `.agents/specs/`.
+2. **Claude Code (you)** — audits the spec against `tdd.md` and `planning.md`. Writes report in `.agents/audits/`.
+3. **Teo + Claude Code (you)** — Teo reviews audit. You draft the decision file at `.agents/decisions/RFC-[N]-decision.md`. **CRITICAL:** The decision file MUST follow the `planning.md` format (granular tasks, failing test code, verification commands).
+4. **Executor (Gemini or Claude Code)** — implements from decision file ONLY. MUST follow `tdd.md` cycle (Red-Green-Refactor).
+5. **Teo** — runs QA verification checklist using the `verification.md` standard.
+6. **Claude Code (you)** — closes cycle after Teo confirms QA passed.
 
-**ZERO code without a decision file in `.agents/decisions/`.** If there's no decision file, do not write implementation code — write the audit instead.
+**ZERO code without a decision file in `.agents/decisions/`.** Use `ctx7 library` and `ctx7 docs` (as defined in `docs.md`) for up-to-date documentation on Next.js, React, and Payload CMS.
 
 ---
 

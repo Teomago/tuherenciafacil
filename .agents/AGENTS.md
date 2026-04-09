@@ -2,49 +2,52 @@
 
 > RULE ZERO: Read this file before starting any session.
 
+## Shared Engineering Standards (Superpowers)
+
+All agents (Gemini and Claude) MUST adhere to the following standards stored in `.agents/skills/`. Read these files before starting any phase:
+
+1.  **Planning (`planning.md`):** Every implementation plan must be granular, bite-sized, and free of placeholders.
+2.  **TDD (`tdd.md`):** No production code without a failing test first. Red-Green-Refactor is mandatory.
+3.  **Debugging (`debugging.md`):** No fixes without root cause investigation. Follow the 4-phase process.
+4.  **Verification (`verification.md`):** No completion claims without fresh, evidence-based verification.
+5.  **Brainstorming (`brainstorming.md`):** No implementation until a design is approved.
+6.  **Documentation (`docs.md`):** Use `ctx7` for up-to-date library information.
+
+---
+
 ## Roles and Workflow
 
-1. **Gemini (Designer — Phase 1):**
-   Reads `BACKLOG.md` and `PROJECT_STATE.md`.
-   Writes the technical RFC at `.agents/specs/RFC-[N]-[short-name].md`.
-   Does NOT touch source code.
+1.  **Gemini (Designer — Phase 1):**
+    - Reads `BACKLOG.md` and `PROJECT_STATE.md`.
+    - Follows `brainstorming.md` to refine the feature with Teo.
+    - Writes the technical RFC at `.agents/specs/RFC-[N]-[short-name].md`.
+    - Does NOT touch source code.
 
-2. **Claude Code (Auditor — Phase 2):**
-   Reads the active spec in `specs/` and `PROJECT_STATE.md`.
-   Writes the risk report at `.agents/audits/RFC-[N]-audit.md`.
-   Focuses strictly on: security, Payload RBAC, database mutation
-   vulnerabilities, and architectural bottlenecks.
-   Does NOT touch source code.
+2.  **Claude Code (Auditor — Phase 2):**
+    - Reads the active spec in `specs/` and `PROJECT_STATE.md`.
+    - Audits the spec against the `tdd.md` and `planning.md` standards.
+    - Writes the risk report at `.agents/audits/RFC-[N]-audit.md`.
+    - Focuses strictly on: security, Payload RBAC, and architectural bottlenecks.
+    - Does NOT touch source code.
 
-3. **Teo + Claude Code (Decision Draft — Phase 3):**
-   Teo reviews the audit and shares his comments and directions.
-   Claude Code drafts `.agents/decisions/RFC-[N]-decision.md` based on:
-   - The original RFC spec
-   - The audit gaps and findings
-   - Teo's explicit comments and resolutions
-   Claude Code also suggests the best executor (Gemini or Claude Code) with
-   technical reasoning (complexity, scope, file access needs).
-   Teo makes the final call on the executor and approves the decision file.
-   The decision file is immutable once approved — no changes after this point.
+3.  **Teo + Claude Code (Decision Draft — Phase 3):**
+    - Teo reviews the audit and shares comments.
+    - Claude Code drafts `.agents/decisions/RFC-[N]-decision.md`.
+    - **CRITICAL:** The decision file MUST be a valid **Implementation Plan** following the `planning.md` format (including TDD test code).
+    - Teo approves the final decision file.
 
-4. **Executor — Antigravity or Claude Code (Phase 4):**
-   Reads strictly `.agents/decisions/RFC-[N]-decision.md`
-   and `.agents/context/PROJECT_STATE.md`.
-   Writes the code. Does NOT read `BACKLOG.md` to avoid context pollution.
-   After implementation, STOPS and waits for manual QA approval from Teo.
+4.  **Executor — Gemini or Claude Code (Phase 4):**
+    - Reads strictly `.agents/decisions/RFC-[N]-decision.md` and follows it step-by-step.
+    - MUST follow the `tdd.md` cycle for every task.
+    - After implementation, STOPS and waits for manual QA approval.
 
-5. **QA Verification (Phase 5):**
-   Teo runs through the success criteria checklist in the decision file.
-   Each criterion must be manually verified before cycle closure is approved.
-   Teo confirms QA passed to Claude Code.
+5.  **QA Verification (Phase 5):**
+    - Teo runs through the success criteria checklist.
+    - Follows `verification.md` to ensure evidence-based results.
+    - Teo confirms QA passed to Claude Code.
 
-6. **Cycle Closure (post-QA approval — Phase 6):**
-   Executed by Claude Code after Teo confirms QA passed:
-   1. Update `.agents/context/PROJECT_STATE.md` with what changed.
-   2. Move `.agents/specs/RFC-[N]-*.md` → `.agents/archive/specs/`.
-   3. Delete `.agents/audits/RFC-[N]-audit.md`.
-   4. Delete `.agents/decisions/RFC-[N]-decision.md`.
-   5. Commit: `chore: close cycle RFC-[N]`.
+6.  **Cycle Closure (Phase 6):**
+    - Executed by Claude Code. Updates `PROJECT_STATE.md`, archives specs, and commits.
 
 ---
 

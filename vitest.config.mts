@@ -8,5 +8,14 @@ export default defineConfig({
     environment: 'jsdom',
     setupFiles: ['./vitest.setup.ts'],
     include: ['tests/int/**/*.int.spec.ts'],
+    hookTimeout: 60000,
+    testTimeout: 30000,
+    server: {
+      deps: {
+        // @veiag/payload-cmdk uses a directory import incompatible with Node ESM.
+        // Inlining forces Vitest to transform it through its bundler instead.
+        inline: [/@veiag/],
+      },
+    },
   },
 })

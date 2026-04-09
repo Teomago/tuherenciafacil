@@ -9,3 +9,6 @@ import 'dotenv/config'
 if (process.env.DATABASE_URI_DIRECT) {
   process.env.DATABASE_URI = process.env.DATABASE_URI_DIRECT
 }
+
+// Disable Brevo email sending in tests — prevents real API calls that could hang
+process.env.BREVO_EMAILS_ACTIVE = 'false'

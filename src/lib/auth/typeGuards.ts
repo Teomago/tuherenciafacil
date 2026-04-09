@@ -1,4 +1,4 @@
-import type { User } from '@/payload/payload-types'
+import type { User, Member } from '@/payload/payload-types'
 
 /**
  * Type guard to safely narrow the generic user object to the Admin User collection type.
@@ -9,5 +9,17 @@ export function isAdminUser(user: unknown): user is User {
     user !== null &&
     'collection' in user &&
     (user as Record<string, unknown>).collection === 'users'
+  )
+}
+
+/**
+ * Type guard to safely narrow the generic user object to the Member collection type.
+ */
+export function isMemberUser(user: unknown): user is Member {
+  return (
+    typeof user === 'object' &&
+    user !== null &&
+    'collection' in user &&
+    (user as Record<string, unknown>).collection === 'members'
   )
 }

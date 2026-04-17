@@ -52,6 +52,15 @@ export default function DocsIndex() {
       <p className="text-sm text-[#5F5E5A] mb-8">Documentación interna del producto — uso exclusivo del equipo</p>
 
       <div className="mb-7">
+        <div className="text-[13px] font-medium uppercase tracking-wide text-[#3A8DA8] mb-3">Estado del proyecto</div>
+        <Card
+          href="/docs/roadmap"
+          title="Roadmap — Qué hemos hecho y qué falta"
+          desc="Vista general del avance: infraestructura, diseño, cuentas, base de datos del proceso, pantallas y pagos."
+        />
+      </div>
+
+      <div className="mb-7">
         <div className="text-[13px] font-medium uppercase tracking-wide text-[#3A8DA8] mb-3">Sistema de diseño visual</div>
 
         <Card

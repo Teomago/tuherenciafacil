@@ -5,7 +5,13 @@ export const handleCreditoAcumulado: CollectionAfterChangeHook = async ({
   previousDoc,
   req,
   operation,
+  context,
 }) => {
+  // C-2: Re-entrancy guard — this hook writes back to the appointments collection
+  // (setting creditoApplied). That write triggers afterChange again. We break the
+  // cycle by tagging our own writes with context.skipHooks and exiting here.
+  if (context?.skipHooks) return doc
+
   if (operation === 'create' || !previousDoc) return doc
 
   const autorizarChanged = doc.autorizarCredito !== previousDoc.autorizarCredito
@@ -17,14 +23,24 @@ export const handleCreditoAcumulado: CollectionAfterChangeHook = async ({
     return doc
   }
 
+  // C-3: Monto guard — a zero or missing monto produces a meaningless credit
+  // operation and would silently corrupt the member's balance with NaN or zero.
+  if (!doc.monto || doc.monto <= 0) {
+    req.payload.logger.error(
+      `[creditoAcumulado] Invalid monto (${doc.monto}) on appointment ${doc.id} — skipping credit operation`,
+    )
+    return doc
+  }
+
   // === APPLY CREDIT ===
   if (doc.autorizarCredito === true && doc.status === 'realizada' && !doc.creditoApplied) {
     await req.payload.update({
       collection: 'appointments' as any,
       id: doc.id,
       data: { creditoApplied: true } as any,
-      req, // Must pass req to stay within Payload's transaction
+      req,
       overrideAccess: true,
+      context: { skipHooks: true }, // C-2: prevent re-entrancy
     })
 
     const member = await req.payload.findByID({
@@ -75,6 +91,7 @@ export const handleCreditoAcumulado: CollectionAfterChangeHook = async ({
       data: { creditoApplied: false } as any,
       req,
       overrideAccess: true,
+      context: { skipHooks: true }, // C-2: prevent re-entrancy
     })
 
     const newBalance = currentBalance - doc.monto

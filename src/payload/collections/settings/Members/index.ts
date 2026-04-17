@@ -219,14 +219,13 @@ export const Members: CollectionConfig = {
       min: 0,
       admin: {
         description:
-          'Crédito acumulado en pesos COP. Gestionado automáticamente por hooks. Solo editable por Admin/Abogado.',
+          'Crédito acumulado en pesos COP. Gestionado automáticamente por el hook autorizarCredito. Solo editable por Admin directamente; los abogados deben usar el campo autorizarCredito en Citas.',
       },
       access: {
-        update: ({ req }) => {
-          if (isAdminUser(req.user)) return true
-          if (isMemberUser(req.user) && req.user.role === 'abogado') return true
-          return false
-        },
+        // I-2: Only admin can write creditoAcumulado directly.
+        // Abogados must go through the autorizarCredito hook on Appointments —
+        // allowing direct writes would bypass the financial control gate entirely.
+        update: ({ req }) => isAdminUser(req.user),
       },
     },
     {

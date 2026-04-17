@@ -2,36 +2,44 @@
  * Frontend Global Styles
  *
  * CSS custom properties for the frontend theme, following the shadcn/ui pattern.
- * Uses oklch color space for perceptual uniformity.
+ * Uses HSL color space. Brand palette: Azul Corporativo #002845, Azul Tecnológico #3A8DA8, Naranja Acento #FF8C3C.
  */
 
 :root {
+  /* Brand Colors — tuHerenciaFácil Design System (Stripe-Revolut-Wise) */
+  --brand-corporate: 205 100% 14%;   /* #002845 — Azul Corporativo */
+  --brand-tech: 195 49% 44%;         /* #3A8DA8 — Azul Tecnológico */
+  --brand-accent: 25 100% 62%;       /* #FF8C3C — Naranja Acento */
+
   /* Layout */
   --header-height: 4rem;
   --gutter-inline: 1.25rem;
   --content-max-width: 80rem;
   --content-post-max-width: 48rem;
 
-  /* Colors - Light mode (hsl) - Pure Neutral */
-  --background: 0 0% 100%;
-  --foreground: 0 0% 3.9%;
+  /* Colors - Light mode (hsl) - Premium Fintech-Legal */
+  --background: 210 20% 98%;         /* #F9FAFB — warm off-white */
+  --foreground: 205 100% 14%;        /* #002845 — Azul Corporativo */
   --card: 0 0% 100%;
-  --card-foreground: 0 0% 3.9%;
+  --card-foreground: 205 100% 14%;
   --popover: 0 0% 100%;
-  --popover-foreground: 0 0% 3.9%;
-  --primary: 0 0% 9%;
+  --popover-foreground: 205 100% 14%;
+  --primary: 195 49% 44%;            /* #3A8DA8 — primary CTAs */
   --primary-foreground: 0 0% 100%;
-  --secondary: 0 0% 96.1%;
-  --secondary-foreground: 0 0% 9%;
-  --muted: 0 0% 96.1%;
-  --muted-foreground: 0 0% 45.1%;
-  --accent: 0 0% 96.1%;
-  --accent-foreground: 0 0% 9%;
+  --secondary: 210 17% 95%;
+  --secondary-foreground: 205 100% 14%;
+  --muted: 210 17% 95%;
+  --muted-foreground: 205 20% 50%;
+  --accent: 210 17% 93%;
+  --accent-foreground: 205 100% 14%;
   --destructive: 0 84.2% 60.2%;
   --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 89.8%;
-  --input: 0 0% 89.8%;
-  --ring: 0 0% 3.9%;
+  --border: 210 20% 88%;
+  --input: 210 20% 88%;
+  --ring: 195 49% 44%;               /* matches --primary */
+
+  /* Card shadow — blue-tinted per DESIGN.md */
+  --shadow-card: 0 10px 25px -5px rgba(0, 40, 69, 0.1), 0 8px 10px -6px rgba(0, 40, 69, 0.08);
 
   /* Chart colors */
   --chart-1: 12 76% 61%;
@@ -45,26 +53,28 @@
 }
 
 .dark {
-  /* Colors - Dark mode (hsl) - Pure Neutral */
-  --background: 0 0% 3.9%;
-  --foreground: 0 0% 98%;
-  --card: 0 0% 3.9%;
-  --card-foreground: 0 0% 98%;
-  --popover: 0 0% 3.9%;
-  --popover-foreground: 0 0% 98%;
-  --primary: 0 0% 98%;
-  --primary-foreground: 0 0% 9%;
-  --secondary: 0 0% 14.9%;
-  --secondary-foreground: 0 0% 98%;
-  --muted: 0 0% 14.9%;
-  --muted-foreground: 0 0% 63.9%;
-  --accent: 0 0% 14.9%;
-  --accent-foreground: 0 0% 98%;
+  /* Colors - Dark mode (hsl) - Premium Fintech-Legal */
+  --background: 205 30% 8%;          /* deep navy-black */
+  --foreground: 210 20% 96%;
+  --card: 205 25% 11%;
+  --card-foreground: 210 20% 96%;
+  --popover: 205 25% 11%;
+  --popover-foreground: 210 20% 96%;
+  --primary: 195 55% 58%;            /* lighter teal for dark mode */
+  --primary-foreground: 205 100% 10%;
+  --secondary: 205 20% 16%;
+  --secondary-foreground: 210 20% 96%;
+  --muted: 205 20% 16%;
+  --muted-foreground: 205 15% 65%;
+  --accent: 205 20% 18%;
+  --accent-foreground: 210 20% 96%;
   --destructive: 0 62.8% 30.6%;
   --destructive-foreground: 0 0% 98%;
-  --border: 0 0% 14.9%;
-  --input: 0 0% 14.9%;
-  --ring: 0 0% 83.1%;
+  --border: 205 20% 18%;
+  --input: 205 20% 18%;
+  --ring: 195 55% 58%;
+
+  --shadow-card: 0 10px 25px -5px rgba(0, 40, 69, 0.4), 0 8px 10px -6px rgba(0, 40, 69, 0.3);
 
   /* Chart colors - Dark mode */
   --chart-1: 220 70% 50%;

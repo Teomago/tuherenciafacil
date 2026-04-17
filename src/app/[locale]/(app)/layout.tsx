@@ -1,8 +1,11 @@
+import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { QueryProvider } from '@/providers/QueryProvider'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import '@/styles/index.css'
+
+const inter = Inter({ subsets: ['latin'] })
 
 export default async function AppLayout({
   children,
@@ -16,7 +19,7 @@ export default async function AppLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className="min-h-screen bg-background antialiased">
+      <body className={`${inter.className} min-h-screen bg-background antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <NextIntlClientProvider messages={messages}>
             <QueryProvider>{children}</QueryProvider>

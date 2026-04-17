@@ -6,6 +6,11 @@
  */
 
 @theme {
+  /* Brand colors */
+  --color-brand-corporate: hsl(var(--brand-corporate));
+  --color-brand-tech: hsl(var(--brand-tech));
+  --color-brand-accent: hsl(var(--brand-accent));
+
   /* Custom breakpoints */
   --breakpoint-xs: 30rem;
 

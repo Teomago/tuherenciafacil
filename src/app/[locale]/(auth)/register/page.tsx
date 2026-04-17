@@ -43,7 +43,7 @@ export default function RegisterPage() {
       <div className="w-full max-w-lg space-y-8">
         {/* Header */}
         <div className="space-y-1">
-          <p className="text-sm font-medium text-muted-foreground tracking-widest uppercase">tuherenciafacil</p>
+          <p className="text-sm font-medium text-muted-foreground tracking-widest uppercase">tuHerenciaFácil</p>
           <h1 className="text-3xl font-bold tracking-tight">{t('registerTitle')}</h1>
           <p className="text-sm text-muted-foreground">{t('registerDescription')}</p>
         </div>

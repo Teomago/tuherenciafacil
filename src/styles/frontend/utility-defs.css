@@ -66,7 +66,7 @@
 /* Focus ring - inset */
 @utility focus-ring {
   &:focus-visible {
-    outline: 2px solid oklch(var(--ring));
+    outline: 2px solid hsl(var(--ring));
     outline-offset: -2px;
     border-radius: var(--radius);
   }
@@ -75,7 +75,7 @@
 /* Focus ring - offset */
 @utility focus-ring-offset {
   &:focus-visible {
-    outline: 2px solid oklch(var(--ring));
+    outline: 2px solid hsl(var(--ring));
     outline-offset: 2px;
     border-radius: var(--radius);
   }
@@ -83,7 +83,7 @@
 
 /* Accent border (e.g., active/selected states) */
 @utility accent-border {
-  border-left: 3px solid oklch(var(--primary));
+  border-left: 3px solid hsl(var(--primary));
 }
 
 /* ===== Clickable Areas ===== */
@@ -137,8 +137,13 @@
   right: 0;
   bottom: 0;
   width: min(24rem, 100vw);
-  background-color: oklch(var(--background));
-  border-left: 1px solid oklch(var(--border));
+  background-color: hsl(var(--background));
+  border-left: 1px solid hsl(var(--border));
   z-index: 50;
   overflow-y: auto;
+}
+
+/* Blue-tinted card shadow per DESIGN.md */
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
 }

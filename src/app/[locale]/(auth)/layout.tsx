@@ -1,5 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
+import { Inter } from 'next/font/google'
 import { ArrowLeft } from 'lucide-react'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
@@ -11,6 +12,8 @@ import { getCachedGlobal } from '@/modules/common/data'
 import type { SiteSetting } from '@/payload/payload-types'
 import '@/styles/index.css'
 
+const inter = Inter({ subsets: ['latin'] })
+
 export default async function AuthLayout(props: { children: React.ReactNode, params: Promise<{ locale: string }> }) {
   const { children } = props
   const { locale } = await props.params
@@ -21,7 +24,7 @@ export default async function AuthLayout(props: { children: React.ReactNode, par
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <body className="min-h-screen flex flex-col bg-background antialiased">
+      <body className={`${inter.className} min-h-screen flex flex-col bg-background antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <NextIntlClientProvider messages={messages}>
             <div className="flex-1 w-full flex flex-col">

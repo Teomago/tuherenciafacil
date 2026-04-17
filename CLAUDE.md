@@ -30,16 +30,16 @@
 
 ## Agent pipeline (READ THIS)
 
-All implementation goes through `.agents/AGENTS.md`. **MANDATORY:** Before starting any phase, read the relevant standards in `.agents/skills/` (planning, tdd, debugging, verification, brainstorming, docs).
+All implementation goes through `.agents/AGENTS.md`. **MANDATORY:** Before starting any phase, use the `activate_skill` tool to load relevant standards (e.g., `writing-plans`, `test-driven-development`, `systematic-debugging`, `verification-before-completion`, `brainstorming`, `find-docs`).
 
 1. **Gemini CLI** — writes RFC spec in `.agents/specs/`.
-2. **Claude Code (you)** — audits the spec against `tdd.md` and `planning.md`. Writes report in `.agents/audits/`.
-3. **Teo + Claude Code (you)** — Teo reviews audit. You draft the decision file at `.agents/decisions/RFC-[N]-decision.md`. **CRITICAL:** The decision file MUST follow the `planning.md` format (granular tasks, failing test code, verification commands).
-4. **Executor (Gemini or Claude Code)** — implements from decision file ONLY. MUST follow `tdd.md` cycle (Red-Green-Refactor).
-5. **Teo** — runs QA verification checklist using the `verification.md` standard.
+2. **Claude Code (you)** — audits the spec against `test-driven-development` and `writing-plans`. Writes report in `.agents/audits/`.
+3. **Teo + Claude Code (you)** — Teo reviews audit. You draft the decision file at `.agents/decisions/RFC-[N]-decision.md`. **CRITICAL:** The decision file MUST follow the `writing-plans` format (granular tasks, failing test code, verification commands).
+4. **Executor (Gemini or Claude Code)** — implements from decision file ONLY. MUST follow `test-driven-development` cycle (Red-Green-Refactor).
+5. **Teo** — runs QA verification checklist using the `verification-before-completion` standard.
 6. **Claude Code (you)** — closes cycle after Teo confirms QA passed.
 
-**ZERO code without a decision file in `.agents/decisions/`.** Use `ctx7 library` and `ctx7 docs` (as defined in `docs.md`) for up-to-date documentation on Next.js, React, and Payload CMS.
+**ZERO code without a decision file in `.agents/decisions/`.** Use `find-docs` for up-to-date documentation on Next.js, React, and Payload CMS.
 
 ---
 
@@ -82,6 +82,23 @@ The project uses Payload CMS + Drizzle ORM + Neon (PostgreSQL).
   5. CI runs `pnpm payload migrate` against prod before `pnpm build`
   6. Deploy
 - Never mix `push` and `migrate` on the same database
+
+---
+
+## Code integrity rule — NON-NEGOTIABLE
+
+**NEVER delete, comment out, or suppress code, config, imports, fields, tests, or dependencies to make an error go away.**
+
+This includes but is not limited to:
+- Removing an import because it throws `ERR_X`
+- Commenting out a failing test instead of fixing it
+- Removing a collection field because it causes a type error
+- Deleting `"type": "module"` from `package.json` to suppress an ESM error
+- Removing a validation because it blocks a flow
+- Ignoring a hook or middleware because it's inconvenient
+
+The only valid fix is finding and resolving the root cause.
+If the root cause cannot be resolved in 2 attempts → escalate to Teo immediately.
 
 ---
 

@@ -130,6 +130,8 @@ export interface Config {
     users: User;
     'invitation-codes': InvitationCode;
     tags: Tag;
+    cases: Case;
+    appointments: Appointment;
     'payload-kv': PayloadKv;
     'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
@@ -149,6 +151,8 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     'invitation-codes': InvitationCodesSelect<false> | InvitationCodesSelect<true>;
     tags: TagsSelect<false> | TagsSelect<true>;
+    cases: CasesSelect<false> | CasesSelect<true>;
+    appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -1658,6 +1662,9 @@ export interface Member {
    */
   preferredLocale: 'es' | 'en';
   role: 'cliente' | 'abogado';
+  /**
+   * Inactive lawyers are redirected to a pending-activation page on login. Takes effect on next login.
+   */
   isActive?: boolean | null;
   /**
    * Solo dígitos, sin puntos. Ejemplo: 1012345678
@@ -1700,6 +1707,101 @@ export interface InvitationCode {
   id: string;
   code?: string | null;
   status?: ('available' | 'used') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cases".
+ */
+export interface Case {
+  id: string;
+  /**
+   * Generado automáticamente al crear el caso.
+   */
+  caseNumber: string;
+  status?: ('active' | 'completed') | null;
+  currentPhase?: number | null;
+  tier: 'estandar' | 'premium' | 'elite';
+  responsable?: (string | null) | Member;
+  abogadoAsignado?: (string | null) | Member;
+  /**
+   * Cédula del cliente invitado (solo cuando el abogado crea el caso). Sin puntos.
+   */
+  invitacionCedula?: string | null;
+  /**
+   * Estado de la invitación cuando el caso fue creado por el abogado.
+   */
+  invitacionStatus?: ('pendiente_aceptacion' | 'aceptada') | null;
+  causante?: {
+    nombre?: string | null;
+    cedula?: string | null;
+    fechaFallecimiento?: string | null;
+    ciudadFallecimiento?: string | null;
+  };
+  /**
+   * Solo visible para abogados y administradores.
+   */
+  notasInternas?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  /**
+   * Visible para el cliente en su dashboard.
+   */
+  notasAlCliente?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments".
+ */
+export interface Appointment {
+  id: string;
+  member: string | Member;
+  tipo:
+    | 'consulta_virtual'
+    | 'consulta_presencial'
+    | 'mediacion_virtual'
+    | 'mediacion_presencial'
+    | 'caso_virtual'
+    | 'caso_presencial';
+  monto: number;
+  status?: ('pendiente_pago' | 'pagada' | 'realizada' | 'cancelada') | null;
+  /**
+   * Solo Paola puede activar esta casilla. Suma el monto al crédito del cliente cuando el estado sea "Realizada".
+   */
+  autorizarCredito?: boolean | null;
+  /**
+   * Gestionado automáticamente por el hook. No editar manualmente.
+   */
+  creditoApplied?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1754,6 +1856,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'tags';
         value: string | Tag;
+      } | null)
+    | ({
+        relationTo: 'cases';
+        value: string | Case;
+      } | null)
+    | ({
+        relationTo: 'appointments';
+        value: string | Appointment;
       } | null)
     | ({
         relationTo: 'payload-folders';
@@ -2048,6 +2158,46 @@ export interface TagsSelect<T extends boolean = true> {
   updatedAt?: T;
   createdAt?: T;
   deletedAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "cases_select".
+ */
+export interface CasesSelect<T extends boolean = true> {
+  caseNumber?: T;
+  status?: T;
+  currentPhase?: T;
+  tier?: T;
+  responsable?: T;
+  abogadoAsignado?: T;
+  invitacionCedula?: T;
+  invitacionStatus?: T;
+  causante?:
+    | T
+    | {
+        nombre?: T;
+        cedula?: T;
+        fechaFallecimiento?: T;
+        ciudadFallecimiento?: T;
+      };
+  notasInternas?: T;
+  notasAlCliente?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments_select".
+ */
+export interface AppointmentsSelect<T extends boolean = true> {
+  member?: T;
+  tipo?: T;
+  monto?: T;
+  status?: T;
+  autorizarCredito?: T;
+  creditoApplied?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

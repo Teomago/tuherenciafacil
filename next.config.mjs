@@ -65,4 +65,7 @@ const nextConfig = {
 }
 
 const withNextIntl = createNextIntlPlugin('./src/i18n.ts')
-export default withPayload(withNextIntl(nextConfig), { devBundleServerPackages: false })
+const config = withPayload(withNextIntl(nextConfig), { devBundleServerPackages: false })
+// Payload 3.x injects experimental.enableServerFastRefresh which Next.js 16.2+ rejects
+if (config.experimental) delete config.experimental.enableServerFastRefresh
+export default config

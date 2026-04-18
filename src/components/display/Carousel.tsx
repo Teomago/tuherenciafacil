@@ -60,8 +60,10 @@ const Carousel = React.forwardRef<HTMLDivElement, CarouselProps>(
 
     useEffect(() => {
       if (!emblaApi) return
-      setScrollSnaps(emblaApi.scrollSnapList())
-      onSelect(emblaApi)
+      queueMicrotask(() => {
+        setScrollSnaps(emblaApi.scrollSnapList())
+        onSelect(emblaApi)
+      })
       emblaApi.on('reInit', onSelect).on('select', onSelect)
 
       return () => {

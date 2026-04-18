@@ -132,6 +132,9 @@ export interface Config {
     tags: Tag;
     cases: Case;
     appointments: Appointment;
+    'case-intakes': CaseIntake;
+    heirs: Heir;
+    assets: Asset;
     'payload-kv': PayloadKv;
     'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
@@ -153,6 +156,9 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     cases: CasesSelect<false> | CasesSelect<true>;
     appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
+    'case-intakes': CaseIntakesSelect<false> | CaseIntakesSelect<true>;
+    heirs: HeirsSelect<false> | HeirsSelect<true>;
+    assets: AssetsSelect<false> | AssetsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -1676,7 +1682,7 @@ export interface Member {
   telefono?: string | null;
   ciudad?: string | null;
   /**
-   * Crédito acumulado en pesos COP. Gestionado automáticamente por hooks. Solo editable por Admin/Abogado.
+   * Crédito acumulado en pesos COP. Gestionado automáticamente por el hook autorizarCredito. Solo editable por Admin directamente; los abogados deben usar el campo autorizarCredito en Citas.
    */
   creditoAcumulado?: number | null;
   isVerified?: boolean | null;
@@ -1719,7 +1725,7 @@ export interface Case {
   /**
    * Generado automáticamente al crear el caso.
    */
-  caseNumber: string;
+  caseNumber?: string | null;
   status?: ('active' | 'completed') | null;
   currentPhase?: number | null;
   tier: 'estandar' | 'premium' | 'elite';
@@ -1733,12 +1739,28 @@ export interface Case {
    * Estado de la invitación cuando el caso fue creado por el abogado.
    */
   invitacionStatus?: ('pendiente_aceptacion' | 'aceptada') | null;
+  /**
+   * Se copia del Intake.
+   */
+  tieneTestamento?: boolean | null;
+  /**
+   * Se copia del Intake.
+   */
+  acuerdoHerederos?: ('si' | 'no_sabe') | null;
   causante?: {
     nombre?: string | null;
     cedula?: string | null;
     fechaFallecimiento?: string | null;
     ciudadFallecimiento?: string | null;
   };
+  /**
+   * El formulario de intake que originó este caso.
+   */
+  caseIntake?: (string | null) | CaseIntake;
+  /**
+   * Consulta previa si el cliente tuvo una antes de abrir el caso.
+   */
+  appointment?: (string | null) | Appointment;
   /**
    * Solo visible para abogados y administradores.
    */
@@ -1780,6 +1802,44 @@ export interface Case {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-intakes".
+ */
+export interface CaseIntake {
+  id: string;
+  member: string | Member;
+  status?: ('draft' | 'submitted' | 'paid') | null;
+  tierElegido?: ('estandar' | 'premium' | 'elite') | null;
+  tieneTestamento?: boolean | null;
+  acuerdoHerederos: 'si' | 'no_sabe';
+  causanteNombre: string;
+  causanteCedula: string;
+  causanteFechaFallecimiento: string;
+  causanteCiudadFallecimiento: string;
+  bienesDescripcion?: string | null;
+  parentescoConCausante?: ('hijo' | 'hermano' | 'conyuge' | 'nieto' | 'sobrino' | 'padre_madre' | 'otro') | null;
+  /**
+   * Cita previa si el cliente tuvo una antes de abrir el caso.
+   */
+  appointment?: (string | null) | Appointment;
+  /**
+   * ID de transacción Wompi. Se llena en RFC-008.
+   */
+  wompiTransactionId?: string | null;
+  /**
+   * Monto total pagado en COP. Se llena en RFC-008.
+   */
+  montoTotal?: number | null;
+  herederosEstimados: number;
+  valorEstimadoTotal?: number | null;
+  /**
+   * Se llena automáticamente al confirmar el pago.
+   */
+  case?: (string | null) | Case;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "appointments".
  */
 export interface Appointment {
@@ -1802,6 +1862,43 @@ export interface Appointment {
    * Gestionado automáticamente por el hook. No editar manualmente.
    */
   creditoApplied?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "heirs".
+ */
+export interface Heir {
+  id: string;
+  case: string | Case;
+  nombre: string;
+  cedula: string;
+  parentesco: 'hijo' | 'conyuge' | 'padre' | 'hermano' | 'otro';
+  esFallecido?: boolean | null;
+  esRepresentante?: boolean | null;
+  herederoOriginal?: (string | null) | Heir;
+  /**
+   * Solo abogados o administradores pueden validar la representación.
+   */
+  representacionValidada?: boolean | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "assets".
+ */
+export interface Asset {
+  id: string;
+  case: string | Case;
+  tipo: 'inmueble' | 'vehiculo' | 'cuenta' | 'accion' | 'otro';
+  valorEstimado: number;
+  descripcion: string;
+  identificador: string;
+  investigacion?: {
+    resultado?: (string | null) | Media;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1864,6 +1961,18 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'appointments';
         value: string | Appointment;
+      } | null)
+    | ({
+        relationTo: 'case-intakes';
+        value: string | CaseIntake;
+      } | null)
+    | ({
+        relationTo: 'heirs';
+        value: string | Heir;
+      } | null)
+    | ({
+        relationTo: 'assets';
+        value: string | Asset;
       } | null)
     | ({
         relationTo: 'payload-folders';
@@ -2172,6 +2281,8 @@ export interface CasesSelect<T extends boolean = true> {
   abogadoAsignado?: T;
   invitacionCedula?: T;
   invitacionStatus?: T;
+  tieneTestamento?: T;
+  acuerdoHerederos?: T;
   causante?:
     | T
     | {
@@ -2180,6 +2291,8 @@ export interface CasesSelect<T extends boolean = true> {
         fechaFallecimiento?: T;
         ciudadFallecimiento?: T;
       };
+  caseIntake?: T;
+  appointment?: T;
   notasInternas?: T;
   notasAlCliente?: T;
   updatedAt?: T;
@@ -2196,6 +2309,65 @@ export interface AppointmentsSelect<T extends boolean = true> {
   status?: T;
   autorizarCredito?: T;
   creditoApplied?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "case-intakes_select".
+ */
+export interface CaseIntakesSelect<T extends boolean = true> {
+  member?: T;
+  status?: T;
+  tierElegido?: T;
+  tieneTestamento?: T;
+  acuerdoHerederos?: T;
+  causanteNombre?: T;
+  causanteCedula?: T;
+  causanteFechaFallecimiento?: T;
+  causanteCiudadFallecimiento?: T;
+  bienesDescripcion?: T;
+  parentescoConCausante?: T;
+  appointment?: T;
+  wompiTransactionId?: T;
+  montoTotal?: T;
+  herederosEstimados?: T;
+  valorEstimadoTotal?: T;
+  case?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "heirs_select".
+ */
+export interface HeirsSelect<T extends boolean = true> {
+  case?: T;
+  nombre?: T;
+  cedula?: T;
+  parentesco?: T;
+  esFallecido?: T;
+  esRepresentante?: T;
+  herederoOriginal?: T;
+  representacionValidada?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "assets_select".
+ */
+export interface AssetsSelect<T extends boolean = true> {
+  case?: T;
+  tipo?: T;
+  valorEstimado?: T;
+  descripcion?: T;
+  identificador?: T;
+  investigacion?:
+    | T
+    | {
+        resultado?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

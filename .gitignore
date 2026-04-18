@@ -51,6 +51,9 @@ next-env.d.ts
 # Design reference
 /docs/design/reference
 
+# Payloadcms docs
+/.agents/context/Payloadcms/
+
 # Claude Code internal files
 /.claude
 

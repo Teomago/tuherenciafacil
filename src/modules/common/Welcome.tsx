@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import { getTranslations } from 'next-intl/server'
 import { ThemeToggle } from '@/components/ui/theme-toggle'
 import { LanguageSwitcher } from '@/components/ui/LanguageSwitcher'
@@ -51,9 +52,9 @@ export async function Welcome() {
               </span>
               <span>
                 {t('step1pre')}
-                <a href="/admin" className="font-medium text-foreground underline underline-offset-4">
+                <Link href="/admin" className="font-medium text-foreground underline underline-offset-4">
                   {t('step1link')}
-                </a>
+                </Link>
               </span>
             </li>
             <li className="flex gap-3">
@@ -81,12 +82,12 @@ export async function Welcome() {
           </ol>
         </div>
 
-        <a
+        <Link
           href="/admin"
           className="inline-flex items-center justify-center rounded-md bg-primary px-6 py-2.5 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
         >
           {t('openAdmin')}
-        </a>
+        </Link>
       </div>
     </div>
   )

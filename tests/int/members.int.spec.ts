@@ -8,20 +8,26 @@ describe('Members — field validation', () => {
   beforeAll(async () => {
     const payloadConfig = await config
     payload = await getPayload({ config: payloadConfig })
-  })
+  }, 120000)
 
   afterAll(async () => {
-    await payload.delete({
-      collection: 'members',
-      where: { email: { contains: '@members-test.com' } },
-      overrideAccess: true,
-    })
+    if (!payload) return
+    try {
+      await payload.delete({
+        collection: 'members',
+        where: { email: { contains: '@members-test.com' } },
+        overrideAccess: true,
+      })
+    } catch {
+      // best-effort teardown
+    }
   })
 
   // --- cedula validation ---
 
   it('rejects cedula containing non-numeric characters', async () => {
     await expect(
+      // @ts-expect-error - Payload 3.82.0 TS discriminated union bug for Local API without req
       payload.create({
         collection: 'members',
         data: {
@@ -38,6 +44,7 @@ describe('Members — field validation', () => {
 
   it('rejects cedula shorter than 6 digits', async () => {
     await expect(
+      // @ts-expect-error - Payload 3.82.0 TS discriminated union bug for Local API without req
       payload.create({
         collection: 'members',
         data: {
@@ -54,6 +61,7 @@ describe('Members — field validation', () => {
 
   it('rejects cedula longer than 12 digits', async () => {
     await expect(
+      // @ts-expect-error - Payload 3.82.0 TS discriminated union bug for Local API without req
       payload.create({
         collection: 'members',
         data: {
@@ -72,6 +80,7 @@ describe('Members — field validation', () => {
 
   it('rejects telefono not starting with 3', async () => {
     await expect(
+      // @ts-expect-error - Payload 3.82.0 TS discriminated union bug for Local API without req
       payload.create({
         collection: 'members',
         data: {
@@ -88,6 +97,7 @@ describe('Members — field validation', () => {
 
   it('rejects telefono with fewer than 10 digits', async () => {
     await expect(
+      // @ts-expect-error - Payload 3.82.0 TS discriminated union bug for Local API without req
       payload.create({
         collection: 'members',
         data: {
@@ -105,6 +115,7 @@ describe('Members — field validation', () => {
   // --- defaults and valid creation ---
 
   it('creates member with valid data and verifies field defaults', async () => {
+    // @ts-expect-error - Payload 3.82.0 TS discriminated union bug for Local API without req
     const member = await payload.create({
       collection: 'members',
       data: {

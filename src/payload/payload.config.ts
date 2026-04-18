@@ -14,6 +14,7 @@ import { blocks } from './blocks'
 import { lexicalBlocks } from './lexical/blocks'
 import { inlineBlocks } from './lexical/inlineBlocks'
 import { rootEditor } from './lexical'
+import { convertIntakeHandler } from './endpoints/convertIntake'
 
 import brevoAdapter from '@/utilities/brevoAdapter'
 
@@ -24,6 +25,13 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || '',
+  endpoints: [
+    {
+      path: '/succession/convert-intake',
+      method: 'post',
+      handler: convertIntakeHandler,
+    },
+  ],
   localization: {
     locales: ['en', 'es'],
     defaultLocale: 'en',
@@ -75,7 +83,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
-    push: process.env.NODE_ENV === 'development',
+    push: process.env.NODE_ENV !== 'production',
   }),
   sharp,
   plugins: [

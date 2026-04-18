@@ -35,10 +35,10 @@ export function ContactFormBlock({
   successMessage,
   endpoint,
 }: ContactFormBlockProps) {
-  if (!fields || fields.length === 0) return null
-
   const [formData, setFormData] = useState<Record<string, string>>({})
   const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+
+  if (!fields || fields.length === 0) return null
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()

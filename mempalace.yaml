@@ -1,0 +1,50 @@
+# MemPalace — project config (commit this file). Run: python3 -m mempalace mine . --wing tuherenciafacil
+# Palace data lives in ~/.mempalace/palace (not in the repo).
+wing: tuherenciafacil
+rooms:
+- name: agents
+  description: RFCs, audits, decisions, PROJECT_STATE — .agents/
+  keywords:
+  - agents
+  - RFC
+  - decision
+  - PROJECT_STATE
+- name: testing
+  description: Files from tests/
+  keywords:
+  - testing
+  - tests
+- name: documentation
+  description: Files from docs/
+  keywords:
+  - documentation
+  - docs
+- name: public
+  description: Files from public/
+  keywords:
+  - public
+  - public
+- name: src
+  description: Files from src/
+  keywords:
+  - src
+  - src
+- name: planning
+  description: Backlog and roadmap — .agents/context/
+  keywords:
+  - planning
+  - BACKLOG
+  - ROADMAP
+- name: design
+  description: Files from design/
+  keywords:
+  - design
+  - design
+- name: frontend
+  description: Files from components/
+  keywords:
+  - frontend
+  - components
+- name: general
+  description: Files that don't fit other rooms
+  keywords: []

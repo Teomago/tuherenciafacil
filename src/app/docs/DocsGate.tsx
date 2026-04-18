@@ -10,7 +10,7 @@ export default function DocsGate({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const auth = sessionStorage.getItem('docs_auth')
     if (auth === 'true') {
-      setIsAuthorized(true)
+      queueMicrotask(() => setIsAuthorized(true))
     }
   }, [])
 

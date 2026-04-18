@@ -19,13 +19,13 @@ type ImageItem = NonNullable<GalleryBlockType['images']>[number]
  * Marked 'use client' for Dialog lightbox interactivity.
  */
 export function GalleryBlock({ heading, subheading, images, design }: GalleryBlockProps) {
+  const [lightboxImage, setLightboxImage] = useState<ImageItem | null>(null)
+
   if (!images || images.length === 0) return null
 
   const layout = design?.layout || 'grid'
   const columns = design?.columns || '3'
   const lightbox = design?.lightbox !== false
-
-  const [lightboxImage, setLightboxImage] = useState<ImageItem | null>(null)
 
   const header = (heading || subheading) && (
     <div className="text-center">

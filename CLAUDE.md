@@ -1,6 +1,7 @@
 # CLAUDE.md — tuHerenciaFácil
 
-> Read this file at the start of every session. Then read `.agents/AGENTS.md` and `.agents/context/PROJECT_STATE.md`.
+> Read this file at the start of every session. Then read `.agents/AGENTS.md` and `.agents/context/PROJECT_STATE.md`.  
+> **Cursor / Composer:** read **`CURSOR.md`** first — it maps MemPalace, Context7, skills, and your pipeline for Cursor.
 
 ## Project overview
 
@@ -30,7 +31,7 @@
 
 ## Agent pipeline (READ THIS)
 
-All implementation goes through `.agents/AGENTS.md`. **MANDATORY:** Before starting any phase, use the `activate_skill` tool to load relevant standards (e.g., `writing-plans`, `test-driven-development`, `systematic-debugging`, `verification-before-completion`, `brainstorming`, `find-docs`).
+All implementation goes through `.agents/AGENTS.md`. **MANDATORY:** Before starting any phase, load the relevant standards (e.g. `writing-plans`, `test-driven-development`, `systematic-debugging`, `verification-before-completion`, `brainstorming`, Context7 / `find-docs` for library docs). In **Claude Code**, use `activate_skill` when available; in **Cursor**, read the corresponding `SKILL.md` via the **Read** tool — same order of operations.
 
 1. **Gemini CLI** — writes RFC spec in `.agents/specs/`.
 2. **Claude Code (you)** — audits the spec against `test-driven-development` and `writing-plans`. Writes report in `.agents/audits/`.
@@ -39,7 +40,7 @@ All implementation goes through `.agents/AGENTS.md`. **MANDATORY:** Before start
 5. **Teo** — runs QA verification checklist using the `verification-before-completion` standard.
 6. **Claude Code (you)** — closes cycle after Teo confirms QA passed.
 
-**ZERO code without a decision file in `.agents/decisions/`.** Use `find-docs` for up-to-date documentation on Next.js, React, and Payload CMS.
+**ZERO code without a decision file in `.agents/decisions/`.** Use Context7 MCP or `find-docs` for up-to-date documentation on Next.js, React, and Payload CMS.
 
 ---
 
@@ -87,7 +88,11 @@ The project uses Payload CMS + Drizzle ORM + Neon (PostgreSQL).
 
 ## Code integrity rule — NON-NEGOTIABLE
 
+> Full specification (English, canonical): `.agents/standards/NO-ERROR-SUPPRESSION.md`
+
 **NEVER delete, comment out, or suppress code, config, imports, fields, tests, or dependencies to make an error go away.**
+
+**NEVER use `@ts-ignore`, `@ts-expect-error`, `as any`, `eslint-disable`, semantic placeholders (`'GENERATING...'`, `'TODO'`), or any suppression technique to make a build pass.**
 
 This includes but is not limited to:
 - Removing an import because it throws `ERR_X`
@@ -96,6 +101,7 @@ This includes but is not limited to:
 - Deleting `"type": "module"` from `package.json` to suppress an ESM error
 - Removing a validation because it blocks a flow
 - Ignoring a hook or middleware because it's inconvenient
+- Adding `@ts-ignore` above a line that TypeScript rejects
 
 The only valid fix is finding and resolving the root cause.
 If the root cause cannot be resolved in 2 attempts → escalate to Teo immediately.

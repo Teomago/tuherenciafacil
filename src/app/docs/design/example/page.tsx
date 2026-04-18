@@ -58,7 +58,7 @@ export default function DesignExampleIndex() {
       </p>
       <p className="text-xs text-[#B4B2A9] mb-8">
         Los ejemplos abren en la misma pestaña con navegación lateral idéntica a la que tendrá la app.
-        Usa el botón "← Volver a Docs" dentro de cada ejemplo para regresar.
+        Usa el botón «← Volver a Docs» dentro de cada ejemplo para regresar.
       </p>
 
       {/* Design system token summary */}

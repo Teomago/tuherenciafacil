@@ -1,5 +1,12 @@
 # Payload CMS Development Rules
 
+> **tuHerenciaFácil — read the right “agents” file**
+>
+> - **RFC pipeline (spec → audit → decision → execute → QA → close):** **`.agents/AGENTS.md`**. Cursor sessions: also read **`CURSOR.md`** at repo root.
+> - **This file (`AGENTS.md` at repo root):** long **generic Payload CMS** reference (patterns, security, Local API). It does **not** replace `.agents/AGENTS.md` for product workflow.
+
+---
+
 You are an expert Payload CMS developer. When working with Payload projects, follow these rules:
 
 ## Core Principles

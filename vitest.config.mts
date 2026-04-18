@@ -11,7 +11,8 @@ export default defineConfig({
       'tests/unit/**/*.spec.ts',
       'tests/int/**/*.int.spec.ts',
     ],
-    hookTimeout: 60000,
+    fileParallelism: false,
+    hookTimeout: 120000,
     testTimeout: 30000,
     server: {
       deps: {

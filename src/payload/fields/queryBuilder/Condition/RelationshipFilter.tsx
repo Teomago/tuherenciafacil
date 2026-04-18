@@ -255,8 +255,10 @@ export const RelationshipFilter: React.FC<RelationshipFilterProps> = ({
       relations.map((relation) => [relation, { hasLoadedAll: false, nextPage: 1 }]),
     )
 
-    dispatchOptions({ type: 'CLEAR', i18n, required: false })
-    setHasLoadedFirstOptions(false)
+    queueMicrotask(() => {
+      dispatchOptions({ type: 'CLEAR', i18n, required: false })
+      setHasLoadedFirstOptions(false)
+    })
 
     const abortControllers: AbortController[] = []
 

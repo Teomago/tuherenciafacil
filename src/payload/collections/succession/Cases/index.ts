@@ -62,7 +62,6 @@ export const Cases: CollectionConfig = {
     {
       name: 'caseNumber',
       type: 'text',
-      required: true,
       unique: true,
       admin: {
         readOnly: true,
@@ -128,6 +127,25 @@ export const Cases: CollectionConfig = {
       },
     },
     {
+      name: 'tieneTestamento',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        description: 'Se copia del Intake.',
+      },
+    },
+    {
+      name: 'acuerdoHerederos',
+      type: 'select',
+      options: [
+        { label: 'Sí', value: 'si' },
+        { label: 'No sabe', value: 'no_sabe' },
+      ],
+      admin: {
+        description: 'Se copia del Intake.',
+      },
+    },
+    {
       name: 'causante',
       type: 'group',
       fields: [
@@ -136,6 +154,23 @@ export const Cases: CollectionConfig = {
         { name: 'fechaFallecimiento', type: 'date' },
         { name: 'ciudadFallecimiento', type: 'text' },
       ],
+    },
+    {
+      name: 'caseIntake',
+      type: 'relationship',
+      relationTo: 'case-intakes',
+      admin: {
+        readOnly: true,
+        description: 'El formulario de intake que originó este caso.',
+      },
+    },
+    {
+      name: 'appointment',
+      type: 'relationship',
+      relationTo: 'appointments',
+      admin: {
+        description: 'Consulta previa si el cliente tuvo una antes de abrir el caso.',
+      },
     },
     {
       name: 'notasInternas',

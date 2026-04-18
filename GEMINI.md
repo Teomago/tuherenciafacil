@@ -1,6 +1,8 @@
 # GEMINI.md — tuHerenciaFácil
 
-> Read this file at the start of every session. Then read `.agents/AGENTS.md` and `.agents/context/PROJECT_STATE.md`.
+> Read this file at the start of every session. Then read `.agents/AGENTS.md` and `.agents/context/PROJECT_STATE.md`.  
+> **Cursor / Composer** sessions use **`CURSOR.md`** instead of this file as the primary IDE map; pipeline rules remain `.agents/AGENTS.md`.  
+> **Pipeline status:** You are cleared to run **Phase 1 specs** again when Teo assigns them — repo state is documented in **`.agents/context/PROJECT_STATE.md`** (updated 2026-04-18).
 
 ## Project overview
 
@@ -31,7 +33,7 @@
 
 You are currently in **Phase 1 — Designer / Spec Writer** (unless Teo assigns you a different role via `.agents/AGENTS.md`).
 
-**MANDATORY:** Before starting any phase, use the `activate_skill` tool to load relevant standards (e.g., `brainstorming`, `writing-plans`, `find-docs`).
+**MANDATORY:** Before starting any phase, use the `activate_skill` tool to load relevant standards (e.g., `brainstorming`, `writing-plans`, `find-docs`). For library APIs, prefer **Context7** MCP (`resolve-library-id`, `query-docs`) when available in the harness.
 
 1.  **Brainstorming (`brainstorming`):** Refine the feature with Teo until a design is approved.
 2.  **RFC Writing (`writing-plans`):** Write the RFC spec at `.agents/specs/RFC-[N]-[short-name].md`.

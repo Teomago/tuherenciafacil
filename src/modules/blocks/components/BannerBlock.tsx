@@ -35,9 +35,9 @@ const typeStyles: Record<string, { container: string; badge: string; badgeLabel:
  * Marked 'use client' for dismissible functionality.
  */
 export function BannerBlock({ content, design }: BannerBlockProps) {
-  if (!content) return null
-
   const [dismissed, setDismissed] = useState(false)
+
+  if (!content) return null
   const bannerType = design?.type || 'info'
   const dismissible = design?.dismissible === true
   const styles = typeStyles[bannerType] || typeStyles.info

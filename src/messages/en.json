@@ -120,5 +120,61 @@
     "welcome": "Welcome",
     "welcomeMessage": "Welcome, {user}",
     "subtitle": "Your succession process starts here."
+  },
+  "Collections": {
+    "members": {
+      "role": "Role",
+      "cedula": "ID Number",
+      "telefono": "Phone",
+      "ciudad": "City",
+      "creditoAcumulado": "Accumulated Credit",
+      "isActive": "Active Account",
+      "isVerified": "Verified"
+    },
+    "cases": {
+      "caseNumber": "Case Number",
+      "currentPhase": "Current Phase",
+      "tier": "Plan",
+      "responsable": "Responsible",
+      "abogadoAsignado": "Assigned Lawyer",
+      "notasInternas": "Internal Notes",
+      "notasAlCliente": "Notes to Client",
+      "invitacionCedula": "Invited Client ID",
+      "invitacionStatus": "Invitation Status"
+    },
+    "appointments": {
+      "appointmentType": "Appointment Type",
+      "autorizarCredito": "Authorize Credit",
+      "monto": "Amount",
+      "creditoApplied": "Credit Applied"
+    },
+    "caseIntake": {
+      "status": "Status",
+      "tierElegido": "Chosen Plan",
+      "tieneTestamento": "Has Will",
+      "acuerdoHerederos": "Heirs Agreement",
+      "causanteNombre": "Deceased Name",
+      "causanteCedula": "Deceased ID",
+      "causanteFechaFallecimiento": "Date of Death",
+      "causanteCiudadFallecimiento": "City of Death",
+      "herederosEstimados": "Estimated Heirs",
+      "valorEstimadoTotal": "Total Estimated Value"
+    },
+    "heirs": {
+      "nombre": "Name",
+      "cedula": "ID Number",
+      "parentesco": "Relationship",
+      "esFallecido": "Deceased",
+      "esRepresentante": "Is Representative",
+      "herederoOriginal": "Original Heir",
+      "representacionValidada": "Representation Validated"
+    },
+    "assets": {
+      "tipo": "Type",
+      "valorEstimado": "Estimated Value",
+      "descripcion": "Description",
+      "identificador": "Identifier (Plate/Account/Reg)",
+      "resultadoInvestigacion": "Investigation Result"
+    }
   }
 }

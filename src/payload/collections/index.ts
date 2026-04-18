@@ -7,6 +7,9 @@ import { InvitationCodes } from './settings/InvitationCodes'
 import { Tags } from './system/Tags'
 import { Cases } from './succession/Cases'
 import { Appointments } from './succession/Appointments'
+import { CaseIntake } from './succession/CaseIntake'
+import { Heirs } from './succession/Heirs'
+import { Assets } from './succession/Assets'
 
 export const collections = [
   // Content
@@ -22,4 +25,7 @@ export const collections = [
   // Sucesiones
   Cases,
   Appointments,
+  CaseIntake,
+  Heirs,
+  Assets,
 ]

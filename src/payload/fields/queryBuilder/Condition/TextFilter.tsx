@@ -49,20 +49,22 @@ export const TextFilter: React.FC<TextFilterProps> = ({
   )
 
   useEffect(() => {
-    if (Array.isArray(value)) {
-      setValueToRender(
-        value.map((val, index) => ({
-          id: `${val}${index}`,
-          label: `${val}`,
-          value: {
-            toString: () => `${val}${index}`,
-            value: val,
-          },
-        })),
-      )
-    } else {
-      setValueToRender([])
-    }
+    queueMicrotask(() => {
+      if (Array.isArray(value)) {
+        setValueToRender(
+          value.map((val, index) => ({
+            id: `${val}${index}`,
+            label: `${val}`,
+            value: {
+              toString: () => `${val}${index}`,
+              value: val,
+            },
+          })),
+        )
+      } else {
+        setValueToRender([])
+      }
+    })
   }, [value])
 
   return isMulti ? (

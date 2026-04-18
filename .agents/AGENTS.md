@@ -1,17 +1,30 @@
 # AGENTS.md — Multi-Agent Engineering Pipeline
 
-> RULE ZERO: Read this file before starting any session.
+> **RULE ZERO:** Read this file before starting any session.
 
-## Shared Engineering Standards (Superpowers)
+## Absolute rule — before any action
 
-All agents (Gemini, Claude, or any future AI) MUST adhere to the following standards. These are globally available as skills. Invoke them using `activate_skill` before starting any phase:
+**Read `.agents/standards/NO-ERROR-SUPPRESSION.md` now. It is not optional.**
+
+No agent may use `@ts-ignore`, `@ts-expect-error`, `as any`, `eslint-disable`, commented-out tests, or semantic placeholders to green a build. If you cannot resolve an error in **two** serious attempts → escalate to **Teo** with the **exact** error text. **Suppressing an error is not a fix.**
+
+**Agent entry points:** **Cursor / Composer** → `CURSOR.md`. **Claude Code** → `CLAUDE.md`. **Gemini CLI** → `GEMINI.md`. Pipeline rules are always **this file** (`.agents/AGENTS.md`).
+
+## Shared engineering standards (Superpowers + tools)
+
+All agents (Gemini, Claude, Cursor, or any future tool) MUST follow these standards. They ship as **skills** in your environment:
+
+- **Gemini CLI:** use `activate_skill` when the harness supports it.
+- **Cursor:** open the matching `SKILL.md` with the **Read** tool (or your editor’s skill picker) **before** the phase that needs it — same discipline, different invocation.
 
 1.  **Planning (`writing-plans`):** Every implementation plan must be granular, bite-sized, and free of placeholders.
 2.  **TDD (`test-driven-development`):** No production code without a failing test first. Red-Green-Refactor is mandatory.
-3.  **Debugging (`systematic-debugging`):** No fixes without root cause investigation. Follow the 4-phase process.
+3.  **Debugging (`systematic-debugging`):** No fixes without root-cause investigation. Follow the 4-phase process.
 4.  **Verification (`verification-before-completion`):** No completion claims without fresh, evidence-based verification.
 5.  **Brainstorming (`brainstorming`):** No implementation until a design is approved.
-6.  **Documentation (`find-docs`):** Use the `find-docs` skill for up-to-date library information.
+6.  **Library docs:** Use the **Context7** MCP (`resolve-library-id`, `query-docs`) for Next.js / Payload / React APIs when the decision file does not already pin the answer. Use **`find-docs`** if your skill set maps that name to the same workflow.
+7.  **UI quality:** Use **frontend-design** when building or substantially changing user-facing UI.
+8.  **Memory:** Use **MemPalace** (`mempalace_status`, `mempalace_search`) before asserting project history, decisions, or people — storage is not memory; **search first** (see `CURSOR.md` § MemPalace).
 
 ---
 

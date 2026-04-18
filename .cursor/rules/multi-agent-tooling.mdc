@@ -1,0 +1,38 @@
+---
+title: Multi-tool agents (Cursor, Gemini CLI, Antigravity)
+description: This repo is edited by multiple AI surfaces — same pipeline, same files.
+tags: [agents, gemini-cli, antigravity, cursor, pipeline]
+priority: medium
+---
+
+# Multi-tool agents
+
+## Canonical workflow
+
+- **Pipeline and gates:** `.agents/AGENTS.md` — RFC → audit → decision → execute → QA → close. No production code without `.agents/decisions/`.
+- **Cursor / Composer:** read `CURSOR.md` at session start.
+- **Gemini CLI:** read `GEMINI.md` at session start (typically Phase 1 specs).
+- **Claude Code:** read `CLAUDE.md` at session start.
+
+All tools share the same git tree. **Do not assume** you are the only editor — prefer small commits, update `.agents/context/PROJECT_STATE.md` when a cycle closes, and avoid contradicting an approved decision file.
+
+## Gemini CLI (in use)
+
+- Treat `GEMINI.md` + `.agents/AGENTS.md` as binding for spec work.
+- Skills: use whatever the Gemini harness exposes (`activate_skill` when available). Same *discipline* as Cursor (read the skill before the phase that needs it).
+
+## Google Antigravity (optional / evaluating)
+
+Antigravity is a **separate agent-first IDE** from Google — not a drop-in rename of Gemini CLI. Official comparison: [Choosing Antigravity or Gemini CLI](https://cloud.google.com/blog/topics/developers-practitioners/choosing-antigravity-or-gemini-cli) (Feb 2026) — Antigravity for integrated agent + IDE; Gemini CLI for terminal / headless.
+
+**Skills / “superpowers” in Antigravity:** Google documents **MCP**, **Agent Skills**, and extensions for Antigravity. There is **no** guaranteed 1:1 import of every Cursor skill path you use today. Practical approach:
+
+1. **MCP:** Configure MemPalace, Context7, etc. in Antigravity’s MCP settings (same servers as Cursor where possible — often JSON similar to `mcp.json`).
+2. **Agent Skills:** Use Antigravity’s skill folder format (typically a directory with `SKILL.md` + optional `scripts/` / `references/`). **Copy or symlink** the workflows you care about (e.g. TDD, verification) from your Cursor skills into Antigravity’s configured skills directory, then trim tool names in the markdown to match Antigravity (e.g. replace “Read tool” / “Skill tool” with whatever Antigravity documents for that harness).
+3. **Repo truth:** Keep **`.agents/`**, `CURSOR.md`, `CLAUDE.md`, `GEMINI.md` authoritative so **any** IDE reads the same rules.
+
+When Antigravity is adopted, add a one-line note to `CURSOR.md` § multi-tool with the **exact** skills path Antigravity uses on your machine.
+
+## Cursor naming note
+
+In current Cursor documentation, the **multi-file editing assistant** is primarily **Agent** (side panel, **⌘I** on Mac). **“Composer”** often refers to **Cursor’s Composer models** (e.g. Composer 2) or billing pools — not necessarily a separate window label. See `CURSOR.md` § Cursor UI if users cannot find “Composer.”

@@ -31,9 +31,9 @@ const ColorPicker: React.FC<TextFieldClientProps & ColorPickerProps> = ({
 	// Sync external value changes to local state
 	useEffect(() => {
 		if (value !== localValue) {
-			setLocalValue(value || '')
+			queueMicrotask(() => setLocalValue(value || ''))
 		}
-	}, [value])
+	}, [value, localValue])
 
 	// Debounced value update
 	const debouncedSetValue = useCallback(

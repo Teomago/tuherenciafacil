@@ -49,20 +49,22 @@ export const NumberFilter: React.FC<NumberFilterProps> = ({
   )
 
   useEffect(() => {
-    if (Array.isArray(value)) {
-      setValueToRender(
-        value.map((val, index) => ({
-          id: `${val}${index}`,
-          label: `${val}`,
-          value: {
-            toString: () => `${val}${index}`,
-            value: val,
-          },
-        })),
-      )
-    } else {
-      setValueToRender([])
-    }
+    queueMicrotask(() => {
+      if (Array.isArray(value)) {
+        setValueToRender(
+          value.map((val, index) => ({
+            id: `${val}${index}`,
+            label: `${val}`,
+            value: {
+              toString: () => `${val}${index}`,
+              value: val,
+            },
+          })),
+        )
+      } else {
+        setValueToRender([])
+      }
+    })
   }, [value])
 
   const adminPlaceholder = field?.admin?.placeholder

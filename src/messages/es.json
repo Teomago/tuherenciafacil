@@ -120,5 +120,61 @@
     "welcome": "Bienvenido",
     "welcomeMessage": "Bienvenido, {user}",
     "subtitle": "Tu proceso de sucesión comienza aquí."
+  },
+  "Collections": {
+    "members": {
+      "role": "Rol",
+      "cedula": "Cédula",
+      "telefono": "Teléfono",
+      "ciudad": "Ciudad",
+      "creditoAcumulado": "Crédito Acumulado",
+      "isActive": "Cuenta Activa",
+      "isVerified": "Verificado"
+    },
+    "cases": {
+      "caseNumber": "Número de Caso",
+      "currentPhase": "Fase Actual",
+      "tier": "Plan",
+      "responsable": "Responsable",
+      "abogadoAsignado": "Abogado Asignado",
+      "notasInternas": "Notas Internas",
+      "notasAlCliente": "Notas al Cliente",
+      "invitacionCedula": "Cédula del Invitado",
+      "invitacionStatus": "Estado de Invitación"
+    },
+    "appointments": {
+      "appointmentType": "Tipo de Cita",
+      "autorizarCredito": "Autorizar Crédito",
+      "monto": "Monto",
+      "creditoApplied": "Crédito Aplicado"
+    },
+    "caseIntake": {
+      "status": "Estado",
+      "tierElegido": "Plan Elegido",
+      "tieneTestamento": "Tiene Testamento",
+      "acuerdoHerederos": "Acuerdo de Herederos",
+      "causanteNombre": "Nombre del Causante",
+      "causanteCedula": "Cédula del Causante",
+      "causanteFechaFallecimiento": "Fecha de Fallecimiento",
+      "causanteCiudadFallecimiento": "Ciudad de Fallecimiento",
+      "herederosEstimados": "Herederos Estimados",
+      "valorEstimadoTotal": "Valor Estimado Total"
+    },
+    "heirs": {
+      "nombre": "Nombre",
+      "cedula": "Cédula",
+      "parentesco": "Parentesco",
+      "esFallecido": "Fallecido",
+      "esRepresentante": "Es Representante",
+      "herederoOriginal": "Heredero Original",
+      "representacionValidada": "Representación Validada"
+    },
+    "assets": {
+      "tipo": "Tipo",
+      "valorEstimado": "Valor Estimado",
+      "descripcion": "Descripción",
+      "identificador": "Identificador (Placa/Cuenta/Matrícula)",
+      "resultadoInvestigacion": "Resultado de la Investigación"
+    }
   }
 }

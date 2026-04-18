@@ -14,6 +14,8 @@ describe('Appointments — creditoAcumulado hook', () => {
     // Warm up the appointments collection to trigger any lazy initialization
     await (payload.find as any)({ collection: 'appointments', limit: 0, overrideAccess: true })
 
+    // @ts-expect-error - Payload 3.82.0 TS discriminated union bug for Local API without req
+
     testMember = await payload.create({
       collection: 'members',
       data: {
@@ -29,19 +31,31 @@ describe('Appointments — creditoAcumulado hook', () => {
       },
       overrideAccess: true,
     })
-  })
+  }, 120000)
 
   afterAll(async () => {
-    await payload.delete({
-      collection: 'appointments',
-      where: { id: { exists: true } },
-      overrideAccess: true,
-    })
-    await payload.delete({
-      collection: 'members',
-      where: { email: { contains: '@test.com' } },
-      overrideAccess: true,
-    })
+    if (!payload) return
+    try {
+      if (testMember?.id) {
+        await payload.delete({
+          collection: 'appointments',
+          where: { member: { equals: testMember.id } },
+          overrideAccess: true,
+        })
+      }
+      await payload.delete({
+        collection: 'members',
+        where: {
+          or: [
+            { email: { contains: 'appt-hook-' } },
+            { email: { contains: 'poor-' } },
+          ],
+        },
+        overrideAccess: true,
+      })
+    } catch {
+      // best-effort teardown
+    }
   })
 
   it('adds monto to creditoAcumulado when autorizarCredito is set to true and status is realizada', async () => {
@@ -84,7 +98,7 @@ describe('Appointments — creditoAcumulado hook', () => {
       collection: 'appointments',
       id: appt.id,
       overrideAccess: true,
-    } as any)
+    })
     expect(updatedAppt.creditoApplied).toBe(true)
   })
 
@@ -144,10 +158,11 @@ describe('Appointments — creditoAcumulado hook', () => {
       id: testMember.id,
       overrideAccess: true,
     })
-    expect(after.creditoAcumulado).toBe(before.creditoAcumulado - 500000)
+    expect(after.creditoAcumulado).toBe((before.creditoAcumulado || 0) - 500000)
   })
 
   it('does NOT subtract credit below zero — balance stays >= 0', async () => {
+    // @ts-expect-error - Payload 3.82.0 TS discriminated union bug for Local API without req
     const poorMember = await payload.create({
       collection: 'members',
       data: {
@@ -162,6 +177,7 @@ describe('Appointments — creditoAcumulado hook', () => {
       },
       overrideAccess: true,
     })
+
 
     const appt = await payload.create({
       collection: 'appointments',

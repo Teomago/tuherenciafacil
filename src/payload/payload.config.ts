@@ -20,15 +20,13 @@ import brevoAdapter from '@/utilities/brevoAdapter'
 
 import { s3Storage } from '@payloadcms/storage-s3'
 
+import { getPublicServerURL } from '@/lib/env/publicServerUrl'
+
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
-const defaultServerURL =
-  process.env.NEXT_PUBLIC_SERVER_URL ||
-  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
-
 export default buildConfig({
-  serverURL: defaultServerURL,
+  serverURL: getPublicServerURL(),
   endpoints: [
     {
       path: '/succession/convert-intake',

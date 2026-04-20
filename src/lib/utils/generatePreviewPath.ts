@@ -1,3 +1,5 @@
+import { getPublicServerURL } from '@/lib/env/publicServerUrl'
+
 import { generateSignedToken } from './signedToken'
 
 /**
@@ -5,7 +7,7 @@ import { generateSignedToken } from './signedToken'
  * Routes through /next/preview with a signed token to enable Next.js draft mode.
  */
 export const generatePreviewPath = ({ pathname }: { pathname: string }): string => {
-  const baseUrl = process.env.NEXT_PUBLIC_SERVER_URL || ''
+  const baseUrl = getPublicServerURL()
   const token = generateSignedToken({ scope: 'preview', expiresIn: '1h' })
   const path = pathname.startsWith('/') ? pathname : `/${pathname}`
 

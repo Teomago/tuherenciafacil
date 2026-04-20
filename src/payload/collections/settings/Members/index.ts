@@ -1,6 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import type { Where } from 'payload'
 import { isAdminUser, isMemberUser } from '@/lib/auth/typeGuards'
+import { getPublicServerURL } from '@/lib/env/publicServerUrl'
 
 export const Members: CollectionConfig = {
   slug: 'members',
@@ -66,7 +67,7 @@ export const Members: CollectionConfig = {
         const token = args?.token || ''
         const user = args?.user || { email: '', preferredLocale: 'es' }
         const locale = user.preferredLocale || 'es'
-        const serverURL = process.env.NEXT_PUBLIC_SERVER_URL || 'http://localhost:3000'
+        const serverURL = getPublicServerURL()
         const resetURL = `${serverURL}/${locale}/reset-password?token=${token}`
 
         const strings = {

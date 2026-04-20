@@ -4,15 +4,19 @@ import { RefreshRouteOnSave as PayloadLivePreview } from '@payloadcms/live-previ
 import { useRouter } from 'next/navigation'
 import React from 'react'
 
+import { normalizePublicServerURL } from '@/lib/env/publicServerUrl'
+
 /**
  * Live preview listener for the frontend.
  * Refreshes the route when edits are saved in the admin panel.
  */
 export const LivePreviewListener: React.FC = () => {
   const router = useRouter()
-  const serverURL =
-    process.env.NEXT_PUBLIC_SERVER_URL ||
-    (typeof window !== 'undefined' ? window.location.origin : 'http://localhost:3000')
+  const serverURL = process.env.NEXT_PUBLIC_SERVER_URL?.trim()
+    ? normalizePublicServerURL(process.env.NEXT_PUBLIC_SERVER_URL)
+    : typeof window !== 'undefined'
+      ? window.location.origin
+      : 'http://localhost:3000'
 
   return <PayloadLivePreview refresh={() => router.refresh()} serverURL={serverURL} />
 }

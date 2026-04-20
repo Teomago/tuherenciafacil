@@ -7,9 +7,13 @@ import {
   staffIsPayloadAdminRole,
 } from '@/lib/auth/typeGuards'
 import { getPublicServerURL } from '@/lib/env/publicServerUrl'
+import { clearRelatedBeforeMemberDelete } from './hooks/clearRelatedBeforeMemberDelete'
 
 export const Members: CollectionConfig = {
   slug: 'members',
+  hooks: {
+    beforeDelete: [clearRelatedBeforeMemberDelete],
+  },
   access: {
     create: () => true,
     delete: ({ req }) => {

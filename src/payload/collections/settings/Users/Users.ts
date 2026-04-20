@@ -31,6 +31,9 @@ export const Users: CollectionConfig = {
     lastName: true,
   },
   access: {
+    create: access(),
+    update: access(),
+    delete: access(),
     read: access.owner('id'),
   },
   fields: [

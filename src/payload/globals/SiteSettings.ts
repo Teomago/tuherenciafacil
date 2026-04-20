@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { access } from '@/payload/utils/access'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
@@ -7,6 +8,7 @@ export const SiteSettings: GlobalConfig = {
   },
   access: {
     read: () => true, // Ensure the frontend can read the settings
+    update: access(),
   },
   fields: [
     {

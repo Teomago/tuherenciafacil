@@ -1,6 +1,11 @@
 import type { CollectionConfig } from 'payload'
 import type { Where } from 'payload'
-import { isAdminUser, isMemberUser } from '@/lib/auth/typeGuards'
+import {
+  isAdminUser,
+  isMemberUser,
+  staffCanManageMembersInAdmin,
+  staffIsPayloadAdminRole,
+} from '@/lib/auth/typeGuards'
 import { getPublicServerURL } from '@/lib/env/publicServerUrl'
 
 export const Members: CollectionConfig = {
@@ -10,7 +15,7 @@ export const Members: CollectionConfig = {
     delete: ({ req }) => {
       const user = req.user
       if (!user) return false
-      if (isAdminUser(user)) return true
+      if (staffCanManageMembersInAdmin(user)) return true
       if (isMemberUser(user)) return { id: { equals: user.id } }
       return false
     },
@@ -48,7 +53,7 @@ export const Members: CollectionConfig = {
     update: ({ req }) => {
       const user = req.user
       if (!user) return false
-      if (isAdminUser(user)) return true
+      if (staffCanManageMembersInAdmin(user)) return true
       if (isMemberUser(user)) return { id: { equals: user.id } }
       return false
     },
@@ -164,7 +169,7 @@ export const Members: CollectionConfig = {
         { label: 'Abogado', value: 'abogado' },
       ],
       access: {
-        update: ({ req }) => isAdminUser(req.user),
+        update: ({ req }) => staffIsPayloadAdminRole(req.user),
       },
     },
     {
@@ -177,7 +182,7 @@ export const Members: CollectionConfig = {
           'Inactive lawyers are redirected to a pending-activation page on login. Takes effect on next login.',
       },
       access: {
-        update: ({ req }) => isAdminUser(req.user),
+        update: ({ req }) => staffIsPayloadAdminRole(req.user),
       },
     },
     {
@@ -226,7 +231,7 @@ export const Members: CollectionConfig = {
         // I-2: Only admin can write creditoAcumulado directly.
         // Abogados must go through the autorizarCredito hook on Appointments —
         // allowing direct writes would bypass the financial control gate entirely.
-        update: ({ req }) => isAdminUser(req.user),
+        update: ({ req }) => staffIsPayloadAdminRole(req.user),
       },
     },
     {
@@ -234,7 +239,7 @@ export const Members: CollectionConfig = {
       type: 'checkbox',
       defaultValue: false,
       access: {
-        update: ({ req }) => isAdminUser(req.user),
+        update: ({ req }) => staffIsPayloadAdminRole(req.user),
       },
     },
   ],

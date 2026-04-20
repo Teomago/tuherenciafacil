@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import { DiagramNav } from '../01-prepago/page'
+import { DiagramNav } from '../DiagramNav'
 
 export default function Diagram05() {
   return (

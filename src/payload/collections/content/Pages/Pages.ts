@@ -36,10 +36,10 @@ export const Pages: CollectionConfig = {
   trash: true,
   versions: { drafts: true },
   access: {
-    create: access.roles('editor'),
-    read: access.roles('editor'),
-    update: access.roles('editor'),
-    delete: access(),
+    create: access.roles('admin', 'editor'),
+    read: access.roles('admin', 'editor'),
+    update: access.roles('admin', 'editor'),
+    delete: access.roles('admin', 'editor'),
   },
   hooks: {
     afterChange: [revalidatePageAfterChange],

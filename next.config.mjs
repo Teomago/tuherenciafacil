@@ -19,6 +19,12 @@ const nextConfig = {
     },
   },
   webpack(config) {
+    config.resolve.extensionAlias = {
+      '.cjs': ['.cts', '.cjs'],
+      '.js': ['.ts', '.tsx', '.js', '.jsx'],
+      '.mjs': ['.mts', '.mjs'],
+    }
+
     const fileLoaderRule = config.module.rules.find((rule) => rule.test?.test?.('.svg'))
     config.module.rules.push(
       {

@@ -8,7 +8,7 @@
 
 No agent may use `@ts-ignore`, `@ts-expect-error`, `as any`, `eslint-disable`, commented-out tests, or semantic placeholders to green a build. If you cannot resolve an error in **two** serious attempts → escalate to **Teo** with the **exact** error text. **Suppressing an error is not a fix.**
 
-**Agent entry points:** **Cursor / Composer** → `CURSOR.md`. **Claude Code** → `CLAUDE.md`. **Gemini CLI** → `GEMINI.md`. Pipeline rules are always **this file** (`.agents/AGENTS.md`).
+**Agent entry points:** **Cursor / Composer** → `CURSOR.md`. **Claude Code** → `CLAUDE.md`. **Gemini CLI** → `GEMINI.md`. **Google Antigravity** → `ANTIGRAVITY.md`. Pipeline rules are always **this file** (`.agents/AGENTS.md`).
 
 ## Shared engineering standards (Superpowers + tools)
 
@@ -16,6 +16,7 @@ All agents (Gemini, Claude, Cursor, or any future tool) MUST follow these standa
 
 - **Gemini CLI:** use `activate_skill` when the harness supports it.
 - **Cursor:** open the matching `SKILL.md` with the **Read** tool (or your editor’s skill picker) **before** the phase that needs it — same discipline, different invocation.
+- **Antigravity:** use native skills in `.agents/skills/` and keep skill names aligned with this file.
 
 1.  **Planning (`writing-plans`):** Every implementation plan must be granular, bite-sized, and free of placeholders.
 2.  **TDD (`test-driven-development`):** No production code without a failing test first. Red-Green-Refactor is mandatory.
@@ -28,13 +29,36 @@ All agents (Gemini, Claude, Cursor, or any future tool) MUST follow these standa
 
 ---
 
+## Cross-agent execution protocol (mandatory)
+
+These rules apply to **all agents**, regardless of company/model origin.
+
+1. **Single source policy:** process-critical rules are anchored in this file. Context docs are extensions, not replacements.
+2. **Verification gate:** no RFC may be declared complete without evidence-based verification.
+   - Baseline template: `.agents/context/RFC-VERIFICATION-SKELETON.md`
+   - Each RFC must include this baseline plus RFC-specific checks.
+3. **Scope lock:** each decision file must include explicit **in-scope/out-of-scope** boundaries.
+4. **No scope bleed:** if execution requires behavior outside decision scope, stop and escalate to Teo.
+5. **MemPalace checkpoints are required:**
+   - Before drafting an RFC decision: `mempalace_status` + focused `mempalace_search`.
+   - After scope approval, before implementation: one canonical `mempalace_diary_write` entry.
+   - After RFC merge/closure: update context docs, then write diary + run repository mining.
+
+### Required process attachments
+
+- `.agents/context/RFC-VERIFICATION-SKELETON.md`
+- `.agents/context/MEMPALACE_RFC_PROTOCOL.md`
+- `.agents/context/ROADMAP_PROJECT_STATE_SYNC_CHECKLIST.md`
+
+---
+
 ## Roles and Workflow (Agent-Agnostic)
 
 The pipeline is divided into 6 phases, each with a clear responsibility. Any capable agent can take any role as directed by Teo.
 
 1.  **Phase 1: Specification (Role: Designer)**
     - Reads `BACKLOG.md` and `PROJECT_STATE.md`.
-    - Follows `brainstorming.md` to refine the feature with Teo.
+    - Follows the `brainstorming` skill to refine the feature with Teo.
     - Writes the technical RFC at `.agents/specs/RFC-[N]-[short-name].md`.
     - Does NOT touch source code.
 
@@ -47,17 +71,17 @@ The pipeline is divided into 6 phases, each with a clear responsibility. Any cap
 3.  **Phase 3: Decision (Role: Auditor + Designer + Teo)**
     - **Auditor:** Drafts `.agents/decisions/RFC-[N]-decision.md` integrating Teo's feedback.
     - **Designer:** Performs a "soft review" of the decision file to ensure it doesn't break the original design intent.
-    - **Decision Content:** MUST be a valid **Implementation Plan** following the `planning.md` format (including TDD test code).
+    - **Decision Content:** MUST be a valid **Implementation Plan** following the `writing-plans` format (including TDD test code).
     - **Teo:** Provides final approval.
 
 4.  **Phase 4: Execution (Role: Executor)**
     - Follows strictly the steps in `.agents/decisions/RFC-[N]-decision.md`.
-    - MUST follow the `tdd.md` cycle for every task.
+    - MUST follow the `test-driven-development` cycle for every task.
     - After implementation, STOPS and waits for Phase 5.
 
 5.  **Phase 5: QA Verification (Role: QA + Teo)**
     - QA Agent runs the success criteria checklist.
-    - Follows `verification.md` to ensure evidence-based results.
+    - Follows the `verification-before-completion` skill to ensure evidence-based results.
     - Teo confirms QA passed.
 
 6.  **Phase 6: Cycle Closure (Role: Administrator)**

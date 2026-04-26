@@ -2,7 +2,7 @@
 
 > Read this file at the start of every session. Then read `.agents/AGENTS.md` and `.agents/context/PROJECT_STATE.md`.  
 > **Cursor / Composer** sessions use **`CURSOR.md`** instead of this file as the primary IDE map; pipeline rules remain `.agents/AGENTS.md`.  
-> **Pipeline status:** You are cleared to run **Phase 1 specs** again when Teo assigns them — repo state is documented in **`.agents/context/PROJECT_STATE.md`** (updated 2026-04-18).
+> **Pipeline status:** RFC-003.3 is implemented; next planned execution target is RFC-004 unless Teo assigns otherwise.
 
 ## Project overview
 
@@ -17,8 +17,8 @@
 
 ## Stack (current)
 
-- **Framework:** Next.js 16.2.1 + App Router + React 19 + TypeScript
-- **CMS / Backend:** Payload CMS 3.x
+- **Framework:** Next.js 16.2.3 + App Router + React 19.2.5 + TypeScript 5.7.3
+- **CMS / Backend:** Payload CMS 3.84.1
 - **ORM:** Drizzle ORM
 - **Database:** Neon (PostgreSQL)
 - **Storage:** Cloudflare R2

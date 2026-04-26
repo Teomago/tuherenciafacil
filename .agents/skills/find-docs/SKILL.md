@@ -1,3 +1,8 @@
+---
+name: find-docs
+description: Use to fetch up-to-date documentation for Next.js, React, Payload CMS, and other libraries via Context7
+---
+
 # Documentation Lookup (Context7)
 
 ## Overview

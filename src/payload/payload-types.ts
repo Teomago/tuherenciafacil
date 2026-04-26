@@ -135,6 +135,10 @@ export interface Config {
     'case-intakes': CaseIntake;
     heirs: Heir;
     assets: Asset;
+    documents: Document;
+    'document-checklists': DocumentChecklist;
+    'notary-process': NotaryProcess;
+    payments: Payment;
     'payload-kv': PayloadKv;
     'payload-folders': FolderInterface;
     'payload-locked-documents': PayloadLockedDocument;
@@ -159,6 +163,10 @@ export interface Config {
     'case-intakes': CaseIntakesSelect<false> | CaseIntakesSelect<true>;
     heirs: HeirsSelect<false> | HeirsSelect<true>;
     assets: AssetsSelect<false> | AssetsSelect<true>;
+    documents: DocumentsSelect<false> | DocumentsSelect<true>;
+    'document-checklists': DocumentChecklistsSelect<false> | DocumentChecklistsSelect<true>;
+    'notary-process': NotaryProcessSelect<false> | NotaryProcessSelect<true>;
+    payments: PaymentsSelect<false> | PaymentsSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     'payload-folders': PayloadFoldersSelect<false> | PayloadFoldersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -1904,6 +1912,193 @@ export interface Asset {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents".
+ */
+export interface Document {
+  id: string;
+  case: string | Case;
+  heir?: (string | null) | Heir;
+  asset?: (string | null) | Asset;
+  type: 'registro_civil' | 'cedula' | 'poder' | 'certificado_tradicion' | 'escritura' | 'notarial' | 'otro';
+  status?: ('uploaded' | 'approved' | 'rejected' | 'replaced') | null;
+  uploadedBy:
+    | {
+        relationTo: 'members';
+        value: string | Member;
+      }
+    | {
+        relationTo: 'users';
+        value: string | User;
+      };
+  reviewedBy?:
+    | ({
+        relationTo: 'members';
+        value: string | Member;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null);
+  reviewedAt?: string | null;
+  rejectionReason?: string | null;
+  visibility?: ('client' | 'internal') | null;
+  version?: number | null;
+  previousVersion?: (string | null) | Document;
+  notes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  url?: string | null;
+  thumbnailURL?: string | null;
+  filename?: string | null;
+  mimeType?: string | null;
+  filesize?: number | null;
+  width?: number | null;
+  height?: number | null;
+  focalX?: number | null;
+  focalY?: number | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "document-checklists".
+ */
+export interface DocumentChecklist {
+  id: string;
+  case: string | Case;
+  name: string;
+  description?: string | null;
+  guiaDePaola?: string | null;
+  documentType?:
+    | ('registro_civil' | 'cedula' | 'poder' | 'certificado_tradicion' | 'escritura' | 'notarial' | 'otro')
+    | null;
+  category?: ('causante' | 'heredero' | 'bien' | 'poder' | 'legal' | 'notarial' | 'custom') | null;
+  heir?: (string | null) | Heir;
+  asset?: (string | null) | Asset;
+  source?: ('system' | 'manual') | null;
+  required?: boolean | null;
+  requiredForPhase?: number | null;
+  requestedBy?:
+    | ({
+        relationTo: 'members';
+        value: string | Member;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null);
+  requestedAt?: string | null;
+  status?: ('pending' | 'uploaded' | 'approved' | 'rejected') | null;
+  receivedPhysically?: boolean | null;
+  receivedPhysicallyAt?: string | null;
+  document?: (string | null) | Document;
+  reviewNote?: string | null;
+  reviewedBy?:
+    | ({
+        relationTo: 'members';
+        value: string | Member;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null);
+  reviewedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notary-process".
+ */
+export interface NotaryProcess {
+  id: string;
+  case: string | Case;
+  radicacion?: {
+    fecha?: string | null;
+    numero?: string | null;
+    escritos?: (string | Document)[] | null;
+  };
+  respuestaNotario?: {
+    status?: ('pendiente' | 'aprobado' | 'requiere_documentos' | 'requiere_correcciones') | null;
+    detalle?: string | null;
+    fecha?: string | null;
+    autorizacionEdictos?: (string | null) | Document;
+  };
+  edictos?: {
+    medio?: string | null;
+    fechaPublicacion?: string | null;
+    costo?: number | null;
+    fechaVencimiento?: string | null;
+    edictoPDF?: (string | null) | Document;
+    comprobantePago?: (string | null) | Document;
+    comprobantesEntregados?: boolean | null;
+    fechaEntrega?: string | null;
+  };
+  dian?: {
+    status?: ('pendiente' | 'en_validacion' | 'aprobado' | 'hallazgos') | null;
+  };
+  ugpp?: {
+    status?: ('pendiente' | 'en_validacion' | 'aprobado' | 'hallazgos') | null;
+  };
+  firma?: {
+    fecha?: string | null;
+    hora?: string | null;
+    lugar?: string | null;
+    escrituraPublica?: (string | null) | Document;
+  };
+  costosNotariales?: {
+    derechosNotariales?: number | null;
+    impuestoRegistro?: number | null;
+    boletaFiscal?: number | null;
+  };
+  registro?: {
+    fechaSalida?: string | null;
+    status?: ('pendiente' | 'registrado' | 'rechazado') | null;
+    certificadoTradicionActualizado?: (string | null) | Document;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments".
+ */
+export interface Payment {
+  id: string;
+  case?: (string | null) | Case;
+  member?: (string | null) | Member;
+  tipo: 'consulta' | 'servicio' | 'creditoConsulta' | 'investigacion' | 'gasto_tercero' | 'cuota' | 'ajuste' | 'otro';
+  amount: number;
+  currency?: string | null;
+  paymentProvider?: ('manual' | 'wompi' | 'other') | null;
+  method?: ('bank_transfer' | 'cash' | 'qr' | 'nequi' | 'pse' | 'card' | 'other') | null;
+  status?: ('requested' | 'pending_confirmation' | 'approved' | 'failed' | 'cancelled' | 'refunded') | null;
+  paymentReference?: string | null;
+  providerTransactionId?: string | null;
+  visibleToClient?: boolean | null;
+  registeredBy?:
+    | ({
+        relationTo: 'members';
+        value: string | Member;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null);
+  approvedBy?:
+    | ({
+        relationTo: 'members';
+        value: string | Member;
+      } | null)
+    | ({
+        relationTo: 'users';
+        value: string | User;
+      } | null);
+  approvedAt?: string | null;
+  overrideReason?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-kv".
  */
 export interface PayloadKv {
@@ -1973,6 +2168,22 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'assets';
         value: string | Asset;
+      } | null)
+    | ({
+        relationTo: 'documents';
+        value: string | Document;
+      } | null)
+    | ({
+        relationTo: 'document-checklists';
+        value: string | DocumentChecklist;
+      } | null)
+    | ({
+        relationTo: 'notary-process';
+        value: string | NotaryProcess;
+      } | null)
+    | ({
+        relationTo: 'payments';
+        value: string | Payment;
       } | null)
     | ({
         relationTo: 'payload-folders';
@@ -2368,6 +2579,155 @@ export interface AssetsSelect<T extends boolean = true> {
     | {
         resultado?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "documents_select".
+ */
+export interface DocumentsSelect<T extends boolean = true> {
+  case?: T;
+  heir?: T;
+  asset?: T;
+  type?: T;
+  status?: T;
+  uploadedBy?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
+  rejectionReason?: T;
+  visibility?: T;
+  version?: T;
+  previousVersion?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  url?: T;
+  thumbnailURL?: T;
+  filename?: T;
+  mimeType?: T;
+  filesize?: T;
+  width?: T;
+  height?: T;
+  focalX?: T;
+  focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "document-checklists_select".
+ */
+export interface DocumentChecklistsSelect<T extends boolean = true> {
+  case?: T;
+  name?: T;
+  description?: T;
+  guiaDePaola?: T;
+  documentType?: T;
+  category?: T;
+  heir?: T;
+  asset?: T;
+  source?: T;
+  required?: T;
+  requiredForPhase?: T;
+  requestedBy?: T;
+  requestedAt?: T;
+  status?: T;
+  receivedPhysically?: T;
+  receivedPhysicallyAt?: T;
+  document?: T;
+  reviewNote?: T;
+  reviewedBy?: T;
+  reviewedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notary-process_select".
+ */
+export interface NotaryProcessSelect<T extends boolean = true> {
+  case?: T;
+  radicacion?:
+    | T
+    | {
+        fecha?: T;
+        numero?: T;
+        escritos?: T;
+      };
+  respuestaNotario?:
+    | T
+    | {
+        status?: T;
+        detalle?: T;
+        fecha?: T;
+        autorizacionEdictos?: T;
+      };
+  edictos?:
+    | T
+    | {
+        medio?: T;
+        fechaPublicacion?: T;
+        costo?: T;
+        fechaVencimiento?: T;
+        edictoPDF?: T;
+        comprobantePago?: T;
+        comprobantesEntregados?: T;
+        fechaEntrega?: T;
+      };
+  dian?:
+    | T
+    | {
+        status?: T;
+      };
+  ugpp?:
+    | T
+    | {
+        status?: T;
+      };
+  firma?:
+    | T
+    | {
+        fecha?: T;
+        hora?: T;
+        lugar?: T;
+        escrituraPublica?: T;
+      };
+  costosNotariales?:
+    | T
+    | {
+        derechosNotariales?: T;
+        impuestoRegistro?: T;
+        boletaFiscal?: T;
+      };
+  registro?:
+    | T
+    | {
+        fechaSalida?: T;
+        status?: T;
+        certificadoTradicionActualizado?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "payments_select".
+ */
+export interface PaymentsSelect<T extends boolean = true> {
+  case?: T;
+  member?: T;
+  tipo?: T;
+  amount?: T;
+  currency?: T;
+  paymentProvider?: T;
+  method?: T;
+  status?: T;
+  paymentReference?: T;
+  providerTransactionId?: T;
+  visibleToClient?: T;
+  registeredBy?: T;
+  approvedBy?: T;
+  approvedAt?: T;
+  overrideReason?: T;
   updatedAt?: T;
   createdAt?: T;
 }

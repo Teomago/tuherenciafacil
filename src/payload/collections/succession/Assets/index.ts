@@ -1,8 +1,12 @@
 import type { CollectionConfig } from 'payload'
 import { isAdminUser, isMemberUser } from '@/lib/auth/typeGuards'
+import { assetChecklistHook } from './hooks/generateAssetChecklistItems'
 
 export const Assets: CollectionConfig = {
   slug: 'assets',
+  hooks: {
+    afterChange: [assetChecklistHook],
+  },
   access: {
     create: ({ req }) => {
       const user = req.user

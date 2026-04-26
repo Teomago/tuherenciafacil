@@ -1,6 +1,9 @@
 import type { CollectionConfig, CollectionBeforeChangeHook, Where } from 'payload'
 import { isAdminUser, isMemberUser } from '@/lib/auth/typeGuards'
 import { generateCaseNumber } from './utils/generateCaseNumber'
+import { generateInitialChecklist } from './hooks/generateInitialChecklist'
+import { advancePhaseEndpoint } from './endpoints/advancePhase'
+import { validatePhaseChangeHook } from './hooks/validatePhaseChangeHook'
 
 const setResponsableAndCaseNumber: CollectionBeforeChangeHook = async ({
   data,
@@ -50,8 +53,16 @@ export const Cases: CollectionConfig = {
     },
     delete: ({ req }) => isAdminUser(req.user),
   },
+  endpoints: [
+    {
+      path: '/:id/advance-phase',
+      method: 'post',
+      handler: advancePhaseEndpoint,
+    },
+  ],
   hooks: {
-    beforeChange: [setResponsableAndCaseNumber],
+    beforeChange: [setResponsableAndCaseNumber, validatePhaseChangeHook],
+    afterChange: [generateInitialChecklist],
   },
   admin: {
     defaultColumns: ['caseNumber', 'status', 'currentPhase', 'tier', 'responsable'],

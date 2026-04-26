@@ -17,6 +17,7 @@ Bienvenido al centro de documentación de **tuHerenciaFácil**. Este espacio sir
 -   **`/decisions`**: Registro de decisiones de producto, RFCs y minutas de reuniones.
 -   **`/guides`**: Manuales operativos para el equipo.
     -   `elite-manual.md`: Guía paso a paso para gestionar casos Elite desde el panel `/admin`.
+    -   `stack-comparativa-freelance.md`: Comparativa WordPress/builders vs stack Next+Payload y modelo de costes (freelance / cliente).
 -   **`.agents` (Interno)**: Instrucciones y contextos específicos para los agentes de IA que asisten en el desarrollo.
 
 ## Cómo usar esta documentación

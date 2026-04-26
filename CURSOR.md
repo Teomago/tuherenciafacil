@@ -16,6 +16,7 @@
 | **`.agents/standards/NO-ERROR-SUPPRESSION.md`** | Non-negotiable quality bar. |
 | **`CLAUDE.md`** | Same project context for **Claude Code** (parallel to this file). |
 | **`GEMINI.md`** | Same project context for **Gemini CLI** (Phase 1 spec writer). |
+| **`ANTIGRAVITY.md`** | Antigravity-specific entrypoint aligned to the same pipeline and skills. |
 | **`AGENTS.md` (repo root)** | **Generic Payload CMS patterns** (template). **Not** the RFC pipeline. For pipeline rules, use **`.agents/AGENTS.md`**. |
 
 ---

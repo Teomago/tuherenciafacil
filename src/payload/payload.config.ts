@@ -93,8 +93,12 @@ export default buildConfig({
     s3Storage({
       collections: {
         media: true,
+        documents: {
+          signedDownloads: true,
+        },
       },
       bucket: process.env.S3_BUCKET || '',
+      acl: 'private', // Global default for all collections unless overridden
       config: {
         credentials: {
           accessKeyId: process.env.S3_ACCESS_KEY_ID || '',
@@ -102,6 +106,7 @@ export default buildConfig({
         },
         region: process.env.S3_REGION || 'us-east-1',
         endpoint: process.env.S3_ENDPOINT || '',
+        // forcePathStyle: true, // often needed for R2 or local S3
       },
     }),
   ],

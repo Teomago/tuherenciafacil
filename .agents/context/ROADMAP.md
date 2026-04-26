@@ -1,165 +1,100 @@
 # ROADMAP — tuHerenciaFácil Implementation Plan
 
-> This document defines the chronological execution phases for the **tuHerenciaFácil** web app. It serves as the master guide for the Phase 4 Executor.
+> Canonical execution sequence for this repository. Use with `.agents/context/PROJECT_STATE.md` and decision files in `.agents/decisions/`.
 
 ---
 
-## Technical Strategy Overview
+## Sequence lock (effective 2026-04-24)
 
-- **Architecture:** Next.js 16 + Payload CMS 3.x (Single codebase for Marketing + App + Admin).
-- **Design System:** "Stripe-Revolut-Wise" Hybrid (Ref: `docs/design/example/DESIGN.md`).
-- **Development Workflow:** **Logic First, then Polish.**
-  1. **Logic Pass:** Implement functional components, data fetching, and state management using the Base UI Kit.
-  2. **Functional Verification:** Confirm the feature works as intended (DB writes, navigation, auth).
-  3. **Visual Polish Loop:** Dedicated pass for pixel-perfect adjustments, animations (Framer Motion), and UX refinements.
-- **Component Strategy:** **Atomic Design.** Build reusable UI primitives in `src/components/ui/` (Button, Card, Table) using Tailwind CSS to avoid hardcoding styles in pages.
-- **Animations:** Simple, high-impact motion (e.g., Wise-style `scale(1.05)`) using Tailwind transitions or Framer Motion.
-- **Security:** Layered access control (Auth -> Role -> Case Ownership).
-- **Development Rule:** Schema changes use `push: true` (no manual migrations) until INFRA-001.
+The project uses the repo-current baseline:
 
----
+1. **RFC-003.1** — implemented  
+2. **RFC-003.2** — implemented  
+3. **RFC-003.3** — implemented  
+4. **RFC-004** — next (app shell/primitives)  
+5. **RFC-005** — onboarding/pre-payment UX  
+6. **RFC-006+** — continue by phase below
 
-## Phase 1: Core Identity & Succession Shell
-**Objective:** Implement the fundamental "Who" and "What" of the application.
-
-### RFC-003.1: Members, Cases & Appointments
-- **Tasks:**
-  1.  **Refine Members:** Add `role` (cliente/abogado), `cedula`, `telefono`, `creditoAcumulado`. Remove any legacy eterhub fields.
-  2.  **Cases Collection:** Create the central `Cases` object with `caseNumber` auto-generation.
-  3.  **Appointments:** Create the `Appointments` collection for pre-case and case-active meetings.
-  4.  **Credit System (DEC-009):** Implement `autorizarCredito` hooks to sync between `Appointments` and `Members.creditoAcumulado`.
-- **Success Criteria:**
-  - `Members`, `Cases`, and `Appointments` appear in `/admin`.
-  - Relationships are functional and type-safe.
-  - TDD: Hooks for credit calculation are verified with Vitest.
+Do not renumber active RFCs without a dedicated planning decision that updates both this file and `PROJECT_STATE`.
 
 ---
 
-## Phase 2: App Shell & UI Kit (Accelerated)
-**Objective:** Build the global layout and atomic components early to provide a testing environment for future data phases.
+## Technical strategy (persistent)
 
-### RFC-004: App Shell & Primitives
-- **Tasks:**
-  1.  **App Layout:** Create `src/app/[locale]/(app)/layout.tsx` with Auth Guard and role-aware navigation.
-  2.  **UI Kit:** Build `Button`, `Card`, `Badge`, and `Input` components in `src/components/ui/`.
-  3.  **Branding:** Apply "Azul Corporativo" (`#002845`) and "Naranja Acento" (`#FF8C3C`) tokens.
-- **Success Criteria:**
-  - Logged-in users see a professional dashboard shell at `/app/dashboard`.
-  - Navigation sidebar correctly reflects the user's role (Cliente vs. Abogado).
+- **Architecture:** Next.js 16 + Payload CMS 3.x in one codebase (marketing + app + admin).
+- **Development mode:** logic-first implementation, then UX polish.
+- **Security model:** layered access checks (auth -> role -> ownership).
+- **Schema mode (pre-INFRA-001):** `push: true`; avoid manual migration churn unless required.
 
 ---
 
-## Phase 3: Intake & The Estate Data
-**Objective:** Capture user input for the succession process.
+## Completed foundation (reference)
 
-### RFC-003.2: Intake, Heirs & Assets
-- **Tasks:**
-  1.  **CaseIntake:** Implement the pre-payment form defined in `COLLECTIONS.md`.
-  2.  **Heirs & Assets:** Create the sub-collections that feed into the `Cases` object.
-  3.  **Intake Conversion:** Logic to convert a `CaseIntake` into a `Case` upon payment.
-- **Success Criteria:**
-  - A `CaseIntake` can be created and successfully converted to a `Case` via script/API.
+### RFC-003.1 — Core identity and succession shell (done)
+- Members refinement, Cases, Appointments, credit hook baseline.
 
----
+### RFC-003.2 — Intake, heirs, assets (done)
+- `case-intakes`, `heirs`, `assets`, and intake conversion endpoint.
 
-## Phase 4: Workflow Engine & Payments
-**Objective:** Build the interactive "Legal Machine" that drives the succession.
-
-### RFC-003.3: Documents, Checklist & Workflow
-- **Tasks:**
-  1.  **Documents & R2:** Set up the `Documents` collection with Cloudflare R2 storage.
-  2.  **Checklist Engine:** Auto-generation of the `DocumentChecklist` when a case advances to Phase 2.
-  3.  **Notary Tracking:** Create the `NotaryProcess` collection (abogado-only).
-  4.  **Phase Engine (RFC-007):** Implement the `advance-phase` logic and the **Poder Gate** (DEC-002).
-  5.  **Payments:** Implement the `Payments` collection and Wompi integration (DEC-005).
+### Post-RFC-003.2 stabilization (done)
+- Build/deploy/access/env/delete-integrity fixes on `main`.
+- These are baseline assumptions for future RFCs, not a separate roadmap branch.
 
 ---
 
-## Phase 5: Onboarding Funnel (Front-end)
-... (remaining phases shift down accordingly)
+## Completed executable phase
+
+### RFC-003.3 — Workflow engine and legal operations data (implemented)
+**Objective (delivered):** complete core workflow domain before major UI funnel work.
+
+**Delivered scope:**
+1. Documents domain (`documents`) with private storage and signed download flow.
+2. Checklist generation/update engine with manual required/optional support.
+3. Full `notary-process` backend schema for phases 4-8.
+4. Phase gates and controlled advancement endpoint.
+5. Provider-agnostic `payments` foundation with manual/offline records.
+
+**Deferred by design:**
+- App shell visual/layout work (`RFC-004`).
+- Full onboarding funnel screens (`RFC-005`).
+- Wompi automation flows beyond provider-agnostic data model (DEC-005 follow-up).
 
 ---
 
-## Phase 3: The "Pre-Pago" Onboarding Funnel
-**Objective:** Convert a logged-in user into a paying customer with a created Case.
+## Next executable phase
 
-### RFC-005: Onboarding & Intake
-- **Screens:**
-  1.  **`/app`:** Welcome + Eligibility Filter (DEC-003 question logic).
-  2.  **`/app/consulta`:** Appointment booking (Virtual/Presencial).
-  3.  **`/app/consulta/pago`:** Wompi Payment Stub (Phase 1 version: auto-approve on click).
-  4.  **`/app/nueva-consulta`:** The `CaseIntake` form (Causante, Herederos estimados, Bienes).
-  5.  **`/app/pago`:** Package selection (Estándar/Premium) + Initial payment stub.
-- **Success Criteria:**
-  - A user can complete the filter, agendar a consultation, and fill the intake.
-  - Successful "payment" results in the creation of a `Case` in the database.
+### RFC-004 — App shell and UI primitives
+- `/app` layout guardrails, role-aware navigation, reusable UI primitives, base dashboard shell.
 
 ---
 
-## Phase 4: Client Core Experience (Case Tracking)
-**Objective:** Provide the client with total visibility of their succession progress.
+## Subsequent phases (after RFC-004)
 
-### RFC-006: Dashboard & Timeline
-- **Screens:**
-  1.  **`/app/dashboard`:** Case summary cards and "What's next" notifications.
-  2.  **`/app/caso/[id]`:** El hito visual de 8 fases (estilo tracking de pedidos).
-  3.  **Phase Logic:** Timeline adapts dynamically to the Tier (Estándar = 7 phases, Premium/Elite = 8).
-- **Success Criteria:**
-  - Client sees a visual representation of their actual `currentPhase`.
+### RFC-004 — App shell and UI primitives
+- `/app` layout guardrails, role-aware navigation, reusable UI primitives, base dashboard shell.
 
----
+### RFC-005 — Onboarding and pre-payment flow
+- Welcome eligibility flow, consultation path, intake UI journey, payment-step UX wiring.
 
-## Phase 5: Case Management (Client Data Entry)
-**Objective:** Allow the client to upload documents and manage the details of their family's estate.
+### RFC-006 — Client dashboard and timeline
+- Case progress visualization and next-action guidance.
 
-### RFC-007: Herederos, Bienes & Documentos
-- **Screens:**
-  1.  **`/app/caso/[id]/herederos`:** List and add family members.
-  2.  **`/app/caso/[id]/bienes`:** Declare assets (Inmuebles, Vehículos, etc.).
-  3.  **`/app/caso/[id]/documentos`:** The interactive checklist. Drag & Drop uploads to R2.
-  4.  **`/app/caso/[id]/pagos`:** Financial transparency view (Honorarios vs. Terceros).
-- **Success Criteria:**
-  - Document status updates automatically (Pending -> Uploaded) upon file upload.
-  - All data persists correctly in the sub-collections.
+### RFC-007 — Case workspace (heirs, assets, documents, payments views)
+- Client-facing data entry/management screens connected to existing collections.
+
+### RFC-008 — Lawyer operations and phase execution
+- Lawyer dashboard/actions, notary operations, controlled phase advancement endpoints.
+
+### RFC-009 — Communication and automation
+- Chat channels, notification hooks, and messaging automation.
+
+### RFC-010 — Public transparency and final QA
+- Public case lookup boundary and end-to-end hardening.
 
 ---
 
-## Phase 6: Lawyer Operations & Notary Tracking
-**Objective:** Enable Paola to manage cases, approve documents, and drive the notarial process.
+## Roadmap maintenance protocol
 
-### RFC-008: Abogado View & Phase Engine
-- **Screens:**
-  1.  **Lawyer Dashboard:** Priority tasks and "Pool" of unassigned cases.
-  2.  **Lawyer Case Management:** Approve/Reject buttons for documents with notes.
-  3.  **`/app/caso/[id]/notaria`:** Lawyer-only tracking (Radicación, Edictos, DIAN).
-  4.  **The Phase Engine:** Implement the `/api/cases/:id/advance-phase` endpoint with its validation gates (e.g., Poder Gate DEC-002).
-- **Success Criteria:**
-  - Lawyer can "Take a Case" from the pool.
-  - Advancing a phase is blocked if mandatory documents (like the Poder) are missing.
-
----
-
-## Phase 7: Communication & Automation
-**Objective:** Connect users through Chat and ensure they are notified of progress via Email.
-
-### RFC-009: Chat & Notifications
-- **Features:**
-  1.  **Unified Chat:** Implement `ChatMessages` with 3 channels (Bot, Abogado, Soporte).
-  2.  **Bot IA Integration:** (DEC-006) Basic succession-context responses.
-  3.  **Email Automation:** SMTP2GO triggers for: Phase Change, Document Rejected, Payment Due.
-- **Success Criteria:**
-  - Messages appear in real-time in the `/app/chat` view.
-  - Emails are delivered upon specific database hooks.
-
----
-
-## Phase 8: Public Portal & Final Polish
-**Objective:** External search functionality and global system validation.
-
-### RFC-010: Portal de Transparencia & QA
-- **Features:**
-  1.  **Public Search:** `GET /api/public/cases/search` consumption on the marketing site.
-  2.  **Global UI Polish:** Ensure Tailwind v4 consistency and responsiveness.
-  3.  **Final QA:** End-to-end walkthrough from landing -> registration -> payment -> phase 8.
-- **Success Criteria:**
-  - A non-logged-in user can find a case status by Causante Name without seeing private data.
+- When an RFC closes, update this roadmap and `PROJECT_STATE` in the same cycle.
+- Record numbering or scope changes explicitly; never rely on chat memory alone.
+- Keep decision-file IDs and roadmap labels synchronized to avoid executor ambiguity.

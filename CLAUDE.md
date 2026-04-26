@@ -16,8 +16,8 @@
 
 ## Stack (current)
 
-- **Framework:** Next.js 16.2.1 + App Router + React 19 + TypeScript
-- **CMS / Backend:** Payload CMS 3.x (collections, access control, hooks, custom endpoints)
+- **Framework:** Next.js 16.2.3 + App Router + React 19.2.5 + TypeScript 5.7.3
+- **CMS / Backend:** Payload CMS 3.84.1 (collections, access control, hooks, custom endpoints)
 - **ORM:** Drizzle ORM
 - **Database:** Neon (PostgreSQL) — pooler port 6543, direct port 5432
 - **Storage:** Cloudflare R2 (documents, PDFs)

@@ -1,8 +1,12 @@
 import type { CollectionConfig } from 'payload'
 import { isAdminUser, isMemberUser } from '@/lib/auth/typeGuards'
+import { heirChecklistHook } from './hooks/generateHeirChecklistItems'
 
 export const Heirs: CollectionConfig = {
   slug: 'heirs',
+  hooks: {
+    afterChange: [heirChecklistHook],
+  },
   access: {
     create: ({ req }) => {
       const user = req.user

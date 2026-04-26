@@ -13,6 +13,16 @@ connects to prod branch. Migrations run against dev first, then promoted to prod
 
 ---
 
+## GOV-001 — Audit logs and override accountability
+
+**Priority:** medium
+**Type:** security / governance
+**Description:** Define and implement an audit logging model for sensitive back-office actions before production hardening. Scope must be designed before implementation: who performed the action, role at the time, target collection/document, before/after values for sensitive fields, reason for super-admin overrides, request metadata where safe, and retention policy. Initial high-value events include payment ledger changes, document approval/rejection, phase advancement, super-admin overrides, member role/activation changes, and legal workflow gate bypass attempts.
+**Success criterion:** A documented audit-log scope matrix exists and the implemented audit log records sensitive actions with actor, timestamp, target, action, and override reason when applicable. Normal admin/lawyer actions and super-admin break-glass actions are distinguishable in `/admin` or an equivalent internal review surface.
+**Dependencies:** RFC-003.3 workflow/payment/document model stabilized; required before production hardening.
+
+---
+
 ## WARN-001 — next-themes script tag warning
 
 **Priority:** low

@@ -10,6 +10,10 @@ import { Appointments } from './succession/Appointments'
 import { CaseIntake } from './succession/CaseIntake'
 import { Heirs } from './succession/Heirs'
 import { Assets } from './succession/Assets'
+import { Documents } from './succession/Documents'
+import { DocumentChecklist } from './succession/DocumentChecklist'
+import { NotaryProcess } from './succession/NotaryProcess'
+import { Payments } from './succession/Payments'
 
 export const collections = [
   // Content
@@ -28,4 +32,8 @@ export const collections = [
   CaseIntake,
   Heirs,
   Assets,
+  Documents,
+  DocumentChecklist,
+  NotaryProcess,
+  Payments,
 ]

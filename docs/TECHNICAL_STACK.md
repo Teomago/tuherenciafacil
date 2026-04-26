@@ -8,9 +8,9 @@ Este documento detalla la arquitectura de la plataforma, diseñada para alta dis
 - **RFC Pipeline**: Proceso de diseño técnico previo a la implementación.
 
 ## Frontend & Deploy
-- **Next.js 16.2.1**: Framework principal para SSR y routing.
+- **Next.js 16.2.x**: Framework principal para SSR y routing (ver `package.json` para parche exacto).
 - **Vercel**: Hosting y red de distribución de contenidos (CDN).
-- **Payload CMS 3.80**: Motor de administración, API y gestión de contenidos.
+- **Payload CMS 3.x**: Motor de administración, API y gestión de contenidos (ver `package.json` para versión exacta).
 
 ## Backend & Tipado
 - **Drizzle ORM**: Gestión de migraciones y consultas seguras a la base de datos.

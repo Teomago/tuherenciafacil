@@ -1,10 +1,12 @@
 import type { CollectionConfig } from 'payload'
 import { isAdminUser, isMemberUser } from '@/lib/auth/typeGuards'
 import { heirChecklistHook } from './hooks/generateHeirChecklistItems'
+import { validateHeirRepresentation } from './hooks/validateHeirRepresentation'
 
 export const Heirs: CollectionConfig = {
   slug: 'heirs',
   hooks: {
+    beforeChange: [validateHeirRepresentation],
     afterChange: [heirChecklistHook],
   },
   access: {
@@ -78,6 +80,14 @@ export const Heirs: CollectionConfig = {
       name: 'herederoOriginal',
       type: 'relationship',
       relationTo: 'heirs',
+      filterOptions: ({ data }) => {
+        if (!data?.case) return false
+        const caseId = typeof data.case === 'object' ? data.case.id : data.case
+        return {
+          case: { equals: caseId },
+          esFallecido: { equals: true },
+        }
+      },
       admin: {
         condition: (data, siblingData) => Boolean(siblingData?.esRepresentante),
       },

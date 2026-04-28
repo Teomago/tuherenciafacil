@@ -6,6 +6,7 @@ import {
   canReadCaseScopedResource,
   canManageCaseScopedResource,
 } from '../permissions'
+import { caseScopedDocumentFilter } from '../utils/caseScopedDocumentFilter'
 
 export const DocumentChecklist: CollectionConfig = {
   slug: 'document-checklists',
@@ -150,6 +151,7 @@ export const DocumentChecklist: CollectionConfig = {
       name: 'document',
       type: 'relationship',
       relationTo: 'documents',
+      filterOptions: caseScopedDocumentFilter,
     },
     {
       name: 'reviewNote',

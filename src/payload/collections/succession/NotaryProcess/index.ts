@@ -6,6 +6,7 @@ import {
   canReadCaseScopedResource,
   canManageCaseScopedResource,
 } from '../permissions'
+import { caseScopedDocumentFilter } from '../utils/caseScopedDocumentFilter'
 
 export const NotaryProcess: CollectionConfig = {
   slug: 'notary-process',
@@ -64,6 +65,7 @@ export const NotaryProcess: CollectionConfig = {
           type: 'relationship',
           relationTo: 'documents',
           hasMany: true,
+          filterOptions: caseScopedDocumentFilter,
         },
       ],
     },
@@ -93,6 +95,7 @@ export const NotaryProcess: CollectionConfig = {
           name: 'autorizacionEdictos',
           type: 'relationship',
           relationTo: 'documents',
+          filterOptions: caseScopedDocumentFilter,
         },
       ],
     },
@@ -120,11 +123,13 @@ export const NotaryProcess: CollectionConfig = {
           name: 'edictoPDF',
           type: 'relationship',
           relationTo: 'documents',
+          filterOptions: caseScopedDocumentFilter,
         },
         {
           name: 'comprobantePago',
           type: 'relationship',
           relationTo: 'documents',
+          filterOptions: caseScopedDocumentFilter,
         },
         {
           name: 'comprobantesEntregados',
@@ -188,6 +193,7 @@ export const NotaryProcess: CollectionConfig = {
           name: 'escrituraPublica',
           type: 'relationship',
           relationTo: 'documents',
+          filterOptions: caseScopedDocumentFilter,
         },
       ],
     },
@@ -230,6 +236,7 @@ export const NotaryProcess: CollectionConfig = {
           name: 'certificadoTradicionActualizado',
           type: 'relationship',
           relationTo: 'documents',
+          filterOptions: caseScopedDocumentFilter,
         },
       ],
     },

@@ -14,6 +14,7 @@ import { Documents } from './succession/Documents'
 import { DocumentChecklist } from './succession/DocumentChecklist'
 import { NotaryProcess } from './succession/NotaryProcess'
 import { Payments } from './succession/Payments'
+import { AvailabilitySlots } from './succession/AvailabilitySlots'
 
 export const collections = [
   // Content
@@ -29,6 +30,7 @@ export const collections = [
   // Sucesiones
   Cases,
   Appointments,
+  AvailabilitySlots,
   CaseIntake,
   Heirs,
   Assets,

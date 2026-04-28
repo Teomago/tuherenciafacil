@@ -34,6 +34,16 @@ export const convertIntakeHandler: PayloadHandler = async (req) => {
       return Response.json({ error: 'Intake not found' }, { status: 404 })
     }
 
+    if (intake.tieneTestamento) {
+      return Response.json(
+        {
+          error:
+            'Las sucesiones testadas no son atendidas por tuHerenciaFácil. Solo manejamos sucesiones intestadas.',
+        },
+        { status: 422 },
+      )
+    }
+
     if (intake.status === 'paid') {
       return Response.json({ error: 'Intake already converted' }, { status: 400 })
     }
@@ -49,7 +59,7 @@ export const convertIntakeHandler: PayloadHandler = async (req) => {
         status: 'active',
         tier: intake.tierElegido || 'estandar',
         responsable: memberId,
-                tieneTestamento: intake.tieneTestamento,
+        tieneTestamento: intake.tieneTestamento,
         acuerdoHerederos: intake.acuerdoHerederos,
         causante: {
           nombre: intake.causanteNombre,

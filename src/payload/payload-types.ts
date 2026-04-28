@@ -132,6 +132,7 @@ export interface Config {
     tags: Tag;
     cases: Case;
     appointments: Appointment;
+    'availability-slots': AvailabilitySlot;
     'case-intakes': CaseIntake;
     heirs: Heir;
     assets: Asset;
@@ -160,6 +161,7 @@ export interface Config {
     tags: TagsSelect<false> | TagsSelect<true>;
     cases: CasesSelect<false> | CasesSelect<true>;
     appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
+    'availability-slots': AvailabilitySlotsSelect<false> | AvailabilitySlotsSelect<true>;
     'case-intakes': CaseIntakesSelect<false> | CaseIntakesSelect<true>;
     heirs: HeirsSelect<false> | HeirsSelect<true>;
     assets: AssetsSelect<false> | AssetsSelect<true>;
@@ -1852,7 +1854,15 @@ export interface CaseIntake {
  */
 export interface Appointment {
   id: string;
-  member: string | Member;
+  member?: (string | null) | Member;
+  /**
+   * Franja de disponibilidad seleccionada por el cliente.
+   */
+  availabilitySlot?: (string | null) | AvailabilitySlot;
+  /**
+   * Fecha y hora de la cita agendada.
+   */
+  fechaAgendada?: string | null;
   tipo:
     | 'consulta_virtual'
     | 'consulta_presencial'
@@ -1870,6 +1880,51 @@ export interface Appointment {
    * Gestionado automáticamente por el hook. No editar manualmente.
    */
   creditoApplied?: boolean | null;
+  /**
+   * Nombre del invitado si no tiene cuenta.
+   */
+  guestName?: string | null;
+  /**
+   * Email del invitado para confirmación y recordatorios.
+   */
+  guestEmail?: string | null;
+  /**
+   * Teléfono del invitado.
+   */
+  guestPhone?: string | null;
+  /**
+   * Fecha del último reagendamiento.
+   */
+  rescheduledAt?: string | null;
+  rescheduledBy?: ('client' | 'lawyer') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "availability-slots".
+ */
+export interface AvailabilitySlot {
+  id: string;
+  lawyer: string | Member;
+  date: string;
+  /**
+   * Formato HH:mm (24h). Ejemplo: "08:00"
+   */
+  startTime: string;
+  /**
+   * Formato HH:mm (24h). Ejemplo: "10:00"
+   */
+  endTime: string;
+  /**
+   * Duración de cada cita en minutos.
+   */
+  appointmentDuration: number;
+  /**
+   * Cantidad máxima de citas en esta franja.
+   */
+  maxAppointments: number;
+  status?: ('open' | 'full' | 'cancelled') | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -2156,6 +2211,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'appointments';
         value: string | Appointment;
+      } | null)
+    | ({
+        relationTo: 'availability-slots';
+        value: string | AvailabilitySlot;
       } | null)
     | ({
         relationTo: 'case-intakes';
@@ -2515,11 +2574,33 @@ export interface CasesSelect<T extends boolean = true> {
  */
 export interface AppointmentsSelect<T extends boolean = true> {
   member?: T;
+  availabilitySlot?: T;
+  fechaAgendada?: T;
   tipo?: T;
   monto?: T;
   status?: T;
   autorizarCredito?: T;
   creditoApplied?: T;
+  guestName?: T;
+  guestEmail?: T;
+  guestPhone?: T;
+  rescheduledAt?: T;
+  rescheduledBy?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "availability-slots_select".
+ */
+export interface AvailabilitySlotsSelect<T extends boolean = true> {
+  lawyer?: T;
+  date?: T;
+  startTime?: T;
+  endTime?: T;
+  appointmentDuration?: T;
+  maxAppointments?: T;
+  status?: T;
   updatedAt?: T;
   createdAt?: T;
 }

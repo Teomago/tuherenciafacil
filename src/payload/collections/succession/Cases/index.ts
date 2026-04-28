@@ -4,6 +4,7 @@ import { generateCaseNumber } from './utils/generateCaseNumber'
 import { generateInitialChecklist } from './hooks/generateInitialChecklist'
 import { advancePhaseEndpoint } from './endpoints/advancePhase'
 import { validatePhaseChangeHook } from './hooks/validatePhaseChangeHook'
+import { validateRoleAssignments } from './hooks/validateRoleAssignments'
 
 const setResponsableAndCaseNumber: CollectionBeforeChangeHook = async ({
   data,
@@ -61,7 +62,7 @@ export const Cases: CollectionConfig = {
     },
   ],
   hooks: {
-    beforeChange: [setResponsableAndCaseNumber, validatePhaseChangeHook],
+    beforeChange: [setResponsableAndCaseNumber, validateRoleAssignments, validatePhaseChangeHook],
     afterChange: [generateInitialChecklist],
   },
   admin: {
@@ -110,11 +111,18 @@ export const Cases: CollectionConfig = {
       name: 'responsable',
       type: 'relationship',
       relationTo: 'members',
+      filterOptions: () => ({
+        role: { equals: 'cliente' },
+      }),
     },
     {
       name: 'abogadoAsignado',
       type: 'relationship',
       relationTo: 'members',
+      filterOptions: () => ({
+        role: { equals: 'abogado' },
+        isActive: { not_equals: false },
+      }),
     },
     {
       name: 'invitacionCedula',

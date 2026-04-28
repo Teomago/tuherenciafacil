@@ -40,6 +40,7 @@ import { CommandMenuProvider as CommandMenuProvider_3bf5d3e334c5eaf4f0d216451590
 import { S3ClientUploadHandler as S3ClientUploadHandler_f97aa6c64367fa259c5bc0567239ef24 } from '@payloadcms/storage-s3/client'
 import { CollectionCards as CollectionCards_f9c02e79a4aed9a3924487c0cd4cafb1 } from '@payloadcms/next/rsc'
 
+/** @type import('payload').ImportMap */
 export const importMap = {
   "@/payload/fields/slug/ui#SlugField": SlugField_170151f47f943b3cd2b8fc1a8e251c31,
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,

@@ -32,3 +32,14 @@ warns about. Non-blocking, theme works correctly.
 **Success criterion:** warning disappears after next-themes releases
 React 19 compatible version
 **Dependencies:** none — monitor next-themes releases
+
+---
+
+## APPT-001 — Slot capacity auto-update
+
+**Priority:** medium  
+**Type:** feature  
+**Description:** When an appointment is booked against an `availability-slot`, automatically update the slot's `status` to `full` when the number of linked appointments reaches `maxAppointments`. Implement as an `afterChange` hook on the `appointments` collection that counts appointments linked to the same slot and updates the slot status accordingly. Should also handle the reverse (set back to `open` if an appointment is cancelled or rescheduled to a different slot).  
+**Success criterion:** Creating an appointment that fills a slot's capacity automatically sets the slot `status` to `full`. Cancelling or rescheduling frees the slot back to `open`. Covered by integration tests.  
+**Dependencies:** RFC-003.4 implemented (availability-slots + appointments scheduling). Required before client-facing booking UI (RFC-004/005).
+

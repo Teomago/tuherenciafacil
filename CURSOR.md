@@ -67,7 +67,7 @@ python3 -m pip install -U mempalace chromadb
 python3 -m pip show mempalace chromadb   # confirm versions
 ```
 
-Then **`mempalace mine .`** from repo root (first open may rebuild the index). If it still crashes, **`mempalace repair`** (see `mempalace repair --help`) or check [MemPalace issues](https://github.com/MemPalace/mempalace/issues) for your exact version pair. **Python:** `python3 --version`; system **3.9.x** works for many setups but maintaining a **3.11+ venv** for MemPalace keeps you aligned with current wheels — optional hygiene, rarely the primary fix.
+Then from repo root **`mempalace mine .`** or **`python3 -m mempalace mine .`** (first open may rebuild the index). **macOS user install:** pip may put binaries in **`~/Library/Python/3.9/bin`**, which is often **not** on `PATH`; an older `mempalace` in `~/.local/bin` could run instead. Prefer **`python3 -m mempalace --version`** to confirm you see **3.3.4+**, or add that `bin` dir to `PATH`. Optional: **`python3 -m pip install --upgrade pip`**. If it still crashes, **`mempalace repair`** (see `mempalace repair --help`) or [MemPalace issues](https://github.com/MemPalace/mempalace/issues). **Python:** **3.9.x** works; a **3.11+ venv** is optional hygiene.
 
 ---
 

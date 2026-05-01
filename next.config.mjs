@@ -9,6 +9,10 @@ const dirname = path.dirname(__filename)
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  experimental: {
+    /** Required for `forbidden()` / `forbidden.tsx` (e.g. notary route for non-abogado). */
+    authInterrupts: true,
+  },
   turbopack: {
     root: path.resolve(dirname),
     rules: {
@@ -74,4 +78,5 @@ const withNextIntl = createNextIntlPlugin('./src/i18n.ts')
 const config = withPayload(withNextIntl(nextConfig), { devBundleServerPackages: false })
 // Payload 3.x injects experimental.enableServerFastRefresh which Next.js 16.2+ rejects
 if (config.experimental) delete config.experimental.enableServerFastRefresh
+if (config.experimental) config.experimental.authInterrupts = true
 export default config

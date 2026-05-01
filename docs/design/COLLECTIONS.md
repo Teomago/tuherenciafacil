@@ -1,29 +1,32 @@
 # Colecciones de Payload CMS — tuHerenciaFácil
 
-> Status: definición técnica — pendiente implementación
-> Last updated: 2026-04-06
+> **Estado respecto al código:** La tabla resumen de más abajo puede mostrar **CREAR** para colecciones que **ya existen** en el backend. Para lista implementada y slugs reales, usar **`.agents/context/PROJECT_STATE.md`** y **`src/payload/collections/index.ts`**. Este documento sigue siendo referencia de dominio y campos; no es el registro de “ya desplegado”.
+>
+> Status: definición técnica — alineación de columna “Estado” pendiente en pasada dedicada  
+> Last updated: 2026-04-28  
 > Depende de: SCREEN_MAP.md, app-flowchart.html
 
 ---
 
 ## Resumen
 
-11 colecciones nuevas o modificadas. 1 colección existente que se adapta (Members).
+11 colecciones nuevas o modificadas en la visión v1, más **`availability-slots`** (RFC-003.4). 1 colección existente que se adapta (Members).
 La colección `users` de Payload (admin panel) no se toca — es solo para editores internos.
 
 | Colección | Estado | Propósito |
 |---|---|---|
-| Members | MODIFICAR | Usuarios del producto (clientes + abogados) |
-| Cases | CREAR | Caso de sucesión — objeto central |
-| Appointments | CREAR | Citas de consulta previa ($70k/$100k) — generan crédito |
-| CaseIntake | CREAR | Formulario de intake pre-pago (antes: Consultations) |
-| Heirs | CREAR | Herederos de un caso |
-| Assets | CREAR | Bienes de un caso |
-| DocumentChecklist | CREAR | Checklist auto-generado de documentos requeridos |
-| Documents | CREAR | Archivos subidos (PDFs, imágenes) en R2 |
-| NotaryProcess | CREAR | Tracking del proceso notarial |
-| Payments | CREAR | Registro de pagos y costos (Honorarios vs Gastos terceros) |
-| ChatMessages | CREAR | Mensajes del chat (bot, abogado, soporte) |
+| Members | IMPLEMENTADO (evolutivo) | Usuarios del producto (clientes + abogados) |
+| Cases | IMPLEMENTADO (backend) | Caso de sucesión — objeto central |
+| Appointments | IMPLEMENTADO (backend) | Citas de consulta previa ($70k/$100k) — generan crédito; RFC-003.4: guest fields, `availabilitySlot`, reschedule metadata |
+| AvailabilitySlots | IMPLEMENTADO (backend) | Franjas de disponibilidad abogado — RFC-003.4 |
+| CaseIntake | IMPLEMENTADO (backend) | Formulario de intake pre-pago (antes: Consultations) |
+| Heirs | IMPLEMENTADO (backend) | Herederos de un caso |
+| Assets | IMPLEMENTADO (backend) | Bienes de un caso |
+| DocumentChecklist | IMPLEMENTADO (backend) | Checklist auto-generado de documentos requeridos |
+| Documents | IMPLEMENTADO (backend) | Archivos subidos (PDFs, imágenes) en R2 |
+| NotaryProcess | IMPLEMENTADO (backend) | Tracking del proceso notarial |
+| Payments | IMPLEMENTADO (backend) | Registro de pagos y costos (Honorarios vs Gastos terceros) |
+| ChatMessages | CREAR (futuro) | Mensajes del chat (bot, abogado, soporte) |
 
 ---
 

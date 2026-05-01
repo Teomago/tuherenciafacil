@@ -1,7 +1,7 @@
 # Mapa de pantallas — tuHerenciaFácil Web App
 
-> Status: definición aprobada — pendiente diseño visual por pantalla
-> Last updated: 2026-03-29
+> Status: definición aprobada — pendiente diseño visual por pantalla  
+> Last updated: 2026-04-28  
 > Diagramas: `diagrams/01-prepago.svg`, `02-cliente.svg`, `03-abogado.svg`, `04-mapping.svg`
 
 ---
@@ -39,34 +39,37 @@ La única pantalla que bloquea activamente a un rol es `/app/caso/[id]/notaria` 
 
 ```
 src/app/[locale]/(app)/
-  layout.tsx                          ← Auth guard + carga member + extrae rol
-  page.tsx                            ← Bienvenida (pre-pago)
-  consulta/
-    page.tsx                          ← Agenda tu consulta (pre-pago)
-    pago/page.tsx                     ← Pago de la cita de consulta (pre-pago)
-  nueva-consulta/page.tsx             ← Formulario de apertura del caso (pre-pago)
-  pago/page.tsx                       ← Pago del paquete (pre-pago)
-  dashboard/page.tsx                  ← Dashboard (condicional por rol)
-  casos/page.tsx                      ← Lista de casos (condicional por rol)
-  caso/[id]/
-    layout.tsx                        ← Verifica acceso al caso + tabs de navegación
-    page.tsx                          ← Vista del caso (condicional por rol)
-    herederos/page.tsx                ← Herederos (condicional por rol)
-    bienes/page.tsx                   ← Bienes (condicional por rol)
-    documentos/page.tsx               ← Documentos (condicional por rol)
+  layout.tsx                          ← Providers (theme, i18n, query)
+  app/
+    page.tsx                          ← Punto de entrada actual (bienvenida + logout) — URL /[locale]/app
+  pending-activation/
+    page.tsx                          ← Abogado inactivo
+  consulta/                           ← PENDIENTE implementar (ver RFC-005+)
+    page.tsx
+    pago/page.tsx
+  nueva-consulta/page.tsx             ← PENDIENTE
+  pago/page.tsx                       ← PENDIENTE
+  dashboard/page.tsx                  ← PENDIENTE (RFC-004+)
+  casos/page.tsx                      ← PENDIENTE
+  caso/[id]/                          ← PENDIENTE
+    layout.tsx
+    page.tsx
+    herederos/page.tsx
+    bienes/page.tsx
+    documentos/page.tsx
     notaria/page.tsx                  ← EXCLUSIVA abogado (403 para cliente)
-    pagos/page.tsx                    ← Pagos (condicional por rol)
-  chat/page.tsx                       ← Chat (condicional por rol)
+    pagos/page.tsx
+  chat/page.tsx                       ← PENDIENTE
 ```
 
-**Nota sobre la ruta base:** La ruta actual en código es `[locale]/(herencia)/herencia/`. La estructura documentada aquí usa `[locale]/(app)/` como grupo de rutas. Esta discrepancia debe resolverse en DEC-007 antes de implementar las pantallas.
+**Nota sobre la ruta base (2026-04-28):** En el código actual el grupo es **`src/app/[locale]/(app)/`** y la pantalla viva está en **`app/page.tsx`** (URL **`/[locale]/app`**). No existe la carpeta `(herencia)/herencia/` en este árbol. Si el producto documenta otra convención (DEC-007), alinear en RFC-004 al implementar el shell y rutas hijas.
 
 ---
 
 ## Seguridad — 3 capas
 
 ### Capa 1 — Autenticación
-El layout de `(app)` verifica sesión válida. Sin sesión → redirige a login.
+Las rutas bajo `(app)` deben exigir sesión válida. **Estado actual:** la pantalla `app/page.tsx` redirige a login si no hay usuario; RFC-004 puede centralizar el guard en el layout del shell. Sin sesión → redirige a login.
 
 ### Capa 2 — Autorización por caso
 El layout de `caso/[id]` verifica que el member tiene relación con el caso:

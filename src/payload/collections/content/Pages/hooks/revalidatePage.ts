@@ -1,13 +1,13 @@
 import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from 'payload'
-import { revalidatePath } from 'next/cache'
 
-export const revalidatePageAfterChange: CollectionAfterChangeHook = ({
+export const revalidatePageAfterChange: CollectionAfterChangeHook = async ({
   doc,
   previousDoc,
   req: { payload },
 }) => {
   // Only revalidate if the document is published
   if (doc._status === 'published') {
+    const { revalidatePath } = await import('next/cache')
     if (doc.pathname) {
       payload.logger.info(`Revalidating page path: ${doc.pathname}`)
       revalidatePath(doc.pathname)
@@ -20,8 +20,12 @@ export const revalidatePageAfterChange: CollectionAfterChangeHook = ({
   return doc
 }
 
-export const revalidatePageAfterDelete: CollectionAfterDeleteHook = ({ doc, req: { payload } }) => {
+export const revalidatePageAfterDelete: CollectionAfterDeleteHook = async ({
+  doc,
+  req: { payload },
+}) => {
   if (doc?.pathname) {
+    const { revalidatePath } = await import('next/cache')
     payload.logger.info(`Revalidating deleted page path: ${doc.pathname}`)
     revalidatePath(doc.pathname)
   }

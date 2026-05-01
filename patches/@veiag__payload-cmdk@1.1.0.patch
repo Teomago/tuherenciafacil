@@ -1,0 +1,57 @@
+diff --git a/dist/components/CommandMenuContext.js b/dist/components/CommandMenuContext.js
+index 9be561ecee72791d77b98754fcd98d7f4130a090..e2c4d9116ea8988a99d6b1fac21b3117379ccebb 100644
+--- a/dist/components/CommandMenuContext.js
++++ b/dist/components/CommandMenuContext.js
+@@ -7,10 +7,10 @@ import { usePathname, useRouter } from 'next/navigation';
+ import { formatAdminURL } from 'payload/shared';
+ import { createContext, Fragment, memo, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
+ import { useHotkeys } from 'react-hotkeys-hook';
+-import { createDefaultGroups } from '../utils/index';
+-import { getCommandMenuAction } from '../utils/registry';
+-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from './cmdk/index';
+-import { LucideIconDynamic } from './LucideIcon';
++import { createDefaultGroups } from '../utils/index.js';
++import { getCommandMenuAction } from '../utils/registry.js';
++import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList, CommandSeparator, CommandShortcut } from './cmdk/index.js';
++import { LucideIconDynamic } from './LucideIcon.js';
+ const MODAL_SLUG = 'command-menu';
+ const CommandMenuContext = /*#__PURE__*/ createContext({
+     closeMenu: ()=>{},
+diff --git a/dist/components/SearchButton.js b/dist/components/SearchButton.js
+index 87182cae8c0a4e79a77beb8579397f8a5690e4ed..0bb199f3f1ac5755710e3388e724b0d18737f75f 100644
+--- a/dist/components/SearchButton.js
++++ b/dist/components/SearchButton.js
+@@ -4,7 +4,7 @@ import './SearchButton.scss';
+ import { useTranslation } from '@payloadcms/ui';
+ import { ArrowBigUp, Command as CommandIcon, Option, SearchIcon } from 'lucide-react';
+ import React, { useEffect, useState } from 'react';
+-import { useCommandMenu } from './CommandMenuContext';
++import { useCommandMenu } from './CommandMenuContext.js';
+ const SearchButton = ({ position = 'actions', shortcut = [
+     'meta+k',
+     'ctrl+k'
+diff --git a/dist/exports/client.js b/dist/exports/client.js
+index 8b18a72c52e8d0794bc2c0dc07e87085671668d2..62bcde37e8e55e0c7f1a8ceffb626f3e60bc7c43 100644
+--- a/dist/exports/client.js
++++ b/dist/exports/client.js
+@@ -1,5 +1,5 @@
+-export { CommandMenuProvider, useCommandMenu } from '../components/CommandMenuContext';
+-export { default as SearchButton } from '../components/SearchButton';
+-export { registerCommandMenuAction, unregisterCommandMenuAction } from '../utils/registry';
++export { CommandMenuProvider, useCommandMenu } from '../components/CommandMenuContext.js';
++export { default as SearchButton } from '../components/SearchButton.js';
++export { registerCommandMenuAction, unregisterCommandMenuAction } from '../utils/registry.js';
+ 
+ //# sourceMappingURL=client.js.map
+\ No newline at end of file
+diff --git a/dist/index.js b/dist/index.js
+index 651ac296dd4b7d9502727a1d3ffe7b0f70795fd8..48aceeecb55d9cd59f702ced479a3f7ff10f6ae7 100644
+--- a/dist/index.js
++++ b/dist/index.js
+@@ -1,5 +1,5 @@
+ import { deepMerge } from 'payload';
+-import { commandPluginTranslations } from './translations';
++import { commandPluginTranslations } from './translations/index.js';
+ export const payloadCmdk = (pluginOptions = {})=>(config)=>{
+         /**
+      * Initialize plugin options with safe defaults:

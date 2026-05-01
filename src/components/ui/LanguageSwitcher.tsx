@@ -16,7 +16,7 @@ export function LanguageSwitcher({ isMultiLangEnabled }: { isMultiLangEnabled: b
     <Button 
       variant="ghost" 
       size="sm" 
-      className="font-medium text-muted-foreground hover:text-foreground flex items-center gap-2"
+      className="font-medium text-foreground/90 hover:text-foreground flex items-center gap-2"
       onClick={() => router.replace(pathname, { locale: locale === 'en' ? 'es' : 'en' })}
       title="Switch Language"
     >

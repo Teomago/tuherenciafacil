@@ -1,5 +1,4 @@
 export * from './assertNever'
-export * from './cache'
 export * from './canUseDOM'
 export * from './cn'
 export * from './deepMerge'

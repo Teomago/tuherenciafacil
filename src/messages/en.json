@@ -119,7 +119,46 @@
   "App": {
     "welcome": "Welcome",
     "welcomeMessage": "Welcome, {user}",
-    "subtitle": "Your succession process starts here."
+    "subtitle": "Your succession process starts here.",
+    "Sidebar": {
+      "dashboard": "Dashboard",
+      "casos": "My cases",
+      "cerrarSesion": "Log out",
+      "toggleSidebar": "Toggle sidebar",
+      "closeMobileDrawer": "Close menu",
+      "mobileDrawerTitle": "Tu Herencia Fácil — Navigation",
+      "mobileDrawerDescription": "Explore the options for your process."
+    },
+    "CaseTabs": {
+      "notaria": "Notary process"
+    },
+    "Header": {
+      "locale": "EN",
+      "roleCliente": "Beneficiary",
+      "roleAbogado": "Lawyer",
+      "openMenu": "Open navigation",
+      "welcome": "Welcome"
+    },
+    "Dashboard": {
+      "Stubs": {
+        "welcome": "Hello, {name}.",
+        "activeCases": "Active cases",
+        "noCases": "Let's get started?",
+        "noCasesDescription": "You don't have an active process yet.",
+        "hasCasesDescription": "You have {count} active case(s).",
+        "noCasesCta": "View my cases"
+      }
+    },
+    "Cases": {
+      "emptyCta": "Back to dashboard"
+    },
+    "Errors": {
+      "forbidden": {
+        "title": "Restricted access",
+        "description": "This section is exclusive to the legal team. If you think this is a mistake, contact support.",
+        "cta": "Back to dashboard"
+      }
+    }
   },
   "Collections": {
     "members": {

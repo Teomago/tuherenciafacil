@@ -85,7 +85,8 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URI || '',
     },
-    push: process.env.NODE_ENV !== 'production',
+    push:
+      process.env.NODE_ENV !== 'production' && process.env.PAYLOAD_DISABLE_DB_PUSH !== 'true',
   }),
   sharp,
   plugins: [

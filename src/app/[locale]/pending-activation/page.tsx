@@ -3,6 +3,7 @@ import { redirect } from 'next/navigation'
 import { getPayload } from '@/lib/payload/getPayload'
 import { isMemberUser } from '@/lib/auth/typeGuards'
 import { logout } from '@/app/[locale]/(frontend)/actions/auth'
+import { Button } from '@/components/ui/button'
 
 export default async function PendingActivationPage({
   params,
@@ -26,8 +27,8 @@ export default async function PendingActivationPage({
 
   return (
     <main className="flex min-h-screen items-center justify-center">
-      <div className="text-center max-w-md px-4">
-        <h1 className="text-2xl font-semibold text-foreground">Cuenta pendiente de activación</h1>
+      <div className="max-w-md px-4 text-center">
+        <h1 className="text-2xl font-semibold text-foreground">Hola, {user.firstName}</h1>
         <p className="mt-3 text-muted-foreground">
           Tu cuenta está pendiente de activación por parte del administrador. Una vez activada,
           cierra sesión y vuelve a iniciar para acceder a la plataforma.
@@ -36,18 +37,15 @@ export default async function PendingActivationPage({
           ¿Tienes preguntas?{' '}
           <a
             href={`mailto:${contactEmail}`}
-            className="underline text-foreground hover:text-muted-foreground transition-colors"
+            className="text-foreground underline transition-colors hover:text-muted-foreground"
           >
             Contáctanos
           </a>
         </p>
         <form action={handleLogout} className="mt-6">
-          <button
-            type="submit"
-            className="px-4 py-2 text-sm border border-input rounded-md bg-background hover:bg-accent hover:text-accent-foreground transition-colors"
-          >
+          <Button type="submit" variant="outline">
             Cerrar sesión
-          </button>
+          </Button>
         </form>
       </div>
     </main>

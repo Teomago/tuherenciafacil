@@ -9,6 +9,7 @@ export default defineConfig({
     setupFiles: ['./vitest.setup.ts'],
     include: [
       'tests/unit/**/*.spec.ts',
+      'tests/unit/**/*.spec.tsx',
       'tests/int/**/*.int.spec.ts',
     ],
     fileParallelism: false,

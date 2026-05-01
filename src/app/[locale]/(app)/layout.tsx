@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from '@/providers/ThemeProvider'
 import { QueryProvider } from '@/providers/QueryProvider'
+import { AuthGuard } from '@/components/auth/AuthGuard'
 import { NextIntlClientProvider } from 'next-intl'
 import { getMessages } from 'next-intl/server'
 import '@/styles/index.css'
@@ -22,7 +23,9 @@ export default async function AppLayout({
       <body className={`${inter.className} min-h-screen bg-background antialiased`}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
           <NextIntlClientProvider messages={messages}>
-            <QueryProvider>{children}</QueryProvider>
+            <QueryProvider>
+              <AuthGuard locale={locale}>{children}</AuthGuard>
+            </QueryProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
       </body>

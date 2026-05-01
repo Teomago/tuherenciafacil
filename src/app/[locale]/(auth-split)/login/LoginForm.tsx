@@ -73,8 +73,8 @@ export function LoginForm({ coverImageUrl, isMultiLangEnabled }: LoginFormProps)
         {/* Top bar */}
         <header className="flex items-center justify-between p-6">
           <Link href="/" className="flex items-center gap-2 group">
-            <ArrowLeft className="h-4 w-4 text-muted-foreground group-hover:text-foreground transition-colors" />
-            <span className="text-sm font-medium text-muted-foreground group-hover:text-foreground transition-colors">
+            <ArrowLeft className="h-4 w-4 text-foreground/80 group-hover:text-foreground transition-colors" />
+            <span className="text-sm font-medium text-foreground/80 group-hover:text-foreground transition-colors">
               {t('backToHome')}
             </span>
           </Link>
@@ -85,12 +85,17 @@ export function LoginForm({ coverImageUrl, isMultiLangEnabled }: LoginFormProps)
         </header>
 
         {/* Form area */}
-        <div className="flex flex-1 flex-col items-center justify-center px-8 py-8">
+        <main
+          id="login-main"
+          className="flex flex-1 flex-col items-center justify-center px-8 py-8"
+        >
           <div className="w-full max-w-sm space-y-8">
             <div className="space-y-1">
-              <p className="text-sm font-medium text-muted-foreground tracking-widest uppercase">tuHerenciaFácil</p>
+              <p className="text-sm font-medium text-foreground/75 tracking-widest uppercase">
+                tuHerenciaFácil
+              </p>
               <h1 className="text-3xl font-bold tracking-tight">{t('welcomeBack')}</h1>
-              <p className="text-sm text-muted-foreground">{t('loginDescription')}</p>
+              <p className="text-sm text-foreground/80">{t('loginDescription')}</p>
             </div>
 
             <form onSubmit={handleLogin} className="space-y-4">
@@ -136,23 +141,21 @@ export function LoginForm({ coverImageUrl, isMultiLangEnabled }: LoginFormProps)
             </form>
 
             <div className="flex flex-col items-center gap-2 text-sm">
-              <button
-                type="button"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                onClick={() => router.push('/forgot-password')}
+              <Link
+                href={`/${locale}/forgot-password`}
+                className="text-primary underline-offset-4 hover:underline"
               >
                 {t('forgotPassword')}
-              </button>
-              <button
-                type="button"
-                className="text-muted-foreground hover:text-foreground transition-colors"
-                onClick={() => router.push('/register')}
+              </Link>
+              <Link
+                href={`/${locale}/register`}
+                className="text-primary underline-offset-4 hover:underline"
               >
                 {t('createAccount')}
-              </button>
+              </Link>
             </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   )

@@ -24,7 +24,8 @@
   --card-foreground: 205 100% 14%;
   --popover: 0 0% 100%;
   --popover-foreground: 205 100% 14%;
-  --primary: 195 49% 44%;            /* #3A8DA8 — primary CTAs */
+  /* Darker than brand-tech on-screen hex so white text meets WCAG AA 4.5:1 on CTAs */
+  --primary: 195 52% 32%;
   --primary-foreground: 0 0% 100%;
   --secondary: 210 17% 95%;
   --secondary-foreground: 205 100% 14%;
@@ -36,7 +37,7 @@
   --destructive-foreground: 0 0% 98%;
   --border: 210 20% 88%;
   --input: 210 20% 88%;
-  --ring: 195 49% 44%;               /* matches --primary */
+  --ring: 195 52% 32%;               /* matches --primary */
 
   /* Card shadow — blue-tinted per DESIGN.md */
   --shadow-card: 0 10px 25px -5px rgba(0, 40, 69, 0.1), 0 8px 10px -6px rgba(0, 40, 69, 0.08);

@@ -119,7 +119,46 @@
   "App": {
     "welcome": "Bienvenido",
     "welcomeMessage": "Bienvenido, {user}",
-    "subtitle": "Tu proceso de sucesión comienza aquí."
+    "subtitle": "Tu proceso de sucesión comienza aquí.",
+    "Sidebar": {
+      "dashboard": "Panel",
+      "casos": "Mis casos",
+      "cerrarSesion": "Cerrar sesión",
+      "toggleSidebar": "Alternar barra lateral",
+      "closeMobileDrawer": "Cerrar menú",
+      "mobileDrawerTitle": "Tu Herencia Fácil — Navegación",
+      "mobileDrawerDescription": "Explora las opciones de tu proceso."
+    },
+    "CaseTabs": {
+      "notaria": "Proceso notarial"
+    },
+    "Header": {
+      "locale": "ES",
+      "roleCliente": "Titular",
+      "roleAbogado": "Abogado/a",
+      "openMenu": "Abrir navegación",
+      "welcome": "Bienvenido"
+    },
+    "Dashboard": {
+      "Stubs": {
+        "welcome": "Hola, {name}.",
+        "activeCases": "Casos activos",
+        "noCases": "¿Comenzamos?",
+        "noCasesDescription": "Aún no tienes un proceso activo.",
+        "hasCasesDescription": "Tienes {count} caso(s) activo(s).",
+        "noCasesCta": "Ver mis casos"
+      }
+    },
+    "Cases": {
+      "emptyCta": "Volver al panel"
+    },
+    "Errors": {
+      "forbidden": {
+        "title": "Acceso restringido",
+        "description": "Esta sección es exclusiva del equipo legal. Si crees que esto es un error, contacta al soporte.",
+        "cta": "Volver al panel"
+      }
+    }
   },
   "Collections": {
     "members": {

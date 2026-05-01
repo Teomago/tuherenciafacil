@@ -1,6 +1,6 @@
 # ROADMAP — tuHerenciaFácil Implementation Plan
 
-> Canonical execution sequence for this repository. Use with `.agents/context/PROJECT_STATE.md` and decision files in `.agents/decisions/`.
+> Canonical execution sequence for this repository. Use with `.agents/context/PROJECT_STATE.md`. **Approved decisions:** active drafts in `.agents/decisions/`; **closed RFCs** (003.1–003.4, etc.) in `.agents/archive/decisions/` with matching specs/audits under `.agents/archive/specs/` and `.agents/archive/audits/`.
 
 ---
 
@@ -11,9 +11,10 @@ The project uses the repo-current baseline:
 1. **RFC-003.1** — implemented  
 2. **RFC-003.2** — implemented  
 3. **RFC-003.3** — implemented  
-4. **RFC-004** — next (app shell/primitives)  
-5. **RFC-005** — onboarding/pre-payment UX  
-6. **RFC-006+** — continue by phase below
+4. **RFC-003.4** — implemented (admin data integrity + scheduling primitives)  
+5. **RFC-004** — next (app shell/primitives)  
+6. **RFC-005** — onboarding/pre-payment UX  
+7. **RFC-006+** — continue by phase below
 
 Do not renumber active RFCs without a dedicated planning decision that updates both this file and `PROJECT_STATE`.
 
@@ -59,6 +60,11 @@ Do not renumber active RFCs without a dedicated planning decision that updates b
 - Full onboarding funnel screens (`RFC-005`).
 - Wompi automation flows beyond provider-agnostic data model (DEC-005 follow-up).
 
+### RFC-003.4 — Admin data integrity and lawyer UX polish (implemented)
+**Objective (delivered):** harden admin/lawyer workflows before client-facing booking UI and app shell.
+
+**Delivered scope (summary):** relationship `filterOptions` and server-side validation on Cases/Heirs; case-scoped document pickers on DocumentChecklist and NotaryProcess; testamento guard on intake conversion; `availability-slots` collection and Appointments reschedule rules. Spec/audit/decision archived under `.agents/archive/`.
+
 ---
 
 ## Next executable phase
@@ -69,9 +75,6 @@ Do not renumber active RFCs without a dedicated planning decision that updates b
 ---
 
 ## Subsequent phases (after RFC-004)
-
-### RFC-004 — App shell and UI primitives
-- `/app` layout guardrails, role-aware navigation, reusable UI primitives, base dashboard shell.
 
 ### RFC-005 — Onboarding and pre-payment flow
 - Welcome eligibility flow, consultation path, intake UI journey, payment-step UX wiring.

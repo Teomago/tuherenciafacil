@@ -1,6 +1,6 @@
 # ROADMAP — tuHerenciaFácil Implementation Plan
 
-> Canonical execution sequence for this repository. Use with `.agents/context/PROJECT_STATE.md`. **Approved decisions:** active drafts in `.agents/decisions/`; **closed RFCs** (003.1–003.4, etc.) in `.agents/archive/decisions/` with matching specs/audits under `.agents/archive/specs/` and `.agents/archive/audits/`.
+> Canonical execution sequence for this repository. Use with `.agents/context/PROJECT_STATE.md`. **Approved decisions:** active drafts in `.agents/decisions/`; **closed RFCs** (003.1–003.4, etc.) in `.agents/archive/decisions/` with matching specs/audits under `.agents/archive/specs/` and `.agents/archive/audits/`. **RFC-004** is implemented; spec/audit/decision live under `.agents/` until archived like prior RFCs.
 
 ---
 
@@ -12,8 +12,8 @@ The project uses the repo-current baseline:
 2. **RFC-003.2** — implemented  
 3. **RFC-003.3** — implemented  
 4. **RFC-003.4** — implemented (admin data integrity + scheduling primitives)  
-5. **RFC-004** — next (app shell/primitives)  
-6. **RFC-005** — onboarding/pre-payment UX  
+5. **RFC-004** — implemented (app shell / UI primitives — artifacts in `.agents/` until archived)  
+6. **RFC-005** — next (onboarding / pre-payment UX)  
 7. **RFC-006+** — continue by phase below
 
 Do not renumber active RFCs without a dedicated planning decision that updates both this file and `PROJECT_STATE`.
@@ -56,7 +56,6 @@ Do not renumber active RFCs without a dedicated planning decision that updates b
 5. Provider-agnostic `payments` foundation with manual/offline records.
 
 **Deferred by design:**
-- App shell visual/layout work (`RFC-004`).
 - Full onboarding funnel screens (`RFC-005`).
 - Wompi automation flows beyond provider-agnostic data model (DEC-005 follow-up).
 
@@ -65,19 +64,21 @@ Do not renumber active RFCs without a dedicated planning decision that updates b
 
 **Delivered scope (summary):** relationship `filterOptions` and server-side validation on Cases/Heirs; case-scoped document pickers on DocumentChecklist and NotaryProcess; testamento guard on intake conversion; `availability-slots` collection and Appointments reschedule rules. Spec/audit/decision archived under `.agents/archive/`.
 
+### RFC-004 — App shell and UI primitives (implemented)
+**Objective (delivered):** authenticated shell with centralized guard, role-aware nav, and stubbed workspace routes before funnel work (`RFC-005`).
+
+**Delivered scope (summary):** `AuthGuard` / `UserProvider`; `AppShell` (sidebar + mobile drawer + header); routes `/dashboard`, `/casos`, `/caso/[id]` (+ lawyer-only `/notaria` + `forbidden`); `pending-activation` outside `(app)`; TanStack Query pattern on dashboard stub; Vitest shell tests + Playwright `shell.smoke` (local CI deferred per decision). Spec, audit, decision, execution review: `.agents/specs/RFC-004-app-shell-ui-primitives.md`, `.agents/audits/RFC-004-audit.md`, `.agents/audits/RFC-004-execution-review.md`, `.agents/decisions/RFC-004-decision.md`.
+
 ---
 
 ## Next executable phase
 
-### RFC-004 — App shell and UI primitives
-- `/app` layout guardrails, role-aware navigation, reusable UI primitives, base dashboard shell.
+### RFC-005 — Onboarding and pre-payment flow
+- Welcome eligibility flow, consultation path, intake UI journey, payment-step UX wiring.
 
 ---
 
-## Subsequent phases (after RFC-004)
-
-### RFC-005 — Onboarding and pre-payment flow
-- Welcome eligibility flow, consultation path, intake UI journey, payment-step UX wiring.
+## Subsequent phases (after RFC-005)
 
 ### RFC-006 — Client dashboard and timeline
 - Case progress visualization and next-action guidance.

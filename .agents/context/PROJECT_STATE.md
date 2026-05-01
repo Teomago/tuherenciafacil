@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-## Last updated: 2026-04-28 (reconciled: codebase + RFC artifacts + MemPalace gap noted)
+## Last updated: 2026-05-01 (RFC-004 + prod image fix reconciled; MemPalace wing re-mined)
 
 > **Single source of truth for implementation status.** Design intent lives in `docs/design/` (may lag the repo — see reconciliation below). **New** RFC specs/audits/decisions land in `.agents/specs/`, `.agents/audits/`, `.agents/decisions/`; **closed** RFC artifacts live under `.agents/archive/{specs,audits,decisions}/`. In-app team docs (UI) live under `src/app/docs/`.
 
@@ -28,7 +28,7 @@
 | 003.2 | `.agents/archive/specs/RFC-003.2-intake-heirs-assets.md` | `.agents/archive/audits/RFC-003.2-audit.md` | `.agents/archive/decisions/RFC-003.2-decision.md` | Implemented |
 | 003.3 | `.agents/archive/specs/RFC-003.3-workflow-engine.md` | `.agents/archive/audits/RFC-003.3-audit.md` | `.agents/archive/decisions/RFC-003.3-decision.md` | Implemented |
 | 003.4 | `.agents/archive/specs/RFC-003.4-admin-data-integrity.md` | `.agents/archive/audits/RFC-003.4-audit.md` (+ execution review) | `.agents/archive/decisions/RFC-003.4-decision.md` | Implemented |
-| **004** | *(pending — Gemini Phase 1)* | — | — | **Next** |
+| **004** | `.agents/specs/RFC-004-app-shell-ui-primitives.md` | `.agents/audits/RFC-004-audit.md` (see also `RFC-004-execution-review.md`) | `.agents/decisions/RFC-004-decision.md` | **Implemented** |
 
 ---
 
@@ -39,7 +39,7 @@
 | **`src/payload/collections/index.ts`** | Canonical list of registered Payload collections | Low |
 | **`docs/design/COLLECTIONS.md`** | Domain definition + future collections | **High** — summary table still shows many rows as “CREAR”; backend for core succession collections is already in the repo. Use this file for field semantics, not “implemented/not” status. |
 | **`docs/design/SCREEN_MAP.md`** | Target UX / route map | **Medium** — was written before `(app)/app` stub; updated note should match `src/app/[locale]/(app)/`. |
-| **MemPalace `tuherenciafacil` wing** | Cross-session memory | **High** until re-indexed — may echo old `PROJECT_STATE` or roadmap ordering. |
+| **MemPalace `tuherenciafacil` wing** | Cross-session memory | **Low–medium** after 2026-05-01 full `mempalace mine`; re-run after large merges (`CURSOR.md`). |
 
 ---
 
@@ -78,8 +78,8 @@ This project is currently locked to the **repo-current numbering**:
 2. **RFC-003.2** — implemented  
 3. **RFC-003.3** — implemented (data/workflow domain)  
 4. **RFC-003.4** — implemented (admin integrity + scheduling primitives)  
-5. **RFC-004** — next (app shell + primitives)  
-6. **RFC-005** — onboarding/pre-payment screens  
+5. **RFC-004** — implemented (app shell + primitives; artifacts remain under `.agents/` until archived)  
+6. **RFC-005** — next (onboarding / pre-payment screens)  
 
 If a meeting introduces a renamed/shifted RFC chain, record it in a dedicated planning decision first. Do not silently change numbering in execution files.
 
@@ -91,6 +91,7 @@ Post-`RFC-003.2` work on `main` was stabilization, not a new RFC cycle:
 
 - Build/deploy hardening for Next/Vercel module compatibility (`ERR_REQUIRE_ESM` path).
 - URL normalization and config cleanup (`NEXT_PUBLIC_SERVER_URL`, single Next config baseline).
+- **2026-05-01:** `next.config.mjs` `images.remotePatterns` extended for **`https://tuherenciafacil.com/api/media/**`** (and `www`, `*.vercel.app` previews) so `next/image` optimizes Payload file URLs without Vercel `INVALID_IMAGE_OPTIMIZE_REQUEST`.
 - Access-control hardening for admin/staff and members management paths.
 - Members deletion safety hook to clear succession references before delete, avoiding PostgreSQL transaction abort cascades.
 
@@ -105,19 +106,20 @@ These fixes are considered **platform hardening** and should be referenced by fu
 **System:** `tags`  
 **Succession:** `cases`, `appointments`, `availability-slots`, `case-intakes`, `heirs`, `assets`, `documents`, `document-checklists`, `notary-process`, `payments`  
 
-**Not yet implemented** (per design / RFC-004+): e.g. `chat-messages` — see `docs/design/COLLECTIONS.md` and `ROADMAP.md`.
+**Not yet implemented** (per design / RFC-005+): e.g. `chat-messages` — see `docs/design/COLLECTIONS.md` and `ROADMAP.md`.
 
 ---
 
 ## App routes (high level)
 
 - Marketing + CMS-driven pages: `/[locale]/[[...segments]]`  
-- **Client app (member):** route group `src/app/[locale]/(app)/` — entry screen at **`/[locale]/app`** (`app/page.tsx`); inactive lawyers → **`/[locale]/pending-activation`**.  
+- **Client app (member):** route group `src/app/[locale]/(app)/` — `AppShell` + `AuthGuard`; entry **`/[locale]/app`**; **dashboard** `/[locale]/dashboard`, **casos** `/[locale]/casos`, **caso** `/[locale]/caso/[id]` (+ **`/notaria`** lawyer-only, `forbidden.tsx` for others); inactive lawyers → **`/[locale]/pending-activation`** (routed **outside** `(app)` to avoid guard loops).  
 - Auth: login, register, forgot/reset password (see `[locale]/(auth)/` and related)  
 - **Admin:** `/admin`  
 - **Internal docs (UI):** `/docs` (see `src/app/docs/`)  
 
-**Not yet implemented:** nested routes under `/app` from `SCREEN_MAP.md` (consulta, dashboard, caso/[id], etc.) — **RFC-004** (shell) then **RFC-005+** (funnels and workspace).
+**RFC-004 delivered (shell + stubs):** dashboard, casos, caso detail shell, notaria gate, shell E2E smoke (`tests/e2e/shell.smoke.spec.ts`).  
+**Still pending (RFC-005+ / SCREEN_MAP):** consulta, pago / onboarding funnel, full case workspace editing, chat, etc.
 
 ---
 
@@ -139,15 +141,17 @@ These fixes are considered **platform hardening** and should be referenced by fu
 - **RFC-003.2** — CaseIntake, Heirs, Assets + convert-intake handler.  
 - **RFC-003.3** — Documents (S3), DocumentChecklists, NotaryProcess, Payments foundation, and advancePhase endpoint. Verification tests 100% passed.  
 - **RFC-003.4** — Relationship filtering and server-side validation on Cases/Heirs, case-scoped document pickers, convert-intake testamento guard, availability slots and reschedule rules. See `.agents/archive/decisions/RFC-003.4-decision.md`.
+- **RFC-004** — App shell (`AuthGuard`, `UserProvider`, sidebar/drawer/header), stubbed member routes (`/dashboard`, `/casos`, `/caso/[id]`), notary gate, pending-activation move, shell unit + Playwright smoke. Spec/audit/decision/execution-review under `.agents/` (closure archive optional).
 
 ---
 
 ## What needs to happen next (priority)
 
-1. **RFC-004** — app shell/UI primitives (`/app/dashboard` scaffold, role-aware layout, core design tokens).  
-2. **RFC-005** — onboarding/pre-payment funnel screens (domain contracts stable post RFC-003.3/003.4).  
+1. **RFC-005** — onboarding/pre-payment funnel screens (domain contracts stable post RFC-003.x).  
+2. **Optional:** archive RFC-004 artifacts to `.agents/archive/{specs,audits,decisions}/` after Teo confirms Phase 8 closure parity with prior RFCs.  
 3. **PROJECT_STATE hygiene** — update this file at **Phase 6** of every merged RFC (or weekly during sprints).  
-4. **INFRA-001** — separate Neon dev/prod branches when approaching production hardening (`BACKLOG.md`).  
+4. **INFRA-001** — separate Neon dev/prod branches when approaching production hardening (`BACKLOG.md`).
+5. **SITE-001** — maintenance / chrome-less splash (`BACKLOG.md`) when prioritized.  
 
 ---
 
@@ -166,7 +170,7 @@ These fixes are considered **platform hardening** and should be referenced by fu
 
 - **Before drafting each RFC decision:** run `mempalace_status` and focused `mempalace_search`.
 - **After scope is approved (pre-implementation):** write one canonical `mempalace_diary_write` entry documenting scope and executor.
-- **After merge/closure:** update `PROJECT_STATE.md` first, then write diary and run repository memory mining so indexed drawers align with **archive paths** and current RFC sequence.
+- **After merge/closure:** update `PROJECT_STATE.md` first, then write diary and run repository memory mining so indexed drawers align with **archive paths** and current RFC sequence. **2026-05-01:** full `mempalace mine . --wing tuherenciafacil` (619 files) + diary entry after RFC-004 / image-config reconciliation.
 - **If search still shows superseded facts** (old “next RFC”, old `.agents/decisions/RFC-003.3-*` paths): trust **git + `PROJECT_STATE.md`**; refresh indexing per your MemPalace workflow.
 
 ---

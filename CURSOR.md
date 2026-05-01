@@ -60,6 +60,15 @@
 
 **Common mistake:** **`mempalace mine tuherenciafacil`** does *not* mean “use wing `tuherenciafacil`”. The first argument is a **path** to the tree to index. From inside this repo that resolves to `./tuherenciafacil/`, which is usually the wrong folder or empty → **Files: 0**. Always **`cd` to the repo root** (where `mempalace.yaml` lives) and run **`mempalace mine .`**.
 
+**Exit 139 / Python “segfault” (no traceback):** Usually **ChromaDB’s on-disk HNSW index**, not Python itself — e.g. Chroma upgraded while the palace on disk was built with another version, or a mine was interrupted. MemPalace **≥ 3.3.2** quarantines stale HNSW segments on open ([upstream discussion](https://github.com/MemPalace/mempalace/issues/1132)). **Do this periodically:** upgrade MemPalace and Chroma together, then retry `mine .`:
+
+```bash
+python3 -m pip install -U mempalace chromadb
+python3 -m pip show mempalace chromadb   # confirm versions
+```
+
+Then **`mempalace mine .`** from repo root (first open may rebuild the index). If it still crashes, **`mempalace repair`** (see `mempalace repair --help`) or check [MemPalace issues](https://github.com/MemPalace/mempalace/issues) for your exact version pair. **Python:** `python3 --version`; system **3.9.x** works for many setups but maintaining a **3.11+ venv** for MemPalace keeps you aligned with current wheels — optional hygiene, rarely the primary fix.
+
 ---
 
 ## 4. Gemini CLI vs Cursor (pipeline roles)

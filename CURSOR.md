@@ -56,7 +56,7 @@
 | **End of important session** | `mempalace_diary_write` (short AAAK line: what merged, what failed, next step). |
 | **One-off canonical fact** | `mempalace_add_drawer` (`wing`, `room`, verbatim `content`) or KG tools if you maintain temporal facts there. |
 
-**CLI vs MCP:** Bulk index = **`mempalace mine`** (terminal). Targeted write = **MCP** `mempalace_add_drawer` / `mempalace_diary_write`. There is no MCP command literally named `mempalace:mine`. **This repo** includes **`mempalace.yaml`** at the root; if you clone fresh, run `python3 -m mempalace init .` once, then `python3 -m mempalace mine . --wing tuherenciafacil`.
+**CLI vs MCP:** Bulk index = **`mempalace mine`** (terminal). Targeted write = **MCP** `mempalace_add_drawer` / `mempalace_diary_write`. There is no MCP command literally named `mempalace:mine`. **This repo** includes **`mempalace.yaml`** at the root; if you clone fresh, run **`mempalace init .`** once from the repo root, then **`mempalace mine . --wing tuherenciafacil`**. If the standalone CLI is not on your `PATH`, the same commands work as `python3 -m mempalace init .` / `python3 -m mempalace mine ...`.
 
 ---
 

@@ -4,7 +4,8 @@ One-time: export text from a MemPalace Chroma store using only stdlib sqlite3
 (no chromadb import — avoids the segfault you see with the old palace).
 
 Next step after export:
-  python3 -m mempalace mine <out_dir> --wing tuherenciafacil
+  mempalace mine <out_dir> --wing tuherenciafacil
+  # or: python3 -m mempalace mine ...
 
   Or point --out inside this repo and add --include-ignored if the folder is gitignored.
 """
@@ -96,7 +97,7 @@ def main() -> int:
         print(f"Skipped {n_skipped} duplicate bodies (dedupe on)")
     print()
     print("Re-ingest into the new (empty) palace, e.g.:")
-    print(f"  python3 -m mempalace mine {out} --wing {args.wing}")
+    print(f"  mempalace mine {out} --wing {args.wing}")
     return 0
 
 

@@ -48,6 +48,22 @@ const nextConfig = {
   },
   images: {
     remotePatterns: [
+      // Payload file URLs are absolute (same origin in prod); Next/Image requires an allowlist.
+      {
+        protocol: 'https',
+        hostname: 'tuherenciafacil.com',
+        pathname: '/api/media/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.tuherenciafacil.com',
+        pathname: '/api/media/**',
+      },
+      {
+        protocol: 'https',
+        hostname: '*.vercel.app',
+        pathname: '/api/media/**',
+      },
       {
         protocol: 'https',
         hostname: 'heionhub.com',

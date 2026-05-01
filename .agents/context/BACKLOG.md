@@ -1,3 +1,13 @@
+## SITE-001 — “Under construction” / maintenance mode (chrome-less splash)
+
+**Priority:** medium  
+**Type:** product / CMS / frontend  
+**Description:** Support a future **maintenance or pre-launch** state where visitors see a simple, credible message (optional rich text), optional hero image from **media**, and **no site chrome** (no `Header` / `Footer`). Today, `(frontend)/layout.tsx` shows header and footer whenever **any** page has `isHome: true`; there is no way to publish a home `Page` while hiding chrome. Preferred direction from architecture review: a **global** (e.g. on `general-settings` or dedicated `site-settings`) with fields such as `siteMode: live | maintenance`, localized `maintenanceMessage`, optional `maintenanceImage`, and layout logic that branches before rendering `Header`/`Footer`. Alternative: a narrow field on **pages** (e.g. `hideSiteChrome` when `isHome`) plus decision-file scope. **Out of scope for this ticket:** a new collection solely for “construction” unless product explicitly requires editorial workflows separate from globals.  
+**Success criterion:** With mode set to maintenance, `/[locale]` renders the configured message (and image if present) full-viewport or centered per spec; header and footer are omitted; SEO basics (title/meta, noindex if required) are defined in the decision file. With mode live, behavior matches current marketing site. Covered by unit or integration tests for layout branching.  
+**Dependencies:** None for backlog placement; implementation should follow a mini-RFC or decision slice (touches layout + possibly globals). Reference: `src/app/[locale]/(frontend)/layout.tsx` (`hasHomePage` chrome gate).
+
+---
+
 ## INFRA-001 — Separate dev and production Neon branches
 
 **Priority:** low

@@ -22,6 +22,8 @@ You are an expert Payload CMS developer. When working with Payload projects, fol
 
 - To validate typescript correctness after modifying code run `tsc --noEmit`
 - Generate import maps after creating or modifying components.
+- During implementation cycles, run tests scoped to the feature you changed.
+- Run the full project test suite only at integration/final checkpoints (before merge/release).
 
 ## Project Structure
 

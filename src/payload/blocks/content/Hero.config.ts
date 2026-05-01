@@ -75,7 +75,17 @@ export const HeroBlock = createBlock({
             { label: 'Default (70vh)', value: 'default' },
             { label: 'Medium (85vh)', value: 'medium' },
             { label: 'Full (100vh)', value: 'full' },
+            { label: 'Custom', value: 'custom' },
           ],
+        },
+        {
+          name: 'customHeroHeight',
+          type: 'text',
+          label: 'Custom Height (e.g., calc(100dvh - 64px) or 92.3vh)',
+          admin: {
+            condition: (_, siblingData) => siblingData?.heroHeight === 'custom',
+            description: 'Enter a valid CSS height value. Useful for subtracting the navbar height.',
+          },
         },
       ],
     },

@@ -94,5 +94,33 @@ export const Header: GlobalConfig = {
         }),
       ],
     },
+    // --- Theme Settings ---
+    {
+      name: 'theme',
+      label: 'Theme Settings',
+      type: 'group',
+      fields: [
+        {
+          name: 'linkColor',
+          label: 'Links & Text Color (e.g., #ffffff, black, or var(--foreground))',
+          type: 'text',
+        },
+        {
+          name: 'iconColor',
+          label: 'Icons Color',
+          type: 'text',
+        },
+        {
+          name: 'ctaBgColor',
+          label: 'CTA Background Color',
+          type: 'text',
+        },
+        {
+          name: 'ctaTextColor',
+          label: 'CTA Text Color',
+          type: 'text',
+        },
+      ],
+    },
   ],
 }

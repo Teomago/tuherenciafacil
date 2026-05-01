@@ -6,8 +6,7 @@ import { containerType } from '../containerType'
 import { htmlTag } from './htmlTag'
 import { selectSize } from '../selectSize'
 import type { SizeVariants } from '../selectSize'
-import { selectSpacingType } from './selectSpacingType'
-import type { SpacingVariants } from './selectSpacingType'
+
 
 /**
  * Tab names in order.
@@ -37,12 +36,13 @@ export type BlockTabsDefaultsConfig = {
     options?: ContainerTypeOption[]
     defaultValue?: ContainerTypeOption
   }
-  spacing?: {
+  padding?: {
     options?: SizeVariants[]
     defaultValue?: SizeVariants
   }
-  spacingType?: {
-    defaultValue?: SpacingVariants
+  margin?: {
+    options?: SizeVariants[]
+    defaultValue?: SizeVariants
   }
 }
 
@@ -75,33 +75,71 @@ export const getDesignDefaultFields = (
   variant: BlockTabsVariant = 'block',
 ): Field[] => {
   if (variant === 'inline') return []
-  const spacingConfig = config?.spacing
-  const spacingTypeConfig = config?.spacingType
-  const spacingOptions = spacingConfig?.options
-  const includeNone = spacingOptions?.includes('none') ?? true
-  const spacingVariants = spacingOptions?.filter((v) => v !== 'none')
+  const paddingConfig = config?.padding
+  const marginConfig = config?.margin
+  
+  const paddingOptions = paddingConfig?.options
+  const marginOptions = marginConfig?.options
+  
+  const includeNonePadding = paddingOptions?.includes('none') ?? true
+  const includeNoneMargin = marginOptions?.includes('none') ?? true
+  
+  const paddingVariants = paddingOptions?.filter((v) => v !== 'none')
+  const marginVariants = marginOptions?.filter((v) => v !== 'none')
+
   return [
     {
       type: 'row',
       fields: [
         selectSize({
-          variants: spacingVariants,
-          includeNone,
+          variants: paddingVariants,
+          includeNone: includeNonePadding,
           overrides: {
-            name: 'spacing',
-            label: getTranslation('fields:spacing'),
+            name: 'padding',
+            label: 'Padding',
             admin: { width: '50%', custom: { renderIn: 'block' } },
-            ...(spacingConfig?.defaultValue != null && {
-              defaultValue: spacingConfig.defaultValue,
+            ...(paddingConfig?.defaultValue != null && {
+              defaultValue: paddingConfig.defaultValue,
             }),
           },
         }),
-        selectSpacingType({
+        {
+          name: 'customPadding',
+          type: 'text',
+          label: 'Custom Padding',
+          admin: {
+            condition: (_, siblingData) => siblingData?.padding === 'custom',
+            description: 'Enter a valid CSS padding value.',
+            width: '50%',
+          },
+        },
+      ],
+    },
+    {
+      type: 'row',
+      fields: [
+        selectSize({
+          variants: marginVariants,
+          includeNone: includeNoneMargin,
           overrides: {
-            admin: { width: '50%' },
-            defaultValue: spacingTypeConfig?.defaultValue ?? 'padding',
+            name: 'margin',
+            label: 'Margin',
+            admin: { width: '50%', custom: { renderIn: 'block' } },
+            ...(marginConfig?.defaultValue != null && {
+              defaultValue: marginConfig.defaultValue,
+            }),
           },
         }),
+        {
+          name: 'customMargin',
+          type: 'text',
+          label: 'Custom Margin',
+          admin: {
+            condition: (_, siblingData) => siblingData?.margin === 'custom',
+            description: 'Enter a valid CSS margin value (e.g., -64px, 10vh).',
+            width: '50%',
+          },
+        },
       ],
     },
   ]

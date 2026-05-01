@@ -262,8 +262,16 @@ export interface RichTextBlockType {
     [k: string]: unknown;
   } | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
   };
   settings?: {
     id?: string | null;
@@ -301,8 +309,16 @@ export interface AccordionBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     accordionType?: ('single' | 'multiple') | null;
     width?: ResponsiveGroupType;
     alignment?: ('left' | 'center' | 'right') | null;
@@ -400,8 +416,16 @@ export interface ArticleListingBlockType {
   sort?: ('-publishedDate' | 'publishedDate' | 'title' | '-title') | null;
   showPagination?: boolean | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
   };
   settings?: {
     id?: string | null;
@@ -455,10 +479,22 @@ export interface HeroBlockType {
     | null;
   media?: (string | null) | Media;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     layout?: ('contentLeft' | 'contentRight' | 'contentCenter' | 'overlay' | 'fullOverlay') | null;
-    heroHeight?: ('default' | 'medium' | 'full') | null;
+    heroHeight?: ('default' | 'medium' | 'full' | 'custom') | null;
+    /**
+     * Enter a valid CSS height value. Useful for subtracting the navbar height.
+     */
+    customHeroHeight?: string | null;
   };
   settings?: {
     id?: string | null;
@@ -640,8 +676,16 @@ export interface FeaturesBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     layout?: ('grid' | 'list') | null;
     columns?: ('2' | '3' | '4') | null;
   };
@@ -682,8 +726,16 @@ export interface CtaSectionBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     background?: ('default' | 'muted' | 'primary') | null;
     alignment?: ('left' | 'center') | null;
   };
@@ -713,8 +765,16 @@ export interface StatsBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     layout?: ('grid' | 'inline') | null;
     columns?: ('2' | '3' | '4') | null;
   };
@@ -759,8 +819,16 @@ export interface TestimonialsBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     layout?: ('grid' | 'carousel' | 'single') | null;
     columns?: ('2' | '3') | null;
   };
@@ -887,8 +955,16 @@ export interface LogoCloudBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     layout?: ('grid' | 'marquee') | null;
     columns?: ('3' | '4' | '5' | '6') | null;
   };
@@ -924,8 +1000,16 @@ export interface TwoColumnBlockType {
   };
   media?: (string | null) | Media;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     mediaPosition?: ('left' | 'right') | null;
     verticalAlignment?: ('top' | 'center' | 'bottom') | null;
   };
@@ -953,8 +1037,16 @@ export interface GalleryBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     layout?: ('grid' | 'masonry') | null;
     columns?: ('2' | '3' | '4') | null;
     lightbox?: boolean | null;
@@ -977,8 +1069,16 @@ export interface VideoBlockType {
   url: string;
   poster?: (string | null) | Media;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     aspectRatio?: ('16/9' | '4/3' | '1/1') | null;
   };
   settings?: {
@@ -1028,8 +1128,16 @@ export interface TeamBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     columns?: ('2' | '3' | '4') | null;
   };
   settings?: {
@@ -1055,8 +1163,16 @@ export interface MarqueeBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     speed?: ('slow' | 'normal' | 'fast') | null;
     direction?: ('ltr' | 'rtl') | null;
     pauseOnHover?: boolean | null;
@@ -1077,8 +1193,16 @@ export interface MarqueeBlockType {
 export interface SpacerBlockType {
   height: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
   };
   settings?: {
     id?: string | null;
@@ -1130,8 +1254,16 @@ export interface ContactFormBlockType {
   successMessage?: string | null;
   endpoint?: string | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
   };
   settings?: {
     id?: string | null;
@@ -1167,8 +1299,16 @@ export interface PricingBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     columns?: ('2' | '3' | '4') | null;
   };
   settings?: {
@@ -1201,8 +1341,16 @@ export interface BannerBlockType {
     [k: string]: unknown;
   };
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     type?: ('info' | 'warning' | 'success') | null;
     dismissible?: boolean | null;
   };
@@ -1244,8 +1392,16 @@ export interface FAQBlockType {
       }[]
     | null;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     allowMultiple?: boolean | null;
   };
   settings?: {
@@ -1294,8 +1450,16 @@ export interface ColumnsBlockType {
   } | null;
   columns?: ColumnItemType;
   design?: {
-    spacing?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
-    spacingType?: ('margin' | 'padding') | null;
+    padding?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS padding value.
+     */
+    customPadding?: string | null;
+    margin?: ('none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
+    /**
+     * Enter a valid CSS margin value (e.g., -64px, 10vh).
+     */
+    customMargin?: string | null;
     gap?: ('xs' | 'sm' | 'md' | 'lg' | 'xl') | null;
     verticalAlignment?: ('start' | 'center' | 'end' | 'stretch') | null;
     advancedColumnSettings?: boolean | null;
@@ -3008,6 +3172,12 @@ export interface HeaderSettings {
     enabled?: boolean | null;
     link?: LinkProps;
   };
+  theme?: {
+    linkColor?: string | null;
+    iconColor?: string | null;
+    ctaBgColor?: string | null;
+    ctaTextColor?: string | null;
+  };
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -3165,6 +3335,14 @@ export interface HeaderSelect<T extends boolean = true> {
     | {
         enabled?: T;
         link?: T | LinkPropsSelect<T>;
+      };
+  theme?:
+    | T
+    | {
+        linkColor?: T;
+        iconColor?: T;
+        ctaBgColor?: T;
+        ctaTextColor?: T;
       };
   updatedAt?: T;
   createdAt?: T;

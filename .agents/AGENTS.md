@@ -206,6 +206,12 @@ Reserve **premium / strongest** Cursor usage for: phase **3**, phase **6** overf
 6. **Library docs:** Use **Context7** MCP (`resolve-library-id`, `query-docs`) via the `find-docs` skill for all framework/library questions.
 7. **No Improvisation:** Execute exactly what the decision file says. If something is missing, stop and escalate to Teo.
 
+### Test scope policy (cost-aware, mandatory)
+
+- **During implementation cycles:** run **targeted tests** that cover only the changed scope (plus required gate checks like `tsc --noEmit`, `pnpm build`, and migration status when schema changes).
+- **Before merge / final completion claim:** run the **full verification suite** defined by the decision file (including full e2e when applicable).
+- If a test is failing but clearly out-of-scope and unrelated to the change, document it and defer to the final full-suite checkpoint instead of blocking inner-loop progress.
+
 ---
 
 ## Execution Protocol (Cross-Agent)

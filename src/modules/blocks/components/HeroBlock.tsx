@@ -24,14 +24,16 @@ export function HeroBlock({ heading, subheading, body, links, media, design }: H
       className={cn(
         'flex flex-col gap-6',
         layout === 'contentCenter' && 'items-center text-center',
-        layout === 'overlay' && 'items-center text-center text-white dark:text-foreground',
+        // In overlay modes the image provides a dark backdrop regardless of the OS theme,
+        // so we force white on the container and let cascade handle all children.
+        (layout === 'overlay' || layout === 'fullOverlay') && 'items-center text-center text-white',
       )}
     >
       {subheading && (
         <p
           className={cn(
-            'text-sm font-semibold uppercase tracking-widest text-primary/80 dark:text-white',
-            (layout === 'overlay' || layout === 'fullOverlay') && 'text-white/90',
+            'text-sm font-semibold uppercase tracking-widest',
+            layout === 'overlay' || layout === 'fullOverlay' ? 'text-white/90!' : 'text-primary/80',
           )}
         >
           {subheading}
@@ -39,8 +41,10 @@ export function HeroBlock({ heading, subheading, body, links, media, design }: H
       )}
       <h1
         className={cn(
-          'text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-7xl leading-[1.1] drop-shadow-sm text-foreground',
-          (layout === 'overlay' || layout === 'fullOverlay') && 'text-white',
+          'text-4xl font-extrabold tracking-tight sm:text-5xl lg:text-7xl leading-[1.1]',
+          layout === 'overlay' || layout === 'fullOverlay'
+            ? 'text-white! drop-shadow-lg'
+            : 'drop-shadow-sm text-foreground',
         )}
       >
         {heading}
@@ -48,11 +52,18 @@ export function HeroBlock({ heading, subheading, body, links, media, design }: H
       {body && (
         <div
           className={cn(
-            'max-w-2xl text-lg text-muted-foreground dark:text-gray-300',
-            (layout === 'overlay' || layout === 'fullOverlay') && 'text-white/80',
+            'max-w-2xl text-lg',
+            layout === 'overlay' || layout === 'fullOverlay'
+              ? 'text-white/85!'
+              : 'text-muted-foreground',
           )}
         >
-          <RichText data={body} enableProse enableGutter={false} />
+          <RichText
+            data={body}
+            enableProse
+            enableGutter={false}
+            invert={layout === 'overlay' || layout === 'fullOverlay'}
+          />
         </div>
       )}
       {links && links.length > 0 && (
@@ -93,17 +104,26 @@ export function HeroBlock({ heading, subheading, body, links, media, design }: H
     medium: 'min-h-[85vh]',
     full: 'min-h-[100vh]',
   }
-  const minHeight =
-    heightMaps[(design as any)?.heroHeight as keyof typeof heightMaps] || 'min-h-[70vh]'
+  const heroHeightOption = (design as any)?.heroHeight || 'default'
+  const isCustomHeight = heroHeightOption === 'custom'
+  const customHeightValue = (design as any)?.customHeroHeight
+  
+  const minHeightClass = isCustomHeight ? '' : (heightMaps[heroHeightOption as keyof typeof heightMaps] || 'min-h-[70vh]')
+  const customStyle = isCustomHeight && customHeightValue ? { minHeight: customHeightValue } : {}
 
   // Center layout — stacked content, optional media below
   if (layout === 'contentCenter') {
     return (
-      <div className="flex flex-col items-center gap-8">
+      <div className={cn("flex flex-col items-center gap-8", minHeightClass)} style={customStyle}>
         {content}
         {hasMedia && (
-          <div className="w-full max-w-full">
-            <Media resource={media} className="rounded-2xl shadow-2xl ring-1 ring-border/50" />
+          // self-stretch overrides items-center so the media fills the full container width
+          <div className="self-stretch w-full relative aspect-video">
+            <Media
+              resource={media}
+              fill
+              className="rounded-2xl shadow-2xl ring-1 ring-border/50 object-cover"
+            />
           </div>
         )}
       </div>
@@ -117,9 +137,10 @@ export function HeroBlock({ heading, subheading, body, links, media, design }: H
       <div
         className={cn(
           'relative flex items-center justify-center overflow-hidden shadow-2xl transition-all duration-700',
-          minHeight,
+          minHeightClass,
           isFull ? 'w-screen relative left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]' : 'rounded-3xl',
         )}
+        style={customStyle}
       >
         {hasMedia && (
           <div className="absolute inset-0">
@@ -128,13 +149,16 @@ export function HeroBlock({ heading, subheading, body, links, media, design }: H
               fill
               className="object-cover transition-transform duration-1000 scale-105"
             />
-            <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/50 to-transparent backdrop-blur-[2px]" />
+            {/* Stronger gradient so text stays readable in both light & dark OS themes */}
+            <div className="absolute inset-0 bg-linear-to-t from-black/85 via-black/55 to-black/20" />
           </div>
         )}
+        {/* Glass card — mx-4 on mobile so it doesn't bleed to screen edges */}
         <div
           className={cn(
-            'relative z-10 px-6 py-24 w-full backdrop-blur-sm bg-black/10 border border-white/10 p-8 sm:p-12 shadow-2xl my-8 rounded-2xl',
-            isFull ? 'max-w-7xl mx-auto' : 'max-w-6xl mx-auto',
+            'relative z-10 py-16 sm:py-24 w-full backdrop-blur-sm bg-black/20 border border-white/15 shadow-2xl rounded-2xl',
+            'mx-4 px-6 sm:mx-8 sm:px-10',
+            isFull ? 'max-w-7xl lg:mx-auto' : 'max-w-6xl mx-auto',
           )}
         >
           {content}
@@ -147,7 +171,7 @@ export function HeroBlock({ heading, subheading, body, links, media, design }: H
   const mediaFirst = layout === 'contentRight'
 
   return (
-    <div className="grid items-center gap-8 lg:grid-cols-2 lg:gap-12">
+    <div className={cn("grid items-center gap-8 lg:grid-cols-2 lg:gap-12", minHeightClass)} style={customStyle}>
       <div className={cn(mediaFirst && 'lg:order-2')}>{content}</div>
       {hasMedia && (
         <div className={cn(mediaFirst && 'lg:order-1')}>

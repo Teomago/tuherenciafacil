@@ -9,10 +9,14 @@ interface BlockWrapperProps {
   htmlTag?: 'div' | 'section' | 'article' | null
   /** Container type (none, default, post) */
   containerType?: 'none' | 'default' | 'post' | null
-  /** Spacing size */
-  spacing?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | null
-  /** Spacing type (margin or padding) */
-  spacingType?: 'margin' | 'padding' | null
+  /** Padding size */
+  padding?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'custom' | null
+  /** Margin size */
+  margin?: 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'custom' | null
+  /** Custom padding value */
+  customPadding?: string | null
+  /** Custom margin value */
+  customMargin?: string | null
   /** Rich text content shown before the block */
   prefix?: any
   /** Rich text content shown after the block */
@@ -40,8 +44,10 @@ interface BlockWrapperProps {
 export function Block({
   htmlTag,
   containerType,
-  spacing,
-  spacingType,
+  padding,
+  margin,
+  customPadding,
+  customMargin,
   prefix,
   suffix,
   withPrefix,
@@ -53,14 +59,31 @@ export function Block({
 }: BlockWrapperProps) {
   const Tag = htmlTag || 'div'
 
-  const spacingClasses =
-    spacing && spacing !== 'none'
+  const isCustomPadding = padding === 'custom'
+  const isCustomMargin = margin === 'custom'
+  
+  const paddingClasses =
+    padding && padding !== 'none' && !isCustomPadding
       ? spaceVariants({
-          type: spacingType || 'margin',
+          type: 'padding',
           variant: 'y',
-          size: spacing,
+          size: padding as any,
         })
       : undefined
+
+  const marginClasses =
+    margin && margin !== 'none' && !isCustomMargin
+      ? spaceVariants({
+          type: 'margin',
+          variant: 'y',
+          size: margin as any,
+        })
+      : undefined
+
+  const customStyle: React.CSSProperties = {
+    ...(isCustomPadding && customPadding ? { paddingTop: customPadding, paddingBottom: customPadding } : {}),
+    ...(isCustomMargin && customMargin ? { marginTop: customMargin, marginBottom: customMargin } : {}),
+  }
 
   const containerClasses = containerVariants({
     type: containerType === 'none' ? 'none' : containerType || 'default',
@@ -70,7 +93,8 @@ export function Block({
 
   return (
     <Tag
-      className={cn(spacingClasses, containerClasses, className)}
+      className={cn(paddingClasses, marginClasses, containerClasses, className)}
+      style={Object.keys(customStyle).length > 0 ? customStyle : undefined}
       id={id || undefined}
       data-block={blockName || undefined}
     >

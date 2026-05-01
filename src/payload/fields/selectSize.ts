@@ -2,7 +2,7 @@ import { deepMerge, DeepPartial } from '@/lib/utils'
 import type { LabelFunction, SelectField, StaticLabel } from 'payload'
 import { getTranslation } from '@/payload/i18n/getTranslation'
 
-export type SizeVariants = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl'
+export type SizeVariants = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl' | 'custom'
 
 export const variantOptions: Record<
   SizeVariants,
@@ -13,24 +13,28 @@ export const variantOptions: Record<
     value: 'none',
   },
   xs: {
-    label: 'XS',
+    label: 'XS (32px)',
     value: 'xs',
   },
   sm: {
-    label: 'SM',
+    label: 'SM (48px)',
     value: 'sm',
   },
   md: {
-    label: 'MD',
+    label: 'MD (64px)',
     value: 'md',
   },
   lg: {
-    label: 'LG',
+    label: 'LG (96px)',
     value: 'lg',
   },
   xl: {
-    label: 'XL',
+    label: 'XL (128px)',
     value: 'xl',
+  },
+  custom: {
+    label: 'Custom',
+    value: 'custom',
   },
 }
 

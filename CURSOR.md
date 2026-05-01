@@ -51,12 +51,14 @@
 | When | Action |
 |------|--------|
 | **Session start (heavy context)** | `mempalace_status` → optional `mempalace_search` for the feature you are touching. |
-| **After Phase 6 closure** (merge to main, `PROJECT_STATE` updated) | CLI: `mempalace mine . --wing tuherenciafacil` from repo root (refreshes indexed code/docs; respects `.gitignore`). |
-| **After a big RFC lands** (many files) | Same mine command, or a targeted `--limit` dry-run first: `mempalace mine . --wing tuherenciafacil --dry-run`. |
+| **After Phase 6 closure** (merge to main, `PROJECT_STATE` updated) | CLI: **`mempalace mine .`** from repo root where `mempalace.yaml` lives (wing from yaml; add `--wing tuherenciafacil` if needed). |
+| **After a big RFC lands** (many files) | Same — `mempalace mine .`, or dry-run first: `mempalace mine . --dry-run`. |
 | **End of important session** | `mempalace_diary_write` (short AAAK line: what merged, what failed, next step). |
 | **One-off canonical fact** | `mempalace_add_drawer` (`wing`, `room`, verbatim `content`) or KG tools if you maintain temporal facts there. |
 
-**CLI vs MCP:** Bulk index = **`mempalace mine`** (terminal). Targeted write = **MCP** `mempalace_add_drawer` / `mempalace_diary_write`. There is no MCP command literally named `mempalace:mine`. **This repo** includes **`mempalace.yaml`** at the root; if you clone fresh, run **`mempalace init .`** once from the repo root, then **`mempalace mine . --wing tuherenciafacil`**. If the standalone CLI is not on your `PATH`, the same commands work as `python3 -m mempalace init .` / `python3 -m mempalace mine ...`.
+**CLI vs MCP:** Bulk index = **`mempalace mine`** (terminal). Targeted write = **MCP** `mempalace_add_drawer` / `mempalace_diary_write`. There is no MCP command literally named `mempalace:mine`. **This repo** includes **`mempalace.yaml`** at the root; if you clone fresh, run **`mempalace init .`** once from the repo root, then **`mempalace mine .`** (wing is read from `mempalace.yaml`) or **`mempalace mine . --wing tuherenciafacil`** to set the wing explicitly. If the standalone CLI is not on your `PATH`, the same commands work as `python3 -m mempalace init .` / `python3 -m mempalace mine ...`.
+
+**Common mistake:** **`mempalace mine tuherenciafacil`** does *not* mean “use wing `tuherenciafacil`”. The first argument is a **path** to the tree to index. From inside this repo that resolves to `./tuherenciafacil/`, which is usually the wrong folder or empty → **Files: 0**. Always **`cd` to the repo root** (where `mempalace.yaml` lives) and run **`mempalace mine .`**.
 
 ---
 
@@ -97,7 +99,7 @@ Your pipeline assigns **roles to tools**:
 
 - Ship beta behind **one written decision** per slice (even 1–2 pages).  
 - Run **`pnpm build`** every merge; run **`pnpm test:int`** when touching Payload/auth/money.  
-- **`mempalace mine . --wing tuherenciafacil`** after each merge to main (or nightly).  
+- **`mempalace mine .`** after each merge to main (or nightly).  
 - **`mempalace_diary_write`** when you switch major context (so Gemini CLI and Cursor do not argue with stale narrative).
 
 ---

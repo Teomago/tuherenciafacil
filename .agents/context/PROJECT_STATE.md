@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-## Last updated: 2026-05-01 (spacing migration + test-scope policy + e2e hardening; `PROJECT_STATE`/ROADMAP + MemPalace sync)
+## Last updated: 2026-05-01 (spacing migration + test policy + MemPalace indexing: use `mine .` from repo root — see `CURSOR.md`)
 
 > **Single source of truth for implementation status.** Design intent lives in `docs/design/` (may lag the repo — see reconciliation below). **New** RFC specs/audits/decisions land in `.agents/specs/`, `.agents/audits/`, `.agents/decisions/`; **closed** RFC artifacts live under `.agents/archive/{specs,audits,decisions}/`. In-app team docs (UI) live under `src/app/docs/`.
 
@@ -176,7 +176,7 @@ These fixes are considered **platform hardening** and should be referenced by fu
 
 - **Before drafting each RFC decision:** run `mempalace_status` and focused `mempalace_search`.
 - **After scope is approved (pre-implementation):** write one canonical `mempalace_diary_write` entry documenting scope and executor.
-- **After merge/closure:** update `PROJECT_STATE.md` first, then write diary and run repository memory mining so indexed drawers align with **archive paths** and current RFC sequence. **2026-05-01:** mine + diary after RFC-004 / image fix; **same day** again after migration `20260501_181700_*`, test-scope policy, and e2e updates — keep palace aligned with `PROJECT_STATE`. **Diary** for this wave: `mempalace_diary_write` → `tuherenciafacil` / `cursor-agent`. **`mempalace mine`** should be run on a developer machine (`CURSOR.md`); if the CLI segfaults (exit **139**) in CI/sandbox, treat as toolchain drift and retry after updating MemPalace or running locally (`--dry-run` still lists ~623 files and can sanity-check routing).
+- **After merge/closure:** update `PROJECT_STATE.md` first, then write diary and run repository memory mining so indexed drawers align with **archive paths** and current RFC sequence. **2026-05-01:** mine + diary after RFC-004 / image fix; **same day** again after migration `20260501_181700_*`, test-scope policy, and e2e updates — keep palace aligned with `PROJECT_STATE`. **Diary** for this wave: `mempalace_diary_write` → `tuherenciafacil` / `cursor-agent`. **`mempalace mine`** from **repo root**: **`mempalace mine .`** (or `mine . --wing tuherenciafacil`); **not** `mine tuherenciafacil` — that argument is a **subfolder path**, often empty → 0 files (`CURSOR.md`). If the CLI segfaults (exit **139**) in CI/sandbox, treat as toolchain drift and retry after updating MemPalace or running locally (`--dry-run` sanity-checks routing).
 - **If search still shows superseded facts** (old “next RFC”, old `.agents/decisions/RFC-003.3-*` paths): trust **git + `PROJECT_STATE.md`**; refresh indexing per your MemPalace workflow.
 
 ---

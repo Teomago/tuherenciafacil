@@ -1,6 +1,6 @@
 # PROJECT_STATE
 
-## Last updated: 2026-05-01 (RFC-004 + prod image fix reconciled; MemPalace wing re-mined)
+## Last updated: 2026-05-01 (spacing migration + test-scope policy + e2e hardening; `PROJECT_STATE`/ROADMAP + MemPalace sync)
 
 > **Single source of truth for implementation status.** Design intent lives in `docs/design/` (may lag the repo — see reconciliation below). **New** RFC specs/audits/decisions land in `.agents/specs/`, `.agents/audits/`, `.agents/decisions/`; **closed** RFC artifacts live under `.agents/archive/{specs,audits,decisions}/`. In-app team docs (UI) live under `src/app/docs/`.
 
@@ -39,7 +39,7 @@
 | **`src/payload/collections/index.ts`** | Canonical list of registered Payload collections | Low |
 | **`docs/design/COLLECTIONS.md`** | Domain definition + future collections | **High** — summary table still shows many rows as “CREAR”; backend for core succession collections is already in the repo. Use this file for field semantics, not “implemented/not” status. |
 | **`docs/design/SCREEN_MAP.md`** | Target UX / route map | **Medium** — was written before `(app)/app` stub; updated note should match `src/app/[locale]/(app)/`. |
-| **MemPalace `tuherenciafacil` wing** | Cross-session memory | **Low–medium** after 2026-05-01 full `mempalace mine`; re-run after large merges (`CURSOR.md`). |
+| **MemPalace `tuherenciafacil` wing** | Cross-session memory | **Low–medium** after 2026-05-01 mine cycles; re-run after large merges or context-doc updates (`CURSOR.md`). |
 
 ---
 
@@ -92,6 +92,9 @@ Post-`RFC-003.2` work on `main` was stabilization, not a new RFC cycle:
 - Build/deploy hardening for Next/Vercel module compatibility (`ERR_REQUIRE_ESM` path).
 - URL normalization and config cleanup (`NEXT_PUBLIC_SERVER_URL`, single Next config baseline).
 - **2026-05-01:** `next.config.mjs` `images.remotePatterns` extended for **`https://tuherenciafacil.com/api/media/**`** (and `www`, `*.vercel.app` previews) so `next/image` optimizes Payload file URLs without Vercel `INVALID_IMAGE_OPTIMIZE_REQUEST`.
+- **2026-05-01 (commit `9350d03` and same-day follow-up context):** **Payload migrations** reset to a **single hand-authored incremental** migration — `src/migrations/20260501_181700_spacing_padding_backfill.ts` registered in `src/migrations/index.ts` — altering enums/columns for block spacing (`design_padding`, `design_margin`, variants), `hero_height` **`custom`** + `design_custom_hero_height`, and **header global** theme color columns. Prefer this pattern when `migrate:create` would recreate the full schema on a non-empty DB (causes duplicate type/table errors); see `ROADMAP.md` technical strategy.
+- **Test scope policy** codified in **`.agents/AGENTS.md`** and root **`AGENTS.md`**: during implementation use targeted tests plus `tsc --noEmit`, `pnpm build`, and **`pnpm payload migrate:status`** when schema touches DB; reserve **full e2e** (and decision-file full suite) for merge / completion checkpoints.
+- **E2E housekeeping:** `tests/e2e/frontend.e2e.spec.ts` matches real site title; admin suite more stable (`serial`, login in `beforeEach`, longer timeouts); `tests/helpers/login.ts` waits on `#field-email`; `playwright.config.ts` uses **`workers: 1`** to reduce flake in constrained environments. Run `pnpm exec playwright install` wherever browsers are missing.
 - Access-control hardening for admin/staff and members management paths.
 - Members deletion safety hook to clear succession references before delete, avoiding PostgreSQL transaction abort cascades.
 
@@ -127,7 +130,10 @@ These fixes are considered **platform hardening** and should be referenced by fu
 
 | Command | Result |
 |---------|--------|
+| `pnpm exec tsc --noEmit` | **Passes** (lightweight gate per test-scope policy) |
 | `pnpm build` | **Passes** |
+| `pnpm payload migrate:status` | Use when migrations change; confirms applied vs pending |
+| `pnpm test:e2e` / full Playwright | **Checkpoint only** before merge or when touching auth/admin/CI e2e — slower; requires browser install |
 | `pnpm exec eslint . --quiet` | **Passes** (zero errors; full lint may still report **warnings**, e.g. `no-explicit-any` in legacy/tests) |
 | `pnpm test:int` | **Passes in non-sandboxed/network-enabled runs** with valid `DATABASE_URI` / `DATABASE_URI_DIRECT`; this suite depends on live Neon connectivity and can fail in sandboxed environments due to DNS/network restrictions. |
 | `pnpm exec vitest run tests/unit` | **Passes** |
@@ -170,7 +176,7 @@ These fixes are considered **platform hardening** and should be referenced by fu
 
 - **Before drafting each RFC decision:** run `mempalace_status` and focused `mempalace_search`.
 - **After scope is approved (pre-implementation):** write one canonical `mempalace_diary_write` entry documenting scope and executor.
-- **After merge/closure:** update `PROJECT_STATE.md` first, then write diary and run repository memory mining so indexed drawers align with **archive paths** and current RFC sequence. **2026-05-01:** full `mempalace mine . --wing tuherenciafacil` (619 files) + diary entry after RFC-004 / image-config reconciliation.
+- **After merge/closure:** update `PROJECT_STATE.md` first, then write diary and run repository memory mining so indexed drawers align with **archive paths** and current RFC sequence. **2026-05-01:** mine + diary after RFC-004 / image fix; **same day** again after migration `20260501_181700_*`, test-scope policy, and e2e updates — keep palace aligned with `PROJECT_STATE`. **Diary** for this wave: `mempalace_diary_write` → `tuherenciafacil` / `cursor-agent`. **`mempalace mine`** should be run on a developer machine (`CURSOR.md`); if the CLI segfaults (exit **139**) in CI/sandbox, treat as toolchain drift and retry after updating MemPalace or running locally (`--dry-run` still lists ~623 files and can sanity-check routing).
 - **If search still shows superseded facts** (old “next RFC”, old `.agents/decisions/RFC-003.3-*` paths): trust **git + `PROJECT_STATE.md`**; refresh indexing per your MemPalace workflow.
 
 ---

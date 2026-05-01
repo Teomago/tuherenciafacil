@@ -25,7 +25,8 @@ Do not renumber active RFCs without a dedicated planning decision that updates b
 - **Architecture:** Next.js 16 + Payload CMS 3.x in one codebase (marketing + app + admin).
 - **Development mode:** logic-first implementation, then UX polish.
 - **Security model:** layered access checks (auth -> role -> ownership).
-- **Schema mode (pre-INFRA-001):** `push: true`; avoid manual migration churn unless required.
+- **Schema mode (pre-INFRA-001):** `push: true`; avoid manual migration churn unless required. When a DB already has Payload schema and `migrate:create` would emit a **full bootstrap** (duplicate enums/tables on apply), use **incremental** SQL migrations under `src/migrations/` and register them in `index.ts` (reference: `20260501_181700_spacing_padding_backfill.ts`).
+- **Verification cadence:** `.agents/AGENTS.md` **test scope policy** — targeted tests + `tsc` / `build` / `pnpm payload migrate:status` during iteration; full e2e (and other full-suite steps) at merge / completion per decision file.
 
 ---
 
